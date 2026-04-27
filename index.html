@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Oracle v2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cyber Oracle</h1>
+            <p>Daily forecasts powered by API</p>
+        </header>
+
+        <section class="compatibility-box">
+            <h3>Check Compatibility</h3>
+            <div class="selector-group">
+                <select id="sign1"></select>
+                <span>+</span>
+                <select id="sign2"></select>
+            </div>
+            <button onclick="checkCompatibility()">Match</button>
+            <p id="compResult"></p>
+        </section>
+
+        <div class="zodiac-grid" id="zodiacGrid">
+            </div>
+
+        <div id="fortuneModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2 id="signTitle"></h2>
+                <p id="fortuneText">Loading your destiny...</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
