@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="particles-js"></div>
     <div class="container">
         <header>
             <h1>Cyber Oracle</h1>
             <p>Daily forecasts powered by API</p>
         </header>
 
+        <!-- Секція сумісності -->
         <section class="compatibility-box">
             <h3>Check Compatibility</h3>
             <div class="selector-group">
@@ -24,17 +26,46 @@
             <p id="compResult"></p>
         </section>
 
+        <!-- ОСЬ ЦЕЙ БЛОК ЗАГУБИВСЯ (Сітка знаків) -->
         <div class="zodiac-grid" id="zodiacGrid">
-            </div>
+            <!-- JavaScript вставить сюди картки -->
+        </div>
 
+        <!-- Секція Архіву -->
+        <section class="archive-box">
+            <h3>Personal Archive</h3>
+            <div id="archiveContainer">
+                <p style="color: #94a3b8; font-style: italic;">Your saved destinies will appear here...</p>
+            </div>
+        </section>
+
+        <!-- Модальне вікно -->
         <div id="fortuneModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn">&times;</span>
                 <h2 id="signTitle"></h2>
                 <p id="fortuneText">Loading your destiny...</p>
+                <!-- Віджет щасливих атрибутів -->
+                <div class="lucky-attributes" id="luckyAttributes" style="display: none;">
+                    <div class="attribute-box">
+                        <span class="attr-label">Lucky Numbers:</span>
+                        <span class="attr-value" id="luckyNumbers"></span>
+                    </div>
+                    <div class="attribute-box">
+                        <span class="attr-label">Lucky Color:</span>
+                        <div class="color-preview" id="luckyColorBox"></div>
+                        <span class="attr-value" id="luckyColorName"></span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="saveBtn" class="save-btn" onclick="saveToArchive()">Save to Archive</button>
+                    <button id="shareBtn" class="share-btn" onclick="shareDestiny()">Share</button>
+                </div>
             </div>
         </div>
     </div>
+    
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </body>
 </html>
