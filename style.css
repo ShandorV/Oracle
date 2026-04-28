@@ -112,3 +112,148 @@ button {
     font-style: italic;
     color: #38bdf8;
 }
+
+/* Стилі для Архіву */
+.archive-box {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 40px;
+    border: 1px dashed #334155;
+    text-align: left;
+}
+
+.archive-item {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 4px solid #38bdf8;
+}
+
+.archive-date {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 5px;
+}
+
+/* Стилі для кнопки збереження */
+.save-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: 1px solid #38bdf8;
+    color: #38bdf8;
+    width: 100%;
+}
+
+.save-btn:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+/* Група кнопок у модальному вікні */
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.save-btn {
+    margin-top: 0; /* Прибираємо старий відступ */
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.share-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid #c084fc; /* Фіолетовий акцент для Share */
+    color: #c084fc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.share-btn:hover {
+    background: #c084fc;
+    color: #0f172a;
+}
+
+/* Налаштування анімованого фону */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Відправляє фон на задній план */
+    background-color: #0f172a; /* Наш основний темний колір */
+}
+
+/* Оновлюємо body, щоб фон було видно і був відступ для контенту */
+body {
+    color: #f8fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: transparent; /* Робимо фон прозорим, щоб бачити particles */
+}
+
+/* Додаємо напівпрозорий фон для контейнера, щоб текст краще читався */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 1000px;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.7); /* Напівпрозорий темний фон */
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+/* Стилі для щасливих атрибутів */
+.lucky-attributes {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #334155;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.attribute-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.attr-label {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.attr-value {
+    font-weight: bold;
+    color: #f8fafc;
+    letter-spacing: 2px;
+}
+
+.color-preview {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #38bdf8;
+}
