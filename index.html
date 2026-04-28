@@ -9,13 +9,24 @@
 <body>
     <div id="particles-js"></div>
     <div class="container">
-        <header>
+        <header id="home">
             <h1>Cyber Oracle</h1>
             <p>Daily forecasts powered by API</p>
         </header>
 
+<!-- Навігаційна панель -->
+    <nav class="navbar">
+        <div class="nav-logo">Cyber Oracle</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#compatibility">Compatibility</a>
+            <a href="#askOracle">Ask Oracle</a>
+            <a href="#about">About Us</a>
+        </div>
+    </nav>
+
         <!-- Секція сумісності -->
-        <section class="compatibility-box">
+        <section class="compatibility-box" id="compatibility">
             <h3>Check Compatibility</h3>
             <div class="selector-group">
                 <select id="sign1"></select>
@@ -37,6 +48,23 @@
             <div id="archiveContainer">
                 <p style="color: #94a3b8; font-style: italic;">Your saved destinies will appear here...</p>
             </div>
+        </section>
+
+<!-- Нова фіча: Запитай Оракула -->
+        <section class="ask-box" id="askOracle">
+            <h3>Ask the Oracle</h3>
+            <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 15px;">Ask a Yes/No question to the algorithm...</p>
+            <div class="ask-input-group">
+                <input type="text" id="questionInput" placeholder="e.g., Will my code compile today?">
+                <button onclick="getMagicAnswer()">Ask</button>
+            </div>
+            <p id="magicAnswer"></p>
+        </section>
+
+        <!-- Секція Про нас -->
+        <section class="about-box" id="about">
+            <h3>About Us</h3>
+            <p>Welcome to <strong>Cyber Oracle</strong>. We are an experimental IT project developed under the <em>Cyber Gojzu</em> and <em>Somex</em> initiative. Here, we blend the mysticism of the stars with the precision of code and data algorithms to bring you a unique digital destiny experience.</p>
         </section>
 
         <!-- Модальне вікно -->
