@@ -257,3 +257,89 @@ body {
     border-radius: 50%;
     border: 2px solid #38bdf8;
 }
+
+/* Плавна прокрутка для всього сайту */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Стилі для Навігаційної панелі (Navbar) */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.85); /* Напівпрозорий фон */
+    backdrop-filter: blur(10px); /* Ефект розмиття фону */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    box-sizing: border-box;
+    z-index: 1000;
+    border-bottom: 1px solid #334155;
+}
+
+.nav-logo {
+    font-weight: bold;
+    color: #38bdf8;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.nav-links a {
+    color: #f8fafc;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #38bdf8;
+}
+
+/* Відступ для контейнера, щоб меню не перекривало заголовок */
+.container {
+    margin-top: 80px; 
+}
+
+/* Стилі для секцій Ask Oracle та About Us */
+.ask-box, .about-box {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 40px;
+    border: 1px solid #334155;
+}
+
+.ask-input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.ask-input-group input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #38bdf8;
+    background: #0f172a;
+    color: white;
+    width: 60%;
+}
+
+#magicAnswer {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #c084fc; /* Фіолетовий акцент для містики */
+    font-weight: bold;
+    font-style: italic;
+    min-height: 25px;
+}
+
+.about-box p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
