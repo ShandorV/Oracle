@@ -231,3 +231,39 @@ if (typeof particlesJS !== 'undefined') {
         "retina_detect": true
     });
 }
+
+// --- Логіка фічі "Ask the Oracle" (Кібер-Куля передбачень) ---
+function getMagicAnswer() {
+    const input = document.getElementById('questionInput');
+    const answerDisplay = document.getElementById('magicAnswer');
+    
+    // Перевіряємо, чи користувач щось ввів
+    if (input.value.trim() === "") {
+        answerDisplay.style.color = "#ef4444"; // Червоний колір для помилки
+        answerDisplay.innerText = "Error 404: Question not found. Please type something.";
+        return;
+    }
+
+    // Масив "кібер-відповідей"
+    const answers = [
+        "The algorithms say YES.",
+        "Data is currently unclear. Recalculate later.",
+        "System confirms: Absolutely.",
+        "Access denied. The stars say NO.",
+        "Probability is high (99.9%).",
+        "Warning: Outcome is highly doubtful.",
+        "Loading logic... Yes, it shall be done.",
+        "Insufficient data for a meaningful answer."
+    ];
+
+    // Робимо ефект "обчислення"
+    answerDisplay.style.color = "#94a3b8";
+    answerDisplay.innerText = "Processing data...";
+
+    // Затримка 1 секунда для більшого ефекту перед видачею результату
+    setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * answers.length);
+        answerDisplay.style.color = "#c084fc"; // Повертаємо фіолетовий колір
+        answerDisplay.innerText = answers[randomIndex];
+    }, 1000);
+}
