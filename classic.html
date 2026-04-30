@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sztár Horoszkóp - Randomizált</title>
+    <style>
+        :root {
+            --bg-dark: #0f0c29;
+            --bg-mid: #302b63;
+            --text-color: #f1f2f6;
+            --accent-gold: #d4af37;
+            --love-color: #ff4d79;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, var(--bg-dark), var(--bg-mid), #24243e);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            min-height: 100vh;
+            transition: background 1s ease;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .navbar button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-weight: bold;
+            padding-bottom: 5px;
+        }
+
+        .navbar button:hover, .navbar button.active-nav {
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        header { padding: 40px 20px 10px; }
+        h1 { color: var(--accent-gold); font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 2px; }
+
+        .page-section { display: none; animation: fadeIn 0.5s; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .zodiac-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .zodiac-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .zodiac-card:hover {
+            transform: translateY(-5px);
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .icon { font-size: 3rem; margin-bottom: 10px; }
+        .sign-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; }
+
+        .result-box {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .result-box h2 {
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .astro-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #fff; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <button onclick="switchPage('napi')" id="nav-napi" class="active-nav">Napi Horoszkóp</button>
+        <button onclick="switchPage('heti')" id="nav-heti">Heti Előrejelzés</button>
+        <button onclick="switchPage('havi')" id="nav-havi">Havi / Szerelem</button>
+        <button onclick="switchPage('jegyek')" id="nav-jegyek">Háttérválasztó</button>
+    </nav>
+
+    <div class="container">
+        <!-- Napi Fül -->
+        <div id="napi" class="page-section active">
+            <header>
+                <h1>Napi Horoszkóp</h1>
+                <p>Mit üzennek ma a csillagok?</p>
+            </header>
+            <div class="zodiac-grid" id="grid-napi"></div>
+            <div id="result-napi" class="result-box" style="border-left: 5px solid var(--accent-gold);">
+                <h2 id="title-napi" style="color: var(--accent-gold);"></h2>
+                <div id="text-napi"></div>
+                <button class="btn" onclick="document.getElementById('result-napi').style.display='none'">Bezárás</button>
+            </div>
+        </div>
+
+        <!-- Heti Fül -->
+        <div id="heti" class="page-section">
+            <header>
+                <h1>Heti Előrejelzés</h1>
+                <p>Készülj fel a hét energiáira!</p>
+            </header>
+            <div class="zodiac-grid" id="grid-heti"></div>
+            <div id="result-heti" class="result-box" style="border-left: 5px solid #4facfe;">
+                <h2 id="title-heti" style="color: #4facfe;"></h2>
+                <div id="text-heti"></div>
+                <button class="btn" style="background: #4facfe;" onclick="document.getElementById('result-heti').style.display='none'">Bezárás</button>
+            </div>
+        </div>
+
+        <!-- Havi/Szerelem Fül -->
+        <div id="havi" class="page-section">
+            <header>
+                <h1 style="color: var(--love-color);">Havi & Szerelmi Elemzés</h1>
+                <p>Mélyebb, átfogóbb áttekintés erre a hónapra.</p>
+            </header>
+            <div class="zodiac-grid" id="grid-havi"></div>
+            <div id="result-havi" class="result-box" style="border-left: 5px solid var(--love-color);">
+                <h2 id="title-havi" style="color: var(--love-color);"></h2>
+                <div id="text-havi"></div>
+                <button class="btn" style="background: var(--love-color); color: white;" onclick="document.getElementById('result-havi').style.display='none'">Bezárás</button>
+            </div>
+        </div>
+
+        <!-- Háttér Fül -->
+        <div id="jegyek" class="page-section">
+            <header>
+                <h1>A Jegyek Energiája</h1>
+                <p>Kattints egy jegyre, és lásd meg a hozzá tartozó aurát!</p>
+            </header>
+            <div class="zodiac-grid" id="grid-jegyek"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SAJÁT "ADATBÁZIS" (Ide írhatsz be később még több szöveget!) ---
+        
+        const horoszkopAdatok = {
+            napi: [
+                "Ma váratlanul egy régi ismerős bukkanhat fel az életedben. Légy nyitott, mert fontos üzenetet hordozhat számodra!",
+                "A bolygók állása ma különösen kedvez a pénzügyeidnek. Egy remek lehetőség adódhat, de gyorsan kell döntened.",
+                "Energiád ma a csúcson van! Amit ma eltervezel, azt könnyedén véghez is viszed. Ne hagyd, hogy mások lehangoljanak.",
+                "Egy apró konfliktus alakulhat ki a munkahelyeden vagy a családban. A legjobb, ha ma te vagy a békebíró, engedj a feszültségből.",
+                "Kiváló nap ez a tanulásra és a fejlődésre. Ha régóta halogatsz egy könyv elolvasását vagy egy feladatot, ma vágj bele!",
+                "Figyelj a belső hangodra! Ma egy olyan megérzésed támadhat, ami a jövőben nagyon hasznosnak bizonyul majd.",
+                "A mai nap a pihenésé és a feltöltődésé kellene, hogy legyen. Engedj meg magadnak egy kis luxust és kényeztetést.",
+                "Valaki a környezetedben nagyon számít a segítségedre. Egy jó szó vagy egy apró gesztus ma csodákat tehet.",
+                "Váratlan szerencse érhet ma! Akár egy apró nyeremény, akár egy kedves bók formájában – fogadd hálával.",
+                "Kreativitásod ma szárnyal. Olyan problémákra is megtalálod a megoldást, amik hetek óta fejtörést okoztak."
+            ],
+            heti: [
+                "Ezen a héten a kommunikáció kerül a fókuszba. Végre képes leszel őszintén megbeszélni egy olyan dolgot, amit régóta magadban tartasz.",
+                "Egy rohanós, kihívásokkal teli hét vár rád, de a hétvégére mindent sikeresen lezársz. A kitartásod meghozza a gyümölcsét!",
+                "A héten egy új projekt vagy hobbi vonhatja magára a figyelmedet. Engedd szabadjára a lelkesedésedet, jó úton jársz.",
+                "Pénzügyi stabilitás jellemzi ezt a hetet. Ideális időszak arra, hogy átgondold a megtakarításaidat és a jövőbeli terveidet.",
+                "Családi ügyek igényelhetik a figyelmedet a napokban. Légy türelmes a szeretteiddel, most nagy szükségük van a bölcsességedre.",
+                "Egy váratlan utazás vagy kimozdulás lehetősége villanyozhat fel. Mondj igent a kalandra, ráfér a lelkedre egy kis környezetváltozás!",
+                "A hét közepe felé kisebb akadályokba ütközhetsz, de ne add fel! Használd a diplomáciai érzékedet a konfliktusok elsimítására."
+            ],
+            havi: [
+                "A Vénusz mosolyog rád ebben a hónapban! Ha szingli vagy, tarts nyitva a szemed, mert a szerelem a legváratlanabb helyen találhat rád. Ha kapcsolatban élsz, a szenvedély ismét fellángol köztetek.",
+                "Ez a hónap a mély, spirituális átalakulásról szól. Sikerül elengedned egy régi sérelmet, ami eddig visszahúzott. Szabadabbnak fogod érezni magad, mint valaha.",
+                "Szerelmi életedben egy komoly döntés meghozatala előtt állsz. Ne a racionális érvekre, hanem a szívedre hallgass!",
+                "A hónap során vonzerőd az egekbe szökik. Titokzatos kisugárzásoddal bárkit leveszel a lábáról. Használd ezt az energiát arra, hogy elmélyítsd a fontos kapcsolataidat.",
+                "Egy békés, harmonikus hónap vár rád. Tökéletes időszak arra, hogy a pároddal közös terveket szőjetek a jövőre nézve. A szinglik egy mély, lelki kapcsolódást tapasztalhatnak meg.",
+                "Ebben a hónapban megtanulod jobban szeretni és értékelni önmagad. Ez az új magabiztosság mágnesként fogja vonzani hozzád a megfelelő embereket."
+            ]
+        };
+
+        const szinek = ["Mélyvörös", "Smaragdzöld", "Éjkék", "Arany", "Ezüst", "Halványlila", "Türkiz", "Barackvirág", "Fehér"];
+        const erossegek = ["Kitartás", "Empátia", "Kreativitás", "Logika", "Bátorság", "Szenvedély", "Optimizmus", "Őszinteség"];
+
+        // --- 2. CSILLAGJEGYEK ALAPADATAI ---
+        const signs = [
+            { name: 'Kos', icon: '♈', bg: 'linear-gradient(to right, #870000, #190a05)' },
+            { name: 'Bika', icon: '♉', bg: 'linear-gradient(to right, #11998e, #38ef7d)' },
+            { name: 'Ikrek', icon: '♊', bg: 'linear-gradient(to right, #f6d365, #fda085)' },
+            { name: 'Rák', icon: '♋', bg: 'linear-gradient(to right, #e0c3fc, #8ec5fc)' },
+            { name: 'Oroszlán', icon: '♌', bg: 'linear-gradient(to right, #f12711, #f5af19)' },
+            { name: 'Szűz', icon: '♍', bg: 'linear-gradient(to right, #8E54E9, #4776E6)' },
+            { name: 'Mérleg', icon: '♎', bg: 'linear-gradient(to right, #ff9a9e, #fecfef)' },
+            { name: 'Skorpió', icon: '♏', bg: 'linear-gradient(to right, #000000, #434343)' },
+            { name: 'Nyilas', icon: '♐', bg: 'linear-gradient(to right, #4b6cb7, #182848)' },
+            { name: 'Bak', icon: '♑', bg: 'linear-gradient(to right, #3f4c6b, #606c88)' },
+            { name: 'Vízöntő', icon: '♒', bg: 'linear-gradient(to right, #00c6ff, #0072ff)' },
+            { name: 'Halak', icon: '♓', bg: 'linear-gradient(to right, #2bc0e4, #eaecc6)' }
+        ];
+
+        // --- 3. FELÜLET GENERÁLÁSA ---
+        function generateGrids() {
+            const grids = ['napi', 'heti', 'havi', 'jegyek'];
+            
+            grids.forEach(page => {
+                const container = document.getElementById(`grid-${page}`);
+                signs.forEach(sign => {
+                    const card = document.createElement('div');
+                    card.className = 'zodiac-card';
+                    card.innerHTML = `<div class="icon">${sign.icon}</div><div class="sign-name">${sign.name}</div>`;
+                    
+                    // Kattintásra elindul a Random generátor!
+                    if (page === 'napi') card.onclick = () => generateRandomHoroscope(sign.name, 'napi', 'Napi Horoszkóp');
+                    if (page === 'heti') card.onclick = () => generateRandomHoroscope(sign.name, 'heti', 'Heti Előrejelzés');
+                    if (page === 'havi') card.onclick = () => generateRandomHoroscope(sign.name, 'havi', 'Havi & Szerelmi Elemzés');
+                    if (page === 'jegyek') card.onclick = () => changeBackground(sign.bg);
+                    
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active-nav'));
+            
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById(`nav-${pageId}`).classList.add('active-nav');
+
+            if(pageId !== 'jegyek') {
+                document.body.style.background = 'linear-gradient(to right, #0f0c29, #302b63, #24243e)';
+            }
+        }
+
+        // --- 4. A RANDOMIZÁLÓ FÜGGVÉNY (Nincs több hiba, nincs több várakozás!) ---
+        function generateRandomHoroscope(signName, type, titleText) {
+            const resultBox = document.getElementById(`result-${type}`);
+            const title = document.getElementById(`title-${type}`);
+            const textElement = document.getElementById(`text-${type}`);
+
+            // Kiválasztjuk a megfelelő listát (napi, heti vagy havi)
+            const szovegLista = horoszkopAdatok[type];
+            
+            // Véletlenszerűen húzunk egy szöveget a listából
+            const randomSzoveg = szovegLista[Math.floor(Math.random() * szovegLista.length)];
+            
+            // Generálunk extra adatokat (Szerencseszám 1-99, Szín, Erősség)
+            const randomSzam = Math.floor(Math.random() * 99) + 1;
+            const randomSzin = szinek[Math.floor(Math.random() * szinek.length)];
+            const randomErosseg = erossegek[Math.floor(Math.random() * erossegek.length)];
+
+            // Megjelenítés összerakása
+            title.innerText = `${signName} - ${titleText}`;
+            
+            let htmlTartalom = `
+                <p style="font-size: 1.1rem; line-height: 1.8;"><b>Kedves ${signName}!</b> ${randomSzoveg}</p>
+                
+                <div class="astro-data" style="margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 15px;">
+                    <span class="astro-badge">🍀 Szerencseszám: <b>${randomSzam}</b></span>
+                    <span class="astro-badge">🎨 Szerencseszín: <b>${randomSzin}</b></span>
+                    <span class="astro-badge">💪 Napi erősség: <b>${randomErosseg}</b></span>
+                </div>
+            `;
+
+            textElement.innerHTML = htmlTartalom;
+
+            // Megjelenítjük és odagörgetünk
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function changeBackground(bgStyle) {
+            document.body.style.background = bgStyle;
+        }
+
+        window.onload = generateGrids;
+    </script>
+</body>
+</html>
