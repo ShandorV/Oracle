@@ -159,10 +159,35 @@ function saveToArchive() { /* Скорочено для місця, працює
 document.querySelector('.close-btn').onclick = () => document.getElementById('fortuneModal').style.display = "none";
 window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
 
+// ==========================================
+// ІНТЕРАКТИВНИЙ ФОН (PARTICLES.JS)
+// ==========================================
 if (typeof particlesJS !== 'undefined') {
-    particlesJS("particles-js", { "particles": { "number": { "value": 60 }, "color": { "value": "#38bdf8" }, "shape": { "type": "circle" }, "line_linked": { "enable": true, "color": "#38bdf8", "opacity": 0.3 } } });
+    particlesJS("particles-js", {
+        "particles": {
+            "number": { "value": 70 },
+            "color": { "value": "#38bdf8" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.6 },
+            "size": { "value": 3, "random": true },
+            "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.4, "width": 1 },
+            "move": { "enable": true, "speed": 2 }
+        },
+        "interactivity": {
+            "detect_on": "window", /* ЗМІНЕНО З canvas НА window */
+            "events": {
+                "onhover": { "enable": true, "mode": "grab" },
+                "onclick": { "enable": true, "mode": "push" },
+                "resize": true
+            },
+            "modes": {
+                "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } },
+                "push": { "particles_nb": 4 }
+            }
+        },
+        "retina_detect": true
+    });
 }
-
 // ==========================================
 // ЛОГІКА SZTÁR HOROSZKÓP (HUN)
 // ==========================================
