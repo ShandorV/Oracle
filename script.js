@@ -1,5 +1,5 @@
 // ==========================================
-// 4. ЗВУКИ (SOUND UI)
+// AUDIO SYSTEM
 // ==========================================
 const sfxCyber = new Audio('https://actions.google.com/sounds/v1/science_fiction/sci_fi_computer_bleep.ogg');
 const sfxMystic = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
@@ -7,105 +7,162 @@ const sfxSuccess = new Audio('https://actions.google.com/sounds/v1/cartoon/carto
 
 function playSound(type) {
     let sound = type === 'cyber' ? sfxCyber : type === 'mystic' ? sfxMystic : sfxSuccess;
-    sound.volume = 0.3; sound.currentTime = 0; sound.play().catch(e => {}); // catch blocks errors if user hasn't clicked yet
+    sound.volume = 0.3; sound.currentTime = 0; sound.play().catch(()=>{});
 }
 
 // ==========================================
-// ГЛОБАЛЬНА ЛОГІКА ТУМБЛЕРА ТА ПАМ'ЯТІ
+// DATABASE (Fully English, Merged Logic)
 // ==========================================
-let isCyberMode = true;
-let userCustomBackground = null;
-
-function toggleDimension() {
-    const body = document.body;
-    const btn = document.getElementById('dimToggleBtn');
-    
-    if (isCyberMode) {
-        body.classList.replace('cyber-mode', 'classic-mode');
-        body.style.background = userCustomBackground ? userCustomBackground : '';
-        document.getElementById('cyber-dimension').style.display = 'none';
-        document.getElementById('classic-dimension').style.display = 'block';
-        document.getElementById('particles-js').style.display = 'none';
-        btn.innerHTML = 'Switch to Cyber Mode 🔮';
-        btn.className = 'dim-toggle-btn classic-btn';
-        playSound('mystic');
-    } else {
-        body.classList.replace('classic-mode', 'cyber-mode');
-        body.style.background = '#0f172a';
-        document.getElementById('classic-dimension').style.display = 'none';
-        document.getElementById('cyber-dimension').style.display = 'block';
-        document.getElementById('particles-js').style.display = 'block';
-        btn.innerHTML = 'Switch to Classic Mode ✨';
-        btn.className = 'dim-toggle-btn cyber-btn';
-        playSound('cyber');
-    }
-    isCyberMode = !isCyberMode;
-}
-
-// ==========================================
-// ЛОГІКА CYBER ORACLE
-// ==========================================
-const cyberSigns = [{ name: 'Aries', motto: 'I Execute' }, { name: 'Taurus', motto: 'I Accumulate' }, { name: 'Gemini', motto: 'I Multi-task' }, { name: 'Cancer', motto: 'I Feel the Vibe' }, { name: 'Leo', motto: 'I Lead' }, { name: 'Virgo', motto: 'I Refactor' }, { name: 'Libra', motto: 'I Balance' }, { name: 'Scorpio', motto: 'I Penetrate' }, { name: 'Sagittarius', motto: 'I Explore' }, { name: 'Capricorn', motto: 'I Architect' }, { name: 'Aquarius', motto: 'I Innovate' }, { name: 'Pisces', motto: 'I Dream in Code' }];
-const cyberElements = { 'Aries':'Fire', 'Leo':'Fire', 'Sagittarius':'Fire', 'Taurus':'Earth', 'Virgo':'Earth', 'Capricorn':'Earth', 'Gemini':'Air', 'Libra':'Air', 'Aquarius':'Air', 'Cancer':'Water', 'Scorpio':'Water', 'Pisces':'Water' };
-
-const grid = document.getElementById('zodiacGrid');
-cyberSigns.forEach(s => {
-    const card = document.createElement('div'); card.className = 'card';
-    card.innerHTML = `<h3>${s.name}</h3><span class="sign-motto">"${s.motto}"</span>`;
-    card.onclick = () => { playSound('cyber'); getDailyFortune(s.name); };
-    grid.appendChild(card);
-    document.getElementById('sign1').add(new Option(s.name, s.name));
-    document.getElementById('sign2').add(new Option(s.name, s.name));
-});
-
-const omens = ["Deploying on Friday leads to hotfixes.", "Clearing the cache solves 90% of bugs.", "A clean desk is a sign of a cluttered hard drive."];
-document.getElementById('omenText').innerText = omens[Math.floor(Math.random() * omens.length)];
-
-// ЗАПОБІЖНИК API (FAIL-SAFE)
-const offlineHoroscopes = [
-    "Your algorithms are highly optimized today. Launch that new project without fear.",
-    "A minor syntax error might occur in your communication today. Double-check your messages.",
-    "The network connectivity of your relationships is strong. Reach out to an old connection.",
-    "Expect a sudden ping from an unexpected source. It brings an interesting opportunity.",
-    "Your energy battery is at 100%. Use this boost to clear your backlog."
+const zodiacData = [
+    { name: 'Aries', icon: '♈', motto: 'I Execute', aura: '#ef4444' }, // Red
+    { name: 'Taurus', icon: '♉', motto: 'I Accumulate', aura: '#22c55e' }, // Green
+    { name: 'Gemini', icon: '♊', motto: 'I Multi-task', aura: '#eab308' }, // Yellow
+    { name: 'Cancer', icon: '♋', motto: 'I Feel the Vibe', aura: '#93c5fd' }, // Light Blue
+    { name: 'Leo', icon: '♌', motto: 'I Lead', aura: '#f97316' }, // Orange
+    { name: 'Virgo', icon: '♍', motto: 'I Refactor', aura: '#8b5cf6' }, // Purple
+    { name: 'Libra', icon: '♎', motto: 'I Balance', aura: '#f472b6' }, // Pink
+    { name: 'Scorpio', icon: '♏', motto: 'I Penetrate', aura: '#991b1b' }, // Dark Red
+    { name: 'Sagittarius', icon: '♐', motto: 'I Explore', aura: '#3b82f6' }, // Blue
+    { name: 'Capricorn', icon: '♑', motto: 'I Architect', aura: '#475569' }, // Slate
+    { name: 'Aquarius', icon: '♒', motto: 'I Innovate', aura: '#06b6d4' }, // Cyan
+    { name: 'Pisces', icon: '♓', motto: 'I Dream in Code', aura: '#14b8a6' }  // Teal
 ];
 
-async function getDailyFortune(sign) {
-    const mText = document.getElementById('fortuneText'), mTitle = document.getElementById('signTitle');
-    document.getElementById('luckyAttributes').style.display = "none";
+const elements = { 'Aries':'Fire', 'Leo':'Fire', 'Sagittarius':'Fire', 'Taurus':'Earth', 'Virgo':'Earth', 'Capricorn':'Earth', 'Gemini':'Air', 'Libra':'Air', 'Aquarius':'Air', 'Cancer':'Water', 'Scorpio':'Water', 'Pisces':'Water' };
+
+const localDb = {
+    dailyFailSafe: [
+        "Your algorithms are highly optimized today. Launch that new project without fear.",
+        "A minor syntax error might occur in your communication today. Double-check your messages.",
+        "The network connectivity of your relationships is strong. Reach out to an old connection."
+    ],
+    weekly: [
+        "This week focuses on debugging your personal connections. Speak your truth.",
+        "A fast-paced sprint awaits you. Keep your focus, and the final push will be highly rewarding.",
+        "Financial algorithms are stabilizing. Great time to review your resource allocation.",
+        "Unexpected hardware upgrades (or gifts) might come your way. Accept them gracefully."
+    ],
+    monthly: [
+        "A major spiritual refactoring is coming this month. You will drop old habits easily.",
+        "Your charisma levels are peaking. Use this energy to network and secure new opportunities.",
+        "Prepare for a massive update to your relationship status or depth. Harmony is maximized.",
+        "This is your month of optimization. Focus on self-care to keep your systems running at 100%."
+    ]
+};
+
+// ==========================================
+// INITIALIZATION & CORE GRID
+// ==========================================
+const coreGrid = document.getElementById('zodiacGrid');
+const sel1 = document.getElementById('sign1');
+const sel2 = document.getElementById('sign2');
+
+zodiacData.forEach(s => {
+    // Build Core Grid with Resonance Magic
+    let coreCard = document.createElement('div'); coreCard.className = 'card';
+    coreCard.innerHTML = `<div class="icon" style="color:${s.aura}">${s.icon}</div><h3>${s.name}</h3><span class="sign-motto">"${s.motto}"</span>`;
+    
+    // ДОДАНО ФІЧУ: Одночасна зміна Аури та відкриття модального вікна
+    coreCard.onclick = () => { 
+        setAura(s.aura); // Миттєва зміна кольору
+        playSound('cyber'); 
+        openModal(s.name); // Відкриття прогнозу
+    };
+    coreGrid.appendChild(coreCard);
+
+    // Populate Sync Selectors
+    sel1.add(new Option(s.name, s.name));
+    sel2.add(new Option(s.name, s.name));
+});
+
+document.getElementById('omenText').innerText = "Deploying on Friday leads to a weekend of hotfixes.";
+
+// ==========================================
+// AURA LOGIC
+// ==========================================
+function setAura(hexColor) {
+    document.documentElement.style.setProperty('--glow-color', hexColor);
+    
+    const rgba = hexColor.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
+        .substring(1).match(/.{2}/g)
+        .map(x => parseInt(x, 16));
+    document.body.style.backgroundColor = `rgba(${rgba[0]*0.1}, ${rgba[1]*0.1}, ${rgba[2]*0.1}, 1)`;
+
+    if (window.pJSDom && window.pJSDom.length > 0) {
+        window.pJSDom[0].pJS.particles.color.value = hexColor;
+        window.pJSDom[0].pJS.particles.line_linked.color = hexColor;
+        window.pJSDom[0].pJS.fn.particlesRefresh();
+    }
+}
+
+// ДОДАНО: Функція для кнопки Reset
+function resetAura() {
+    setAura('#38bdf8');
+    playSound('cyber');
+}
+
+// ==========================================
+// MODAL & FORECAST LOGIC
+// ==========================================
+async function openModal(sign) {
+    document.getElementById('signTitle').innerText = sign;
     document.getElementById('saveBtn').innerText = "Save to Archive";
-    mTitle.innerText = sign; mText.innerText = "Connecting to API server...";
     document.getElementById('fortuneModal').style.display = "block";
+    
+    // Generate Lucky Attributes
+    const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6'];
+    const names = ['Ruby', 'Amber', 'Yellow', 'Green', 'Cyan', 'Blue'];
+    const rIdx = Math.floor(Math.random() * colors.length);
+    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 99) + 1).join(' : ');
+    document.getElementById('luckyColorBox').style.backgroundColor = colors[rIdx];
+    document.getElementById('luckyColorName').innerText = names[rIdx];
+
+    // Populate Weekly and Monthly (Local Logic)
+    document.getElementById('fortuneTextWeekly').innerHTML = `<strong>Sprint Overview:</strong> <br><br> ${localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)]}`;
+    document.getElementById('fortuneTextMonthly').innerHTML = `<strong>Release Notes:</strong> <br><br> ${localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)]}`;
+
+    // Fetch Daily (API with Fail-safe)
+    document.getElementById('fortuneTextDaily').innerText = "Establishing secure connection to Astrological API...";
+    
+    // Безпечний виклик зміни вкладок
+    try { switchTab('daily'); } catch(e) {}
 
     try {
         const response = await fetch(`https://sandipbgt.com/theastrologer/api/horoscope/${sign.toLowerCase()}/today/`);
         if (!response.ok) throw new Error('API Offline');
         const data = await response.json();
-        mText.innerText = data.horoscope;
+        document.getElementById('fortuneTextDaily').innerText = data.horoscope;
     } catch (error) {
-        // ЯКЩО API ПАДАЄ - ПРАЦЮЄ ЦЕЙ КОД (Користувач не побачить помилки)
-        const randomFallback = offlineHoroscopes[Math.floor(Math.random() * offlineHoroscopes.length)];
-        mText.innerText = randomFallback + "\n\n(Generated securely via local Hybrid Engine)";
+        const randomFallback = localDb.dailyFailSafe[Math.floor(Math.random() * localDb.dailyFailSafe.length)];
+        document.getElementById('fortuneTextDaily').innerText = randomFallback + "\n\n(Connection routed via local Hybrid Engine)";
     }
-
-    const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6'];
-    const names = ['Ruby', 'Amber', 'Yellow', 'Green', 'Cyan', 'Blue'];
-    const rIdx = Math.floor(Math.random() * colors.length);
-    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 99) + 1).join(', ');
-    document.getElementById('luckyColorBox').style.backgroundColor = colors[rIdx];
-    document.getElementById('luckyColorName').innerText = names[rIdx];
-    document.getElementById('luckyAttributes').style.display = "flex";
 }
 
+function switchTab(tabName) {
+    playSound('cyber');
+    // Handle Buttons (Безпечна обробка event)
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+    }
+    
+    // Handle Content
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active-content'));
+    document.getElementById(`tab-${tabName}`).classList.add('active-content');
+}
+
+// ==========================================
+// WIDGETS
+// ==========================================
 function checkCompatibility() {
     playSound('cyber');
-    const s1 = document.getElementById('sign1').value, s2 = document.getElementById('sign2').value;
-    const el1 = cyberElements[s1], el2 = cyberElements[s2];
-    let score = (el1 === el2) ? 85 : ((el1==='Fire'&&el2==='Air')||(el1==='Air'&&el2==='Fire')||(el1==='Earth'&&el2==='Water')||(el1==='Water'&&el2==='Earth')) ? 75 : 50;
-    document.getElementById('compResult').innerHTML = `Compatibility: <strong>${score + Math.floor(Math.random() * 15)}%</strong>`;
+    const s1 = sel1.value, s2 = sel2.value;
+    const el1 = elements[s1], el2 = elements[s2];
+    const score = Math.floor(Math.random() * 40) + 60; // 60-100% logic inspired by partner
+    let message = score > 85 ? "Perfect sync! Data packets are flowing flawlessly." : score > 70 ? "Stable connection. Minor packet loss possible." : "High latency detected. Communication requires effort.";
+    document.getElementById('compResult').innerHTML = `Sync Rate: <strong>${score}%</strong> <br><br> <span style="font-size:0.9em; color:var(--text-muted)">${message}</span>`;
 }
 
-// 1. 3D ТАРО
 function drawTarot() {
     playSound('mystic');
     const cards = ["The Compiler", "Infinite Loop", "The Backup", "404 Error", "Stack Overflow", "Syntax Error", "The Deadline"];
@@ -113,17 +170,11 @@ function drawTarot() {
     const layout = ["Past (Debt)", "Present (Sprint)", "Future (Release)"];
     let html = "";
     for(let i=0; i<3; i++) {
-        html += `
-        <div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')">
-            <div class="tarot-inner">
-                <div class="tarot-front">?</div>
-                <div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div>
-            </div>
-        </div>`;
+        html += `<div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')"><div class="tarot-inner"><div class="tarot-front">?</div><div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div></div></div>`;
     }
     document.getElementById('tarotResult').innerHTML = html;
 }
-drawTarot(); // Малюємо карти одразу при завантаженні
+drawTarot();
 
 function analyzeUsername() {
     playSound('cyber');
@@ -140,117 +191,48 @@ function getMagicAnswer() {
     document.getElementById('magicAnswer').innerText = a[Math.floor(Math.random() * a.length)];
 }
 
-// 2. LEAD GEN (Збір Email)
 function submitLead() {
     const email = document.getElementById('emailInput').value;
     const res = document.getElementById('leadResult');
     if(!email.includes('@')) { res.style.color = '#ef4444'; res.innerText = "Invalid email format."; return; }
-    
-    document.getElementById('leadBtn').innerText = "Sending...";
+    document.getElementById('leadBtn').innerText = "Processing...";
     setTimeout(() => {
         playSound('success');
         document.getElementById('leadBtn').innerText = "Subscribe";
         res.style.color = '#22c55e';
-        res.innerText = "Success! Your PDF is generating in the background.";
+        res.innerText = "Success! PDF generation initiated.";
     }, 1500);
 }
 
-function saveToArchive() { /* Скорочено для місця, працює як раніше */ document.getElementById('saveBtn').innerText = "Saved ✓"; playSound('success');}
+// Archive & Modal UI
+function saveToArchive() { 
+    document.getElementById('saveBtn').innerText = "Saved ✓"; 
+    playSound('success');
+    let archive = JSON.parse(localStorage.getItem('cyberArchive')) || [];
+    archive.unshift({ sign: document.getElementById('signTitle').innerText, date: new Date().toLocaleDateString() });
+    localStorage.setItem('cyberArchive', JSON.stringify(archive));
+    renderArchive();
+}
+
+function renderArchive() {
+    const container = document.getElementById('archiveContainer');
+    let archive = JSON.parse(localStorage.getItem('cyberArchive')) || [];
+    if (archive.length === 0) return;
+    container.innerHTML = ''; 
+    archive.forEach(item => { container.innerHTML += `<div class="archive-item"><div class="archive-date">${item.date}</div><strong>${item.sign} Log Saved</strong></div>`; });
+}
+
 document.querySelector('.close-btn').onclick = () => document.getElementById('fortuneModal').style.display = "none";
 window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
+renderArchive();
 
 // ==========================================
-// ІНТЕРАКТИВНИЙ ФОН (PARTICLES.JS)
+// PARTICLES.JS INIT
 // ==========================================
 if (typeof particlesJS !== 'undefined') {
     particlesJS("particles-js", {
-        "particles": {
-            "number": { "value": 70 },
-            "color": { "value": "#38bdf8" },
-            "shape": { "type": "circle" },
-            "opacity": { "value": 0.6 },
-            "size": { "value": 3, "random": true },
-            "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.4, "width": 1 },
-            "move": { "enable": true, "speed": 2 }
-        },
-        "interactivity": {
-            "detect_on": "window", /* ЗМІНЕНО З canvas НА window */
-            "events": {
-                "onhover": { "enable": true, "mode": "grab" },
-                "onclick": { "enable": true, "mode": "push" },
-                "resize": true
-            },
-            "modes": {
-                "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } },
-                "push": { "particles_nb": 4 }
-            }
-        },
+        "particles": { "number": { "value": 60 }, "color": { "value": "#38bdf8" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5 }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2 } },
+        "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 4 } } },
         "retina_detect": true
     });
 }
-// ==========================================
-// ЛОГІКА SZTÁR HOROSZKÓP (HUN)
-// ==========================================
-const horoszkopAdatok = {
-    napi: ["Ma váratlanul egy régi ismerős bukkanhat fel...", "A bolygók állása ma különösen kedvez a pénzügyeidnek."],
-    heti: ["Ezen a héten a kommunikáció kerül a fókuszba.", "Egy rohanós, kihívásokkal teli hét vár rád."],
-    havi: ["A Vénusz mosolyog rád ebben a hónapban!", "Ez a hónap a mély, spirituális átalakulásról szól."]
-};
-const szinek = ["Mélyvörös", "Smaragdzöld", "Éjkék", "Arany"];
-const erossegek = ["Kitartás", "Empátia", "Kreativitás"];
-const classicSigns = [ { name: 'Kos', icon: '♈', bg: 'linear-gradient(to right, #870000, #190a05)' }, { name: 'Bika', icon: '♉', bg: 'linear-gradient(to right, #11998e, #38ef7d)' }, { name: 'Ikrek', icon: '♊', bg: 'linear-gradient(to right, #f6d365, #fda085)' }, { name: 'Rák', icon: '♋', bg: 'linear-gradient(to right, #e0c3fc, #8ec5fc)' }, { name: 'Oroszlán', icon: '♌', bg: 'linear-gradient(to right, #f12711, #f5af19)' }, { name: 'Szűz', icon: '♍', bg: 'linear-gradient(to right, #8E54E9, #4776E6)' }, { name: 'Mérleg', icon: '♎', bg: 'linear-gradient(to right, #ff9a9e, #fecfef)' }, { name: 'Skorpió', icon: '♏', bg: 'linear-gradient(to right, #000000, #434343)' }, { name: 'Nyilas', icon: '♐', bg: 'linear-gradient(to right, #4b6cb7, #182848)' }, { name: 'Bak', icon: '♑', bg: 'linear-gradient(to right, #3f4c6b, #606c88)' }, { name: 'Vízöntő', icon: '♒', bg: 'linear-gradient(to right, #00c6ff, #0072ff)' }, { name: 'Halak', icon: '♓', bg: 'linear-gradient(to right, #2bc0e4, #eaecc6)' } ];
-
-function generateClassicGrids() {
-    ['napi', 'heti', 'havi', 'jegyek'].forEach(page => {
-        const container = document.getElementById(`grid-${page}`);
-        if (!container) return;
-        classicSigns.forEach(s => {
-            const card = document.createElement('div'); card.className = 'classic-zodiac-card';
-            card.innerHTML = `<div class="icon">${s.icon}</div><div class="sign-name">${s.name}</div>`;
-            card.onclick = () => {
-                playSound('mystic');
-                if (page === 'jegyek') changeBackground(s.bg);
-                else generateRandomHoroscope(s.name, page, page.toUpperCase());
-            };
-            container.appendChild(card);
-            // Заповнюємо списки сумісності
-            if (page === 'napi') {
-                document.getElementById('hunSign1').add(new Option(s.name, s.name));
-                document.getElementById('hunSign2').add(new Option(s.name, s.name));
-            }
-        });
-    });
-}
-
-function switchPage(pageId) {
-    document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.classic-navbar button').forEach(b => b.classList.remove('active-nav'));
-    document.getElementById(pageId).classList.add('active');
-    document.getElementById(`nav-${pageId}`).classList.add('active-nav');
-    if (!isCyberMode) { document.body.style.background = userCustomBackground ? userCustomBackground : 'linear-gradient(to right, #0f0c29, #302b63, #24243e)'; }
-}
-
-function generateRandomHoroscope(signName, type, titleText) {
-    const textElement = document.getElementById(`text-${type}`);
-    const rSzoveg = horoszkopAdatok[type][Math.floor(Math.random() * horoszkopAdatok[type].length)];
-    document.getElementById(`title-${type}`).innerText = `${signName} - ${titleText}`;
-    textElement.innerHTML = `<p><b>Kedves ${signName}!</b> ${rSzoveg}</p>
-        <div class="astro-data" style="margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 15px;">
-            <span class="astro-badge">🍀 Szerencseszám: <b>${Math.floor(Math.random() * 99) + 1}</b></span>
-            <span class="astro-badge">🎨 Szerencseszín: <b>${szinek[Math.floor(Math.random() * szinek.length)]}</b></span>
-        </div>`;
-    document.getElementById(`result-${type}`).style.display = 'block';
-}
-
-function changeBackground(bgStyle) { if (!isCyberMode) { document.body.style.background = bgStyle; userCustomBackground = bgStyle; } }
-
-// 3. УГОРСЬКА СУМІСНІСТЬ
-function checkClassicCompatibility() {
-    playSound('mystic');
-    const s1 = document.getElementById('hunSign1').value, s2 = document.getElementById('hunSign2').value;
-    const score = Math.floor(Math.random() * 40) + 60; // 60-100%
-    let message = score > 85 ? "Tökéletes párosítás!" : score > 70 ? "Kiváló esélyek, dolgozzatok a kapcsolaton." : "Kihívásokkal teli, de izgalmas kapcsolat.";
-    document.getElementById('hunCompResult').innerHTML = `Kompatibilitás: <strong>${score}%</strong> <br> ${message}`;
-}
-
-window.onload = generateClassicGrids;
