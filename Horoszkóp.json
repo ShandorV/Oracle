@@ -1,3 +1,7 @@
+
+EZ KERÜLJÜN GITHUB REPOBA:
+
+
 {
   "last_updated": "2026-05-07",
   "zodiacs": {
@@ -17,7 +21,7 @@
 }
 
 
-KÓD LEKÉRDEZÉSE PÉLDA:
+KÓD LEKÉRDEZÉSE PÉLDA JSON FILEBA ( KÉSŐBB TÖRÖLHETŐ INNEN):
 
 async function getHoroscope(sign, timeframe) {
     try {
