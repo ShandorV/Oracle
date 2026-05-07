@@ -21,7 +21,7 @@ EZ KERÜLJÜN GITHUB REPOBA:
 }
 
 
-KÓD LEKÉRDEZÉSE PÉLDA JSON FILEBA ( KÉSŐBB TÖRÖLHETŐ INNEN):
+KÓD LEKÉRDEZÉSE PÉLDA JSON FILEBA ( KÉSŐBB TÖRÖLHETŐ INNEN) tehát mehet script jsonba míg a fenti rész különálló scriptek minden egyet napre egy külön script szükséges, de ezt még beszéljük át:
 
 async function getHoroscope(sign, timeframe) {
     try {
