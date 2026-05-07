@@ -1,0 +1,38 @@
+{
+  "last_updated": "2026-05-07",
+  "zodiacs": {
+    "Aries": {
+      "element": "Fire",
+      "daily": "Your algorithms are highly optimized today. Launch that new project without fear.",
+      "weekly": "This week focuses on debugging your personal connections. Speak your truth.",
+      "monthly": "A major spiritual refactoring is coming this month. You will drop old habits easily."
+    },
+    "Taurus": {
+      "element": "Earth",
+      "daily": "A minor syntax error might occur in your communication today. Double-check your messages.",
+      "weekly": "A fast-paced sprint awaits you. Keep your focus, and the final push will be rewarding.",
+      "monthly": "Your charisma levels are peaking. Use this energy to network."
+    }
+  }
+}
+
+
+KÓD LEKÉRDEZÉSE PÉLDA:
+
+async function getHoroscope(sign, timeframe) {
+    try {
+        const response = await fetch('horoszkop.json');
+        const data = await response.json();
+        
+        // sign = pl. 'Aries'
+        // timeframe = 'daily', 'weekly' vagy 'monthly'
+        const result = data.zodiacs[sign][timeframe];
+        
+        displayResult(result); // Megjelenítő függvényed
+    } catch (error) {
+        // Itt jön képbe a kódodban lévő FailSafe!
+        console.log("JSON hiba, betöltöm a helyi adatokat...");
+        const randomFail = Math.floor(Math.random() * localDb[timeframe].length);
+        displayResult(localDb[timeframe][randomFail]);
+    }
+}
