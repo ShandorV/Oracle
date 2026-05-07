@@ -3,155 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Oracle & Sztár Horoszkóp</title>
+    <title>Cyber Oracle | The Super App</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="cyber-mode">
+<body>
     
     <div id="particles-js"></div>
 
-    <button id="dimToggleBtn" class="dim-toggle-btn cyber-btn" onclick="toggleDimension()">
-        Switch to Classic Mode ✨
-    </button>
+    <nav class="navbar">
+        <div class="nav-logo">Cyber Oracle</div>
+        <div class="nav-links">
+            <a href="#core">Core</a>
+            <a href="#sync">Sync</a>
+            <a href="#tarot">Tarot</a>
+            <a href="#about">About</a>
+            <!-- ДОДАНО: Кнопка скидання фону -->
+            <button class="reset-btn" onclick="resetAura()" title="Reset to System Blue">
+                System Reset ⟲
+            </button>
+        </div>
+    </nav>
 
-    <div id="cyber-dimension">
-        <nav class="navbar">
-            <div class="nav-logo">Cyber Oracle</div>
-            <div class="nav-links">
-                <a href="#home">Zodiac</a>
-                <a href="#cyberTarot">Tarot</a>
-                <a href="#usernameAnalyzer">Analyzer</a>
-                <a href="#leadGen">PDF Forecast</a>
-                <a href="#about">About Us</a>
-            </div>
-        </nav>
+    <div class="container">
+        <header>
+            <h1>Cyber Oracle</h1>
+            <p>Unified Digital Destiny Engine</p>
+        </header>
 
-        <div class="container" id="home">
-            <header>
-                <h1>Cyber Oracle</h1>
-                <p>Digital Destiny & Hybrid Forecasts</p>
-            </header>
+        <section class="omen-box" id="itOmen">
+            <span class="omen-label">Daily IT Omen:</span>
+            <span id="omenText">Loading omen...</span>
+        </section>
 
-            <section class="omen-box" id="itOmen">
-                <span class="omen-label">Daily IT Omen:</span>
-                <span id="omenText">Loading omen...</span>
-            </section>
-
-            <section class="compatibility-box" id="compatibility">
-                <h3>Check Compatibility</h3>
-                <div class="selector-group">
-                    <select id="sign1"></select> <span>+</span> <select id="sign2"></select>
-                </div>
-                <button onclick="checkCompatibility()">Match</button>
-                <p id="compResult"></p>
-            </section>
-
+        <section class="core-box" id="core">
+            <h3>System Core: Select Your Interface</h3>
+            <p class="subtitle">Access your daily tick, weekly sprint, and monthly release notes. Selection triggers UI resonance.</p>
             <div class="zodiac-grid" id="zodiacGrid"></div>
+        </section>
 
-            <section class="tarot-box" id="cyberTarot">
-                <h3>Cyber Tarot: 3-Card Spread</h3>
-                <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 15px;">Click on the cards to reveal your digital destiny.</p>
-                <button onclick="drawTarot()">Deal New Cards</button>
-                <div id="tarotResult" class="tarot-grid">
-                    </div>
-            </section>
+        <section class="sync-box" id="sync">
+            <h3>Core Synchronization Test</h3>
+            <p class="subtitle">Analyze the connection stability between two nodes.</p>
+            <div class="selector-group">
+                <select id="sign1"></select> <span class="plus-icon">+</span> <select id="sign2"></select>
+            </div>
+            <button class="glow-btn" onclick="checkCompatibility()">Run Diagnostics</button>
+            <p id="compResult" class="result-text"></p>
+        </section>
 
-            <section class="analyzer-box" id="usernameAnalyzer">
+        <section class="tarot-box" id="tarot">
+            <h3>Cyber Tarot: 3-Card Spread</h3>
+            <p class="subtitle">Click on the cards to reveal your digital timeline.</p>
+            <button class="glow-btn" onclick="drawTarot()">Deal New Cards</button>
+            <div id="tarotResult" class="tarot-grid"></div>
+        </section>
+
+        <div class="two-col-grid">
+            <section class="analyzer-box" id="analyzer">
                 <h3>Username Analyzer</h3>
                 <div class="ask-input-group">
                     <input type="text" id="usernameInput" placeholder="e.g., CyberNinja99">
-                    <button onclick="analyzeUsername()">Scan</button>
+                    <button class="glow-btn" onclick="analyzeUsername()">Scan</button>
                 </div>
-                <p id="analyzerResult"></p>
+                <p id="analyzerResult" class="result-text"></p>
             </section>
 
             <section class="ask-box" id="askOracle">
                 <h3>Ask the 8-Ball</h3>
                 <div class="ask-input-group">
-                    <input type="text" id="questionInput" placeholder="e.g., Will my code compile today?">
-                    <button onclick="getMagicAnswer()">Ask</button>
+                    <input type="text" id="questionInput" placeholder="Will it compile?">
+                    <button class="glow-btn" onclick="getMagicAnswer()">Ask</button>
                 </div>
-                <p id="magicAnswer"></p>
+                <p id="magicAnswer" class="result-text"></p>
             </section>
-
-            <section class="lead-box" id="leadGen">
-                <h3 style="color: #38bdf8;">Get Extended PDF Forecast</h3>
-                <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 15px;">Leave your email to receive a detailed 30-day personal algorithm.</p>
-                <div class="ask-input-group">
-                    <input type="email" id="emailInput" placeholder="Enter your email address...">
-                    <button id="leadBtn" onclick="submitLead()">Subscribe</button>
-                </div>
-                <p id="leadResult" style="color: #22c55e; font-weight: bold; margin-top: 10px;"></p>
-            </section>
-
-            <section class="archive-box">
-                <h3>Personal Archive</h3>
-                <div id="archiveContainer"><p style="color: #94a3b8; font-style: italic;">Your saved destinies will appear here...</p></div>
-            </section>
-
-            <section class="about-box" id="about">
-                <h3>About Us</h3>
-                <p>Welcome to <strong>Cyber Oracle</strong>. We are an experimental IT project developed under the <em>Cyber Gojzu</em>  and <em>Somex</em> initiative. Here, we blend the mysticism of the stars with the precision of code to bring you a unique digital destiny experience.</p>
-            </section>
-
-            <div id="fortuneModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn">&times;</span>
-                    <h2 id="signTitle"></h2>
-                    <div class="lucky-attributes" id="luckyAttributes" style="display: none;">
-                        <div class="attribute-box"><span class="attr-label">Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
-                        <div class="attribute-box"><span class="attr-label">Color:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
-                    </div>
-                    <p id="fortuneText">Loading your destiny...</p>
-                    <div class="modal-actions">
-                        <button id="saveBtn" class="save-btn" onclick="saveToArchive()">Save to Archive</button>
-                        <button id="shareBtn" class="share-btn" onclick="shareDestiny()">Share</button>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
 
-    <div id="classic-dimension" style="display: none;">
-        <nav class="classic-navbar">
-            <button onclick="switchPage('napi')" id="nav-napi" class="active-nav">Napi Horoszkóp</button>
-            <button onclick="switchPage('heti')" id="nav-heti">Heti Előrejelzés</button>
-            <button onclick="switchPage('havi')" id="nav-havi">Havi / Szerelem</button>
-            <button onclick="switchPage('jegyek')" id="nav-jegyek">Háttérválasztó</button>
-        </nav>
+        <!-- СЕКЦІЮ AURA CONFIGURATOR ВИДАЛЕНО ДЛЯ ЕКОНОМІЇ МІСЦЯ -->
 
-        <div class="classic-container">
-            <div id="napi" class="page-section active">
-                <header class="classic-header"><h1 class="classic-title">Napi Horoszkóp</h1><p class="classic-subtitle">Mit üzennek ma a csillagok?</p></header>
-                <div class="classic-zodiac-grid" id="grid-napi"></div>
-                <div id="result-napi" class="result-box" style="border-left: 5px solid var(--accent-gold);"><h2 id="title-napi" style="color: var(--accent-gold);"></h2><div id="text-napi"></div><button class="classic-btn" onclick="document.getElementById('result-napi').style.display='none'">Bezárás</button></div>
+        <section class="lead-box" id="leadGen">
+            <h3>Get Extended PDF Forecast</h3>
+            <p class="subtitle">Leave your email to receive a detailed 30-day personal algorithm.</p>
+            <div class="ask-input-group">
+                <input type="email" id="emailInput" placeholder="Enter your email address...">
+                <button id="leadBtn" class="glow-btn success-btn" onclick="submitLead()">Subscribe</button>
             </div>
+            <p id="leadResult" class="result-text"></p>
+        </section>
 
-            <div id="heti" class="page-section">
-                <header class="classic-header"><h1 class="classic-title">Heti Előrejelzés</h1><p class="classic-subtitle">Készülj fel a hét energiáira!</p></header>
-                <div class="classic-zodiac-grid" id="grid-heti"></div>
-                <div id="result-heti" class="result-box" style="border-left: 5px solid #4facfe;"><h2 id="title-heti" style="color: #4facfe;"></h2><div id="text-heti"></div><button class="classic-btn" style="background: #4facfe;" onclick="document.getElementById('result-heti').style.display='none'">Bezárás</button></div>
-            </div>
+        <section class="archive-box">
+            <h3>Personal Archive</h3>
+            <div id="archiveContainer"><p class="subtitle">Your saved destinies will appear here...</p></div>
+        </section>
 
-            <div id="havi" class="page-section">
-                <header class="classic-header"><h1 class="classic-title" style="color: var(--love-color);">Havi & Szerelmi Elemzés</h1><p class="classic-subtitle">Mélyebb, átfogóbb áttekintés erre a hónapra.</p></header>
+        <section class="about-box" id="about">
+            <h3>About Us</h3>
+            <p>Welcome to <strong>Cyber Oracle</strong>. We are an experimental IT project developed under the <em>Cyber Gojzu</em> and <em>Somex</em> initiative. Here, we blend the mysticism of the stars with the precision of code to bring you a unique digital destiny experience.</p>
+        </section>
+
+        <div id="fortuneModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2 id="signTitle" class="glow-text"></h2>
                 
-                <div class="classic-compatibility-box" style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--love-color);">
-                    <h3 style="color: var(--love-color); margin-top:0;">Szerelmi Kompatibilitás</h3>
-                    <div class="selector-group">
-                        <select id="hunSign1"></select> <span style="color:white; font-size:1.5rem;">+</span> <select id="hunSign2"></select>
-                    </div>
-                    <button class="classic-btn" style="background: var(--love-color); color: white;" onclick="checkClassicCompatibility()">Elemzés</button>
-                    <p id="hunCompResult" style="color: #fff; font-size: 1.1rem; margin-top: 15px; font-style: italic;"></p>
+                <div class="modal-tabs">
+                    <button class="tab-btn active" onclick="switchTab('daily')">Current Tick (Day)</button>
+                    <button class="tab-btn" onclick="switchTab('weekly')">Weekly Sprint</button>
+                    <button class="tab-btn" onclick="switchTab('monthly')">Full Release (Month)</button>
                 </div>
 
-                <div class="classic-zodiac-grid" id="grid-havi"></div>
-                <div id="result-havi" class="result-box" style="border-left: 5px solid var(--love-color);"><h2 id="title-havi" style="color: var(--love-color);"></h2><div id="text-havi"></div><button class="classic-btn" style="background: var(--love-color); color: white;" onclick="document.getElementById('result-havi').style.display='none'">Bezárás</button></div>
-            </div>
+                <div class="lucky-attributes" id="luckyAttributes">
+                    <div class="attribute-box"><span class="attr-label">Hash:</span> <span class="attr-value" id="luckyNumbers"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Energy:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
+                </div>
 
-            <div id="jegyek" class="page-section">
-                <header class="classic-header"><h1 class="classic-title">A Jegyek Energiája</h1><p class="classic-subtitle">Kattints egy jegyre, és lásd meg a hozzá tartozó aurát!</p></header>
-                <div class="classic-zodiac-grid" id="grid-jegyek"></div>
+                <div id="tab-daily" class="tab-content active-content">
+                    <p id="fortuneTextDaily">Loading API...</p>
+                </div>
+                <div id="tab-weekly" class="tab-content">
+                    <p id="fortuneTextWeekly">Loading...</p>
+                </div>
+                <div id="tab-monthly" class="tab-content">
+                    <p id="fortuneTextMonthly">Loading...</p>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Save to Archive</button>
+                    <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share</button>
+                </div>
             </div>
         </div>
     </div>
