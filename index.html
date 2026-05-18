@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Oracle | The Super App</title>
+    <title>Astro Daily | Celestial Oracle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
-    <div id="particles-js"></div>
+    <canvas id="starlight-canvas"></canvas>
 
     <nav class="navbar">
-        <div class="nav-logo">Cyber Oracle</div>
+        <div class="nav-logo">Astro Daily</div>
         <div class="nav-links">
-            <a href="#core">Core</a>
-            <a href="#sync">Sync</a>
-            <a href="#tarot">Tarot</a>
+            <a href="#core">Readings</a>
+            <a href="#sync">Compatibility</a>
+            <a href="#tarot">Arcana</a>
             <a href="#about">About</a>
-            <!-- ДОДАНО: Кнопка скидання фону -->
-            <button class="reset-btn" onclick="resetAura()" title="Reset to System Blue">
+            <button class="reset-btn" onclick="resetAura()" title="Reset to Celestial Gold">
                 System Reset ⟲
             </button>
         </div>
@@ -26,78 +26,76 @@
 
     <div class="container">
         <header>
-            <h1>Cyber Oracle</h1>
-            <p>Unified Digital Destiny Engine</p>
+            <h1>Astro Daily</h1>
+            <p>Your Traditional Guide to the Stars</p>
         </header>
 
         <section class="omen-box" id="itOmen">
-            <span class="omen-label">Daily IT Omen:</span>
-            <span id="omenText">Loading omen...</span>
+            <span class="omen-label">Cosmic Insight:</span>
+            <span id="omenText">Loading the wisdom of the ancients...</span>
         </section>
 
         <section class="core-box" id="core">
-            <h3>System Core: Select Your Interface</h3>
-            <p class="subtitle">Access your daily tick, weekly sprint, and monthly release notes. Selection triggers UI resonance.</p>
+            <h3>Celestial Readings</h3>
+            <p class="subtitle">Select your sign to align the stars and reveal your destiny.</p>
             <div class="zodiac-grid" id="zodiacGrid"></div>
         </section>
 
         <section class="sync-box" id="sync">
-            <h3>Core Synchronization Test</h3>
-            <p class="subtitle">Analyze the connection stability between two nodes.</p>
+            <h3>Astro-Compatibility</h3>
+            <p class="subtitle">Discover the harmonic resonance between two celestial bodies.</p>
             <div class="selector-group">
                 <select id="sign1"></select> <span class="plus-icon">+</span> <select id="sign2"></select>
             </div>
-            <button class="glow-btn" onclick="checkCompatibility()">Run Diagnostics</button>
+            <button class="glow-btn" onclick="checkCompatibility()">Reveal Connection</button>
             <p id="compResult" class="result-text"></p>
         </section>
 
         <section class="tarot-box" id="tarot">
-            <h3>Cyber Tarot: 3-Card Spread</h3>
-            <p class="subtitle">Click on the cards to reveal your digital timeline.</p>
-            <button class="glow-btn" onclick="drawTarot()">Deal New Cards</button>
+            <h3>The Arcana Spread</h3>
+            <p class="subtitle">Draw three cards to unveil the path of Past, Present, and Future.</p>
+            <button class="glow-btn" onclick="drawTarot()">Consult the Deck</button>
             <div id="tarotResult" class="tarot-grid"></div>
         </section>
 
         <div class="two-col-grid">
             <section class="analyzer-box" id="analyzer">
-                <h3>Username Analyzer</h3>
+                <h3>Name Numerology</h3>
                 <div class="ask-input-group">
-                    <input type="text" id="usernameInput" placeholder="e.g., CyberNinja99">
-                    <button class="glow-btn" onclick="analyzeUsername()">Scan</button>
+                    <input type="text" id="usernameInput" placeholder="e.g., Alexander">
+                    <button class="glow-btn" onclick="analyzeUsername()">Analyze</button>
                 </div>
                 <p id="analyzerResult" class="result-text"></p>
             </section>
 
             <section class="ask-box" id="askOracle">
-                <h3>Ask the 8-Ball</h3>
+                <h3>The Seer's Sphere</h3>
                 <div class="ask-input-group">
-                    <input type="text" id="questionInput" placeholder="Will it compile?">
+                    <input type="text" id="questionInput" placeholder="Ask your question...">
                     <button class="glow-btn" onclick="getMagicAnswer()">Ask</button>
                 </div>
                 <p id="magicAnswer" class="result-text"></p>
             </section>
         </div>
 
-        <!-- СЕКЦІЮ AURA CONFIGURATOR ВИДАЛЕНО ДЛЯ ЕКОНОМІЇ МІСЦЯ -->
-
         <section class="lead-box" id="leadGen">
-            <h3>Get Extended PDF Forecast</h3>
-            <p class="subtitle">Leave your email to receive a detailed 30-day personal algorithm.</p>
+            <h3>Extended Lunar Calendar</h3>
+            <p class="subtitle">Subscribe to receive a detailed 30-day astral projection directly to your parchment.</p>
             <div class="ask-input-group">
-                <input type="email" id="emailInput" placeholder="Enter your email address...">
+                <input type="email" id="emailInput" placeholder="Your email address...">
                 <button id="leadBtn" class="glow-btn success-btn" onclick="submitLead()">Subscribe</button>
             </div>
             <p id="leadResult" class="result-text"></p>
         </section>
 
         <section class="archive-box">
-            <h3>Personal Archive</h3>
-            <div id="archiveContainer"><p class="subtitle">Your saved destinies will appear here...</p></div>
+            <h3>Personal Grimoire</h3>
+            <div id="archiveContainer"><p class="subtitle">Your saved readings will be preserved here...</p></div>
         </section>
 
         <section class="about-box" id="about">
             <h3>About Us</h3>
-            <p>Welcome to <strong>Cyber Oracle</strong>. We are an experimental IT project developed under the <em>Cyber Gojzu</em> and <em>Somex</em> initiative. Here, we blend the mysticism of the stars with the precision of code to bring you a unique digital destiny experience.</p>
+            <p>Welcome to <strong>Astro Daily</strong>. Crafted with reverence for the ancient arts by the Somex, CyberGojzu and Rolandex initiative, we blend traditional astrological wisdom with modern precision to guide your daily journey.</p>
         </section>
 
         <div id="fortuneModal" class="modal">
@@ -106,35 +104,28 @@
                 <h2 id="signTitle" class="glow-text"></h2>
                 
                 <div class="modal-tabs">
-                    <button class="tab-btn active" onclick="switchTab('daily')">Current Tick (Day)</button>
-                    <button class="tab-btn" onclick="switchTab('weekly')">Weekly Sprint</button>
-                    <button class="tab-btn" onclick="switchTab('monthly')">Full Release (Month)</button>
+                    <button class="tab-btn active" onclick="switchTab('daily')">Daily Transit</button>
+                    <button class="tab-btn" onclick="switchTab('weekly')">Weekly Aspects</button>
+                    <button class="tab-btn" onclick="switchTab('monthly')">Lunar Cycle</button>
                 </div>
 
                 <div class="lucky-attributes" id="luckyAttributes">
-                    <div class="attribute-box"><span class="attr-label">Hash:</span> <span class="attr-value" id="luckyNumbers"></span></div>
-                    <div class="attribute-box"><span class="attr-label">Energy:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Sacred Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Aura:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
                 </div>
 
-                <div id="tab-daily" class="tab-content active-content">
-                    <p id="fortuneTextDaily">Loading API...</p>
-                </div>
-                <div id="tab-weekly" class="tab-content">
-                    <p id="fortuneTextWeekly">Loading...</p>
-                </div>
-                <div id="tab-monthly" class="tab-content">
-                    <p id="fortuneTextMonthly">Loading...</p>
-                </div>
+                <div id="tab-daily" class="tab-content active-content"><p id="fortuneTextDaily">Reading the stars...</p></div>
+                <div id="tab-weekly" class="tab-content"><p id="fortuneTextWeekly">Loading...</p></div>
+                <div id="tab-monthly" class="tab-content"><p id="fortuneTextMonthly">Loading...</p></div>
 
                 <div class="modal-actions">
-                    <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Save to Archive</button>
-                    <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share</button>
+                    <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Inscribe to Grimoire</button>
+                    <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share Fate</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
