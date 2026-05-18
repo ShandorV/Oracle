@@ -1,5 +1,5 @@
 // ==========================================
-// AUDIO SYSTEM
+// AUDIO SYSTEM (Можна змінити звуки на більш класичні)
 // ==========================================
 const sfxCyber = new Audio('https://actions.google.com/sounds/v1/science_fiction/sci_fi_computer_bleep.ogg');
 const sfxMystic = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
@@ -7,146 +7,293 @@ const sfxSuccess = new Audio('https://actions.google.com/sounds/v1/cartoon/carto
 
 function playSound(type) {
     let sound = type === 'cyber' ? sfxCyber : type === 'mystic' ? sfxMystic : sfxSuccess;
-    sound.volume = 0.3; sound.currentTime = 0; sound.play().catch(()=>{});
+    sound.volume = 0.2; sound.currentTime = 0; sound.play().catch(()=>{});
 }
 
 // ==========================================
-// DATABASE (Fully English, Merged Logic)
+// MASTER DATABASE (Включає UI дані + Координати Сузір'їв)
 // ==========================================
-const zodiacData = [
-    { name: 'Aries', icon: '♈', motto: 'I Execute', aura: '#ef4444' }, // Red
-    { name: 'Taurus', icon: '♉', motto: 'I Accumulate', aura: '#22c55e' }, // Green
-    { name: 'Gemini', icon: '♊', motto: 'I Multi-task', aura: '#eab308' }, // Yellow
-    { name: 'Cancer', icon: '♋', motto: 'I Feel the Vibe', aura: '#93c5fd' }, // Light Blue
-    { name: 'Leo', icon: '♌', motto: 'I Lead', aura: '#f97316' }, // Orange
-    { name: 'Virgo', icon: '♍', motto: 'I Refactor', aura: '#8b5cf6' }, // Purple
-    { name: 'Libra', icon: '♎', motto: 'I Balance', aura: '#f472b6' }, // Pink
-    { name: 'Scorpio', icon: '♏', motto: 'I Penetrate', aura: '#991b1b' }, // Dark Red
-    { name: 'Sagittarius', icon: '♐', motto: 'I Explore', aura: '#3b82f6' }, // Blue
-    { name: 'Capricorn', icon: '♑', motto: 'I Architect', aura: '#475569' }, // Slate
-    { name: 'Aquarius', icon: '♒', motto: 'I Innovate', aura: '#06b6d4' }, // Cyan
-    { name: 'Pisces', icon: '♓', motto: 'I Dream in Code', aura: '#14b8a6' }  // Teal
-];
-
-const elements = { 'Aries':'Fire', 'Leo':'Fire', 'Sagittarius':'Fire', 'Taurus':'Earth', 'Virgo':'Earth', 'Capricorn':'Earth', 'Gemini':'Air', 'Libra':'Air', 'Aquarius':'Air', 'Cancer':'Water', 'Scorpio':'Water', 'Pisces':'Water' };
+const zodiacData = {
+    Aries: { 
+        name: 'Aries', icon: '♈', motto: 'I Am', aura: '#ef4444',
+        points: [[10, 80], [25, 60], [40, 35], [45, 10], [75, 50], [95, 70]],
+        links: [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5]]
+    },
+    Taurus: { 
+        name: 'Taurus', icon: '♉', motto: 'I Have', aura: '#22c55e',
+        points: [[10, 25], [30, 10], [45, 30], [45, 45], [30, 50], [35, 60], [50, 55], [45, 70], [55, 80], [75, 100], [75, 45], [90, 45]],
+        links: [[0, 4], [1, 2], [2, 3], [3, 4], [3, 6], [4, 5], [5, 7], [6, 7], [3, 10], [10, 11], [7, 8], [8, 9]]
+    },
+    Gemini: { 
+        name: 'Gemini', icon: '♊', motto: 'I Think', aura: '#eab308',
+        points: [[25, 10], [25, 28], [10, 25], [20, 45], [30, 65], [20, 85], [40, 85], [40, 30], [60, 32], [90, 35], [55, 20], [45, 8], [65, 55], [55, 75], [80, 70], [95, 90]],
+        links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [4, 6], [1, 7], [7, 8], [8, 9], [8, 10], [10, 11], [8, 12], [12, 13], [12, 14], [14, 15]]
+    },
+    Cancer: { 
+        name: 'Cancer', icon: '♋', motto: 'I Feel', aura: '#93c5fd',
+        points: [[50, 10], [55, 35], [50, 50], [20, 70], [80, 80]],
+        links: [[0, 1], [1, 2], [2, 3], [2, 4]]
+    },
+    Leo: { // Перейменовано з Lion
+        name: 'Leo', icon: '♌', motto: 'I Will', aura: '#f97316',
+        points: [[10, 80], [30, 60], [40, 80], [75, 80], [80, 60], [70, 40], [60, 25], [85, 10], [95, 20]],
+        links: [[0, 1], [1, 2], [0, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
+    },
+    Virgo: { 
+        name: 'Virgo', icon: '♍', motto: 'I Analyze', aura: '#8b5cf6',
+        points: [[5, 60], [20, 50], [35, 45], [50, 35], [40, 20], [65, 40], [75, 35], [90, 25], [85, 10], [70, 15], [55, 55], [60, 75], [40, 75], [25, 65], [10, 75]],
+        links: [[0, 1], [1, 2], [1, 13], [13, 14], [13, 12], [2, 3], [3, 4], [3, 5], [2, 10], [5, 10], [10, 11], [5, 6], [6, 7], [7, 8], [8, 9]]
+    },
+    Libra: { 
+        name: 'Libra', icon: '♎', motto: 'I Balance', aura: '#f472b6',
+        points: [[10, 80], [20, 65], [35, 50], [25, 30], [50, 10], [85, 30], [75, 55], [90, 70]],
+        links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [3, 5], [5, 6], [6, 7]]
+    },
+    Scorpio: { 
+        name: 'Scorpio', icon: '♏', motto: 'I Desire', aura: '#991b1b',
+        points: [[35, 35], [20, 45], [10, 55], [25, 70], [45, 70], [60, 60], [65, 45], [75, 35], [80, 25], [85, 20], [90, 5], [100, 15], [95, 35]],
+        links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [9, 11], [9, 12]]
+    },
+    Sagittarius: { 
+        name: 'Sagittarius', icon: '♐', motto: 'I See', aura: '#3b82f6',
+        points: [[50, 70], [0, 40], [40, 35], [10, 10], [10, -10], [20, -40], [40, -50], [60, -30], [70, -55], [68, -80], [80, -35], [90, -25], [70, -17], [110, -30], [135, -35], [117, -10], [140, -10], [105, 15], [125, 35]],
+        links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11], [11, 12], [11, 13], [13, 14], [13, 15], [15, 16], [15, 17], [17, 18]]
+    },
+    Capricorn: { 
+        name: 'Capricorn', icon: '♑', motto: 'I Use', aura: '#475569',
+        points: [[90, 15], [85, 25], [80, 35], [50, 40], [40, 38], [20, 35], [10, 35], [35, 65], [55, 75], [65, 65]],
+        links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 2]]
+    },
+    Aquarius: { 
+        name: 'Aquarius', icon: '♒', motto: 'I Know', aura: '#06b6d4',
+        points: [[5, 55], [25, 35], [35, 25], [10, -5], [40, -40], [65,-40], [70,-10], [90, -20], [65, 15], [75, 55], [102, 10], [125, 35]],
+        links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11]]
+    },
+    Pisces: { 
+        name: 'Pisces', icon: '♓', motto: 'I Believe', aura: '#14b8a6',
+        points: [[80, 40], [90, 35], [95, 25], [85, 20], [75, 30], [65, 33], [55, 40], [45, 43], [35, 48], [25, 52], [15, 65], [22, 40], [18, 25], [8, 20], [13, 10]],
+        links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 12]]
+    }
+};
 
 const localDb = {
-    dailyFailSafe: [
-        "Your algorithms are highly optimized today. Launch that new project without fear.",
-        "A minor syntax error might occur in your communication today. Double-check your messages.",
-        "The network connectivity of your relationships is strong. Reach out to an old connection."
+    daily: [
+        "The stars align to grant you clarity today. Trust your intuition over pure logic.",
+        "A celestial shift might bring a minor miscommunication. Speak with intention and grace.",
+        "Your planetary ruler is well-aspected. A perfect day to plant the seeds for future success."
     ],
     weekly: [
-        "This week focuses on debugging your personal connections. Speak your truth.",
-        "A fast-paced sprint awaits you. Keep your focus, and the final push will be highly rewarding.",
-        "Financial algorithms are stabilizing. Great time to review your resource allocation.",
-        "Unexpected hardware upgrades (or gifts) might come your way. Accept them gracefully."
+        "This week's lunar phase emphasizes emotional growth. Seek harmony in your relationships.",
+        "A dynamic transit brings rapid changes. Keep your mind open and adapt to the currents.",
+        "The cosmos advises patience. Focus on foundational work rather than immediate results."
     ],
     monthly: [
-        "A major spiritual refactoring is coming this month. You will drop old habits easily.",
-        "Your charisma levels are peaking. Use this energy to network and secure new opportunities.",
-        "Prepare for a massive update to your relationship status or depth. Harmony is maximized.",
-        "This is your month of optimization. Focus on self-care to keep your systems running at 100%."
+        "This lunar cycle heralds a period of deep transformation. Shed what no longer serves your spirit.",
+        "Your solar return brings radiant energy. Step into the spotlight and claim your power.",
+        "A major planetary alignment suggests it is time to realign your physical space with your spiritual goals."
     ]
 };
 
 // ==========================================
-// INITIALIZATION & CORE GRID
+// BACKGROUND CANVAS (CONSTELLATIONS)
+// ==========================================
+const canvas = document.getElementById('starlight-canvas');
+const ctx = canvas.getContext('2d');
+let width, height, stars = [];
+let currentAuraColor = '#d4af37'; // Дефолтний золотий
+const mouse = { x: null, y: null };
+
+function initCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    stars = [];
+
+    const starCount = (width * height) / 10000;
+    for (let i = 0; i < starCount; i++) {
+        stars.push(new Star(Math.random() * width, Math.random() * height, false));
+    }
+
+    const signs = Object.keys(zodiacData);
+    signs.forEach((name, idx) => {
+        const col = idx % 4;
+        const row = Math.floor(idx / 4);
+        
+        const centerX = (width / 4) * (col + 0.5) - 50; 
+        const centerY = (height / 3) * (row + 0.5) - 50;
+        const scale = Math.min(width, height) / 800; 
+
+        const pattern = zodiacData[name];
+        const zodiacStars = pattern.points.map(p => {
+            const s = new Star(centerX + p[0] * scale, centerY + p[1] * scale, true, name);
+            stars.push(s);
+            return s;
+        });
+        
+        pattern.links.forEach(link => {
+            const s1 = zodiacStars[link[0]];
+            const s2 = zodiacStars[link[1]];
+            if (!s1.connections) s1.connections = [];
+            s1.connections.push(s2);
+        });
+    });
+}
+
+class Star {
+    constructor(x, y, isZodiac, signName = null) {
+        this.x = x; this.y = y;
+        this.isZodiac = isZodiac;
+        this.signName = signName;
+        this.size = isZodiac ? 2.5 : Math.random() * 1.2 + 0.2;
+        this.opacity = Math.random();
+        this.blinkSpeed = 0.005 + Math.random() * 0.01;
+        this.connections = [];
+    }
+
+    draw() {
+        this.opacity += this.blinkSpeed;
+        if (this.opacity > 1 || this.opacity < 0.2) this.blinkSpeed *= -1;
+        
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(this.opacity)})`;
+        if (this.isZodiac) {
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = currentAuraColor; 
+        } else { ctx.shadowBlur = 0; }
+        
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0; 
+    }
+
+    update() {
+        this.x -= 0.05; 
+        if (this.x < -150) this.x = width + 150;
+        this.draw();
+    }
+}
+
+function drawLines() {
+    stars.forEach(s1 => {
+        if (s1.isZodiac && s1.connections.length > 0) {
+            s1.connections.forEach(s2 => {
+                let mdist = 1000;
+                if (mouse.x != null) {
+                    let dx = s1.x - mouse.x, dy = s1.y - mouse.y;
+                    mdist = Math.sqrt(dx*dx + dy*dy);
+                }
+                ctx.globalAlpha = mdist < 180 ? 0.9 : 0.35;
+                ctx.strokeStyle = currentAuraColor;
+                ctx.lineWidth = mdist < 180 ? 1.5 : 0.8;
+                ctx.beginPath(); ctx.moveTo(s1.x, s1.y); ctx.lineTo(s2.x, s2.y); ctx.stroke();
+            });
+        }
+        if (!s1.isZodiac && mouse.x != null) {
+            let dx = s1.x - mouse.x, dy = s1.y - mouse.y;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 120) {
+                stars.forEach(s2 => {
+                    if (s1 === s2 || s2.isZodiac) return;
+                    let d2x = s1.x - s2.x, d2y = s1.y - s2.y;
+                    if (Math.sqrt(d2x*d2x + d2y*d2y) < 40) {
+                        ctx.globalAlpha = (1 - dist/120) * 0.2;
+                        ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 0.3;
+                        ctx.beginPath(); ctx.moveTo(s1.x, s1.y); ctx.lineTo(s2.x, s2.y); ctx.stroke();
+                    }
+                });
+            }
+        }
+    });
+    ctx.globalAlpha = 1;
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    stars.forEach(s => s.update());
+    drawLines();
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', initCanvas);
+window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+initCanvas();
+animate();
+
+// ==========================================
+// SYSTEM CORE (UI & RESONANCE)
 // ==========================================
 const coreGrid = document.getElementById('zodiacGrid');
 const sel1 = document.getElementById('sign1');
 const sel2 = document.getElementById('sign2');
 
-zodiacData.forEach(s => {
-    // Build Core Grid with Resonance Magic
+Object.values(zodiacData).forEach(s => {
     let coreCard = document.createElement('div'); coreCard.className = 'card';
     coreCard.innerHTML = `<div class="icon" style="color:${s.aura}">${s.icon}</div><h3>${s.name}</h3><span class="sign-motto">"${s.motto}"</span>`;
     
-    // ДОДАНО ФІЧУ: Одночасна зміна Аури та відкриття модального вікна
     coreCard.onclick = () => { 
-        setAura(s.aura); // Миттєва зміна кольору
-        playSound('cyber'); 
-        openModal(s.name); // Відкриття прогнозу
+        setAura(s.aura); 
+        playSound('mystic'); 
+        openModal(s.name); 
     };
     coreGrid.appendChild(coreCard);
-
-    // Populate Sync Selectors
     sel1.add(new Option(s.name, s.name));
     sel2.add(new Option(s.name, s.name));
 });
 
-document.getElementById('omenText').innerText = "Deploying on Friday leads to a weekend of hotfixes.";
+document.getElementById('omenText').innerText = "The position of Venus suggests harmony in upcoming endeavors.";
 
-// ==========================================
-// AURA LOGIC
-// ==========================================
 function setAura(hexColor) {
     document.documentElement.style.setProperty('--glow-color', hexColor);
-    
-    const rgba = hexColor.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b)
-        .substring(1).match(/.{2}/g)
-        .map(x => parseInt(x, 16));
-    document.body.style.backgroundColor = `rgba(${rgba[0]*0.1}, ${rgba[1]*0.1}, ${rgba[2]*0.1}, 1)`;
-
-    if (window.pJSDom && window.pJSDom.length > 0) {
-        window.pJSDom[0].pJS.particles.color.value = hexColor;
-        window.pJSDom[0].pJS.particles.line_linked.color = hexColor;
-        window.pJSDom[0].pJS.fn.particlesRefresh();
-    }
+    currentAuraColor = hexColor; // Оновлює колір для Canvas
 }
 
-// ДОДАНО: Функція для кнопки Reset
 function resetAura() {
-    setAura('#38bdf8');
-    playSound('cyber');
+    setAura('#d4af37'); // Повернення до Astro Gold
+    playSound('mystic');
 }
 
 // ==========================================
-// MODAL & FORECAST LOGIC
+// JSON MODAL LOGIC (З FailSafe від партнера)
 // ==========================================
 async function openModal(sign) {
     document.getElementById('signTitle').innerText = sign;
-    document.getElementById('saveBtn').innerText = "Save to Archive";
+    document.getElementById('saveBtn').innerText = "Inscribe to Grimoire";
     document.getElementById('fortuneModal').style.display = "block";
     
-    // Generate Lucky Attributes
     const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6'];
-    const names = ['Ruby', 'Amber', 'Yellow', 'Green', 'Cyan', 'Blue'];
+    const names = ['Ruby', 'Topaz', 'Citrine', 'Emerald', 'Sapphire', 'Lapis Lazuli'];
     const rIdx = Math.floor(Math.random() * colors.length);
-    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 99) + 1).join(' : ');
+    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
     document.getElementById('luckyColorBox').style.backgroundColor = colors[rIdx];
+    document.getElementById('luckyColorBox').style.color = colors[rIdx];
     document.getElementById('luckyColorName').innerText = names[rIdx];
 
-    // Populate Weekly and Monthly (Local Logic)
-    document.getElementById('fortuneTextWeekly').innerHTML = `<strong>Sprint Overview:</strong> <br><br> ${localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)]}`;
-    document.getElementById('fortuneTextMonthly').innerHTML = `<strong>Release Notes:</strong> <br><br> ${localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)]}`;
-
-    // Fetch Daily (API with Fail-safe)
-    document.getElementById('fortuneTextDaily').innerText = "Establishing secure connection to Astrological API...";
-    
-    // Безпечний виклик зміни вкладок
     try { switchTab('daily'); } catch(e) {}
+    
+    // FETCH JSON З РЕПОЗИТОРІЮ
+    document.getElementById('fortuneTextDaily').innerText = "Consulting the celestial charts...";
+    document.getElementById('fortuneTextWeekly').innerText = "Calculating planetary transits...";
+    document.getElementById('fortuneTextMonthly').innerText = "Reading the lunar cycles...";
 
     try {
-        const response = await fetch(`https://sandipbgt.com/theastrologer/api/horoscope/${sign.toLowerCase()}/today/`);
-        if (!response.ok) throw new Error('API Offline');
+        const response = await fetch('horoszkop.json');
+        if (!response.ok) throw new Error('File not found');
         const data = await response.json();
-        document.getElementById('fortuneTextDaily').innerText = data.horoscope;
+        
+        document.getElementById('fortuneTextDaily').innerText = data.zodiacs[sign].daily;
+        document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly;
+        document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly;
     } catch (error) {
-        const randomFallback = localDb.dailyFailSafe[Math.floor(Math.random() * localDb.dailyFailSafe.length)];
-        document.getElementById('fortuneTextDaily').innerText = randomFallback + "\n\n(Connection routed via local Hybrid Engine)";
+        console.log("JSON offline, reverting to local mystical database...");
+        document.getElementById('fortuneTextDaily').innerText = localDb.daily[Math.floor(Math.random() * localDb.daily.length)] + "\n\n(Drawn from local grimoire)";
+        document.getElementById('fortuneTextWeekly').innerText = localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)];
+        document.getElementById('fortuneTextMonthly').innerText = localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)];
     }
 }
 
 function switchTab(tabName) {
-    playSound('cyber');
-    // Handle Buttons (Безпечна обробка event)
+    playSound('mystic');
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    if (window.event && window.event.target) {
-        window.event.target.classList.add('active');
-    }
-    
-    // Handle Content
+    if (window.event && window.event.target) window.event.target.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active-content'));
     document.getElementById(`tab-${tabName}`).classList.add('active-content');
 }
@@ -155,84 +302,71 @@ function switchTab(tabName) {
 // WIDGETS
 // ==========================================
 function checkCompatibility() {
-    playSound('cyber');
-    const s1 = sel1.value, s2 = sel2.value;
-    const el1 = elements[s1], el2 = elements[s2];
-    const score = Math.floor(Math.random() * 40) + 60; // 60-100% logic inspired by partner
-    let message = score > 85 ? "Perfect sync! Data packets are flowing flawlessly." : score > 70 ? "Stable connection. Minor packet loss possible." : "High latency detected. Communication requires effort.";
-    document.getElementById('compResult').innerHTML = `Sync Rate: <strong>${score}%</strong> <br><br> <span style="font-size:0.9em; color:var(--text-muted)">${message}</span>`;
+    playSound('mystic');
+    const score = Math.floor(Math.random() * 40) + 60; 
+    let message = score > 85 ? "A celestial match written in the stars." : score > 70 ? "Strong alignment, with room for growth." : "Challenging aspects. Patience is required.";
+    document.getElementById('compResult').innerHTML = `Harmonic Resonance: <strong>${score}%</strong> <br><br> <span style="font-size:0.9em; color:var(--text-muted)">${message}</span>`;
 }
 
 function drawTarot() {
     playSound('mystic');
-    const cards = ["The Compiler", "Infinite Loop", "The Backup", "404 Error", "Stack Overflow", "Syntax Error", "The Deadline"];
+    const cards = ["The Magician", "The High Priestess", "The Empress", "Wheel of Fortune", "The Star", "The Moon", "The Sun"];
     const shuffled = cards.sort(() => 0.5 - Math.random()).slice(0, 3);
-    const layout = ["Past (Debt)", "Present (Sprint)", "Future (Release)"];
+    const layout = ["Past", "Present", "Future"];
     let html = "";
     for(let i=0; i<3; i++) {
-        html += `<div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')"><div class="tarot-inner"><div class="tarot-front">?</div><div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div></div></div>`;
+        html += `<div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')"><div class="tarot-inner"><div class="tarot-front">✧</div><div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div></div></div>`;
     }
     document.getElementById('tarotResult').innerHTML = html;
 }
 drawTarot();
 
 function analyzeUsername() {
-    playSound('cyber');
+    playSound('mystic');
     const name = document.getElementById('usernameInput').value.trim();
     if (!name) return;
-    const powers = ["Master of Debugging", "Code Architect", "Bug Hunter", "Database Whisperer", "UI/UX Visionary"];
+    const powers = ["Aura Healer", "Truth Seeker", "Dream Weaver", "Star Walker", "Spirit Guide"];
     let hash = 0; for (let i = 0; i < name.length; i++) hash += name.charCodeAt(i);
-    document.getElementById('analyzerResult').innerText = `Superpower: [ ${powers[hash % powers.length]} ]`;
+    document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
 }
 
 function getMagicAnswer() {
-    playSound('cyber');
-    const a = ["Algorithms say YES.", "Recalculate later.", "System confirms.", "Access denied.", "Probability is 99.9%."];
+    playSound('mystic');
+    const a = ["The stars say YES.", "The cosmic answer is clouded.", "It is foretold.", "The signs point to no.", "Trust your inner light."];
     document.getElementById('magicAnswer').innerText = a[Math.floor(Math.random() * a.length)];
 }
 
 function submitLead() {
     const email = document.getElementById('emailInput').value;
     const res = document.getElementById('leadResult');
-    if(!email.includes('@')) { res.style.color = '#ef4444'; res.innerText = "Invalid email format."; return; }
-    document.getElementById('leadBtn').innerText = "Processing...";
+    if(!email.includes('@')) { res.style.color = '#ef4444'; res.innerText = "Please provide a valid connection."; return; }
+    document.getElementById('leadBtn').innerText = "Aligning...";
     setTimeout(() => {
         playSound('success');
-        document.getElementById('leadBtn').innerText = "Subscribe";
+        document.getElementById('leadBtn').innerText = "Subscribed";
         res.style.color = '#22c55e';
-        res.innerText = "Success! PDF generation initiated.";
+        res.innerText = "The stars acknowledge your request. Projection initiated.";
     }, 1500);
 }
 
-// Archive & Modal UI
+// Archive
 function saveToArchive() { 
-    document.getElementById('saveBtn').innerText = "Saved ✓"; 
+    document.getElementById('saveBtn').innerText = "Inscribed ✓"; 
     playSound('success');
-    let archive = JSON.parse(localStorage.getItem('cyberArchive')) || [];
+    let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     archive.unshift({ sign: document.getElementById('signTitle').innerText, date: new Date().toLocaleDateString() });
-    localStorage.setItem('cyberArchive', JSON.stringify(archive));
+    localStorage.setItem('astroArchive', JSON.stringify(archive));
     renderArchive();
 }
 
 function renderArchive() {
     const container = document.getElementById('archiveContainer');
-    let archive = JSON.parse(localStorage.getItem('cyberArchive')) || [];
+    let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     if (archive.length === 0) return;
     container.innerHTML = ''; 
-    archive.forEach(item => { container.innerHTML += `<div class="archive-item"><div class="archive-date">${item.date}</div><strong>${item.sign} Log Saved</strong></div>`; });
+    archive.forEach(item => { container.innerHTML += `<div class="archive-item"><div class="archive-date">${item.date}</div><strong>${item.sign} Reading Inscribed</strong></div>`; });
 }
 
 document.querySelector('.close-btn').onclick = () => document.getElementById('fortuneModal').style.display = "none";
 window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
 renderArchive();
-
-// ==========================================
-// PARTICLES.JS INIT
-// ==========================================
-if (typeof particlesJS !== 'undefined') {
-    particlesJS("particles-js", {
-        "particles": { "number": { "value": 60 }, "color": { "value": "#38bdf8" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5 }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#38bdf8", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2 } },
-        "interactivity": { "detect_on": "window", "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 4 } } },
-        "retina_detect": true
-    });
-}
