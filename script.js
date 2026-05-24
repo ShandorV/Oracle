@@ -1,5 +1,5 @@
 // ==========================================
-// AUDIO SYSTEM (Можна змінити звуки на більш класичні)
+// AUDIO SYSTEM 
 // ==========================================
 const sfxCyber = new Audio('https://actions.google.com/sounds/v1/science_fiction/sci_fi_computer_bleep.ogg');
 const sfxMystic = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg');
@@ -11,7 +11,7 @@ function playSound(type) {
 }
 
 // ==========================================
-// MASTER DATABASE (Включає UI дані + Координати Сузір'їв)
+// MASTER DATABASE 
 // ==========================================
 const zodiacData = {
     Aries: { 
@@ -34,7 +34,7 @@ const zodiacData = {
         points: [[50, 10], [55, 35], [50, 50], [20, 70], [80, 80]],
         links: [[0, 1], [1, 2], [2, 3], [2, 4]]
     },
-    Leo: { // Перейменовано з Lion
+    Leo: { 
         name: 'Leo', icon: '♌', motto: 'I Will', aura: '#f97316',
         points: [[10, 80], [30, 60], [40, 80], [75, 80], [80, 60], [70, 40], [60, 25], [85, 10], [95, 20]],
         links: [[0, 1], [1, 2], [0, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
@@ -95,12 +95,12 @@ const localDb = {
 };
 
 // ==========================================
-// BACKGROUND CANVAS (CONSTELLATIONS)
+// BACKGROUND CANVAS (CONSTELLATIONS & TOUCH)
 // ==========================================
 const canvas = document.getElementById('starlight-canvas');
 const ctx = canvas.getContext('2d');
 let width, height, stars = [];
-let currentAuraColor = '#d4af37'; // Дефолтний золотий
+let currentAuraColor = '#d4af37'; 
 const mouse = { x: null, y: null };
 
 function initCanvas() {
@@ -108,19 +108,27 @@ function initCanvas() {
     height = canvas.height = window.innerHeight;
     stars = [];
 
-    const starCount = (width * height) / 10000;
+    // ОПТИМІЗАЦІЯ ДЛЯ СМАРТФОНІВ (Зменшуємо кількість зірок для батареї)
+    const divisor = width < 768 ? 25000 : 10000;
+    const starCount = (width * height) / divisor;
+    
     for (let i = 0; i < starCount; i++) {
         stars.push(new Star(Math.random() * width, Math.random() * height, false));
     }
 
     const signs = Object.keys(zodiacData);
+    const cols = width < 768 ? 2 : 4; // 2 колонки сузір'їв на телефонах, 4 на ПК
+    
     signs.forEach((name, idx) => {
-        const col = idx % 4;
-        const row = Math.floor(idx / 4);
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
         
-        const centerX = (width / 4) * (col + 0.5) - 50; 
-        const centerY = (height / 3) * (row + 0.5) - 50;
-        const scale = Math.min(width, height) / 800; 
+        const centerX = (width / cols) * (col + 0.5) - 50; 
+        const centerY = (height / Math.ceil(signs.length / cols)) * (row + 0.5) - 50;
+        
+        // Масштабування для різних екранів
+        const baseScale = width < 768 ? 1200 : 800;
+        const scale = Math.min(width, height) / baseScale; 
 
         const pattern = zodiacData[name];
         const zodiacStars = pattern.points.map(p => {
@@ -143,7 +151,8 @@ class Star {
         this.x = x; this.y = y;
         this.isZodiac = isZodiac;
         this.signName = signName;
-        this.size = isZodiac ? 2.5 : Math.random() * 1.2 + 0.2;
+        // На телефонах зірки сузір'їв трішки менші
+        this.size = isZodiac ? (width < 768 ? 1.8 : 2.5) : Math.random() * 1.2 + 0.2;
         this.opacity = Math.random();
         this.blinkSpeed = 0.005 + Math.random() * 0.01;
         this.connections = [];
@@ -211,9 +220,15 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+// Події ПК (Мишка)
 window.addEventListener('resize', initCanvas);
 window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
 window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+// Події МОБІЛЬНІ (Тачскрін)
+window.addEventListener('touchstart', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
+window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
+window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
 
 initCanvas();
 animate();
@@ -243,16 +258,21 @@ document.getElementById('omenText').innerText = "The position of Venus suggests 
 
 function setAura(hexColor) {
     document.documentElement.style.setProperty('--glow-color', hexColor);
-    currentAuraColor = hexColor; // Оновлює колір для Canvas
+    currentAuraColor = hexColor; 
 }
 
 function resetAura() {
-    setAura('#d4af37'); // Повернення до Astro Gold
+    setAura('#d4af37'); 
     playSound('mystic');
 }
 
+// Функція для мобільного меню
+function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+}
+
 // ==========================================
-// JSON MODAL LOGIC (З FailSafe від партнера)
+// JSON MODAL LOGIC (З FailSafe)
 // ==========================================
 async function openModal(sign) {
     document.getElementById('signTitle').innerText = sign;
@@ -267,9 +287,8 @@ async function openModal(sign) {
     document.getElementById('luckyColorBox').style.color = colors[rIdx];
     document.getElementById('luckyColorName').innerText = names[rIdx];
 
-    try { switchTab('daily'); } catch(e) {}
+    try { switchTab(null, 'daily'); } catch(e) {} // Безпечний виклик
     
-    // FETCH JSON З РЕПОЗИТОРІЮ
     document.getElementById('fortuneTextDaily').innerText = "Consulting the celestial charts...";
     document.getElementById('fortuneTextWeekly').innerText = "Calculating planetary transits...";
     document.getElementById('fortuneTextMonthly').innerText = "Reading the lunar cycles...";
@@ -290,10 +309,15 @@ async function openModal(sign) {
     }
 }
 
-function switchTab(tabName) {
+// Оновлена функція з підтримкою Event для кнопок
+function switchTab(event, tabName) {
     playSound('mystic');
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    if (window.event && window.event.target) window.event.target.classList.add('active');
+    
+    // Якщо клік був ручний, беремо event.target, інакше знаходимо кнопку за tabName
+    const targetBtn = event ? event.target : document.querySelector(`.tab-btn[onclick*="${tabName}"]`);
+    if (targetBtn) targetBtn.classList.add('active');
+    
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active-content'));
     document.getElementById(`tab-${tabName}`).classList.add('active-content');
 }
@@ -336,7 +360,7 @@ function getMagicAnswer() {
     document.getElementById('magicAnswer').innerText = a[Math.floor(Math.random() * a.length)];
 }
 
-function submitLead() {
+/*function submitLead() {
     const email = document.getElementById('emailInput').value;
     const res = document.getElementById('leadResult');
     if(!email.includes('@')) { res.style.color = '#ef4444'; res.innerText = "Please provide a valid connection."; return; }
@@ -348,6 +372,7 @@ function submitLead() {
         res.innerText = "The stars acknowledge your request. Projection initiated.";
     }, 1500);
 }
+*/
 
 // Archive
 function saveToArchive() { 
