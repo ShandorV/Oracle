@@ -13,7 +13,8 @@
 
     <nav class="navbar">
         <div class="nav-logo">Astro Daily</div>
-        <div class="nav-links">
+        
+        <div class="nav-links" id="desktopNav">
             <a href="#core">Readings</a>
             <a href="#sync">Compatibility</a>
             <a href="#tarot">Arcana</a>
@@ -22,7 +23,22 @@
                 System Reset ⟲
             </button>
         </div>
+
+        <div class="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <span class="close-menu" onclick="toggleMobileMenu()">&times;</span>
+        <a href="#core" onclick="toggleMobileMenu()">Readings</a>
+        <a href="#sync" onclick="toggleMobileMenu()">Compatibility</a>
+        <a href="#tarot" onclick="toggleMobileMenu()">Arcana</a>
+        <a href="#about" onclick="toggleMobileMenu()">About</a>
+        <button class="reset-btn" onclick="resetAura(); toggleMobileMenu()" style="margin-top: 20px; font-size: 1.2rem; padding: 10px 20px;">
+            System Reset ⟲
+        </button>
+    </div>
 
     <div class="container">
         <header>
@@ -78,7 +94,7 @@
             </section>
         </div>
 
-        <section class="lead-box" id="leadGen">
+        <!-- <section class="lead-box" id="leadGen">
             <h3>Extended Lunar Calendar</h3>
             <p class="subtitle">Subscribe to receive a detailed 30-day astral projection directly to your parchment.</p>
             <div class="ask-input-group">
@@ -86,7 +102,7 @@
                 <button id="leadBtn" class="glow-btn success-btn" onclick="submitLead()">Subscribe</button>
             </div>
             <p id="leadResult" class="result-text"></p>
-        </section>
+        </section> -->
 
         <section class="archive-box">
             <h3>Personal Grimoire</h3>
@@ -94,8 +110,34 @@
         </section>
 
         <section class="about-box" id="about">
-            <h3>About Us</h3>
-            <p>Welcome to <strong>Astro Daily</strong>. Crafted with reverence for the ancient arts by the Somex, CyberGojzu and Rolandex initiative, we blend traditional astrological wisdom with modern precision to guide your daily journey.</p>
+            <div class="about-intro">
+                <h3>About Astro Daily</h3>
+                <p class="hero-text" style="color: var(--text-muted); font-size: 1.15rem; line-height: 1.7; margin-bottom: 40px;">
+                    <strong>Astro Daily</strong> is one of those <em>"What I wish I had when I was starting out"</em> resources. Not everyone has the time or desire to sift through confusing, dry astrology textbooks, and overpriced private readings aren't right for everyone anyway. This project is designed to fill in the gap for people who want to explore the cosmos on their own terms but still want high-quality, modern, and easy-to-understand guidance.
+                </p>
+            </div>
+            
+            <div class="about-features">
+                <h4 style="color: var(--text-main); font-size: 1.6rem; margin-bottom: 25px; font-weight: 400;">What you can expect at Astro Daily</h4>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>A complete roadmap</h4>
+                        <p>Our free, comprehensive forecasts and guides will help you navigate the movements of the planets, no matter if you are just starting out or already know your entire birth chart by heart.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Practical self-discovery</h4>
+                        <p>The most valuable knowledge is the kind you can actually use. We design our forecasts to give you real, everyday insights for career, love, and personal growth—instead of empty predictions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Receive support</h4>
+                        <p>Navigating cosmic chaos is much easier together. Join us across our social platforms to chat about retrograde periods, share your experiences, and get your questions answered by the community.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Constantly evolving</h4>
+                        <p>We aren't stuck in the past. We are continuously updating our features and content to bring you the freshest, most accurate, and highly engaging digital experience right to your screen.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <div id="fortuneModal" class="modal">
@@ -104,9 +146,9 @@
                 <h2 id="signTitle" class="glow-text"></h2>
                 
                 <div class="modal-tabs">
-                    <button class="tab-btn active" onclick="switchTab('daily')">Daily Transit</button>
-                    <button class="tab-btn" onclick="switchTab('weekly')">Weekly Aspects</button>
-                    <button class="tab-btn" onclick="switchTab('monthly')">Lunar Cycle</button>
+                    <button class="tab-btn active" onclick="switchTab(event, 'daily')">Daily Transit</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'weekly')">Weekly Aspects</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'monthly')">Lunar Cycle</button>
                 </div>
 
                 <div class="lucky-attributes" id="luckyAttributes">
@@ -125,6 +167,21 @@
             </div>
         </div>
     </div>
+
+<!-- Елегантний Footer -->
+        <footer class="site-footer">
+            <p>&copy; 2026 Astro Daily. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="terms.html">Terms & Conditions</a>
+                <span class="divider">|</span>
+                <a href="mailto:support@astrodaily.com">Contact Support</a>
+            </div>
+        </footer>
+    </div> <!-- Це закриваючий тег вашого .container, він там вже є -->
+
+    <script src="script.js"></script>
+</body>
+</html>
 
     <script src="script.js"></script>
 </body>
