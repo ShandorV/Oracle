@@ -71,7 +71,6 @@ section h3 { font-size: 2rem; margin-top: 0; color: var(--text-main); font-weigh
 .omen-label { font-weight: bold; color: var(--glow-color);}
 
 .two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-@media (max-width: 768px) { .two-col-grid { grid-template-columns: 1fr; } }
 
 .selector-group, .ask-input-group { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 15px 0; }
 select, input { padding: 12px; background: rgba(0,0,0,0.5); color: white; border: 1px solid var(--text-muted); border-radius: 4px; outline: none; font-family: 'Playfair Display', serif; font-size: 1.1rem;}
@@ -139,3 +138,136 @@ select:focus, input:focus { border-color: var(--glow-color); }
 
 .archive-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 4px; margin-top: 15px; border-left: 3px solid var(--glow-color); text-align: left; }
 .archive-date { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; font-style: italic;}
+
+
+/* ==========================================
+   MOBILE & TABLET ADAPTATION (RESPONSIVE)
+   ========================================== */
+
+/* Гамбургер і Мобільне меню (Сховані на ПК) */
+.hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 2001; }
+.hamburger span { width: 30px; height: 3px; background: var(--glow-color); transition: 0.3s; border-radius: 2px;}
+
+.mobile-menu {
+    position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh;
+    background: rgba(5, 7, 10, 0.98); backdrop-filter: blur(15px);
+    z-index: 2000; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 35px;
+    transition: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+.mobile-menu.open { right: 0; }
+.close-menu { position: absolute; top: 20px; right: 30px; font-size: 50px; color: var(--glow-color); cursor: pointer; }
+.mobile-menu a { font-size: 2.2rem; color: var(--text-main); text-decoration: none; text-transform: uppercase; letter-spacing: 2px;}
+.mobile-menu a:hover { color: var(--glow-color); }
+
+/* ==========================================
+   ABOUT SECTION (Somex Integration)
+   ========================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+}
+.feature-card {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--glow-color);
+    background: rgba(0, 0, 0, 0.7);
+}
+.feature-card h4 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--glow-color);
+    font-family: 'Playfair Display', serif;
+}
+.feature-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--text-muted);
+}
+
+/* ПЛАНШЕТИ (до 1024px) */
+@media (max-width: 1024px) {
+    header h1 { font-size: 3rem; }
+    .zodiac-grid { grid-template-columns: repeat(3, 1fr); }
+    .container { width: 90%; }
+}
+
+/* СМАРТФОНИ (до 768px) */
+@media (max-width: 768px) {
+    #desktopNav { display: none; } /* Ховаємо звичайне меню */
+    .hamburger { display: flex; } /* Показуємо гамбургер */
+    
+    header h1 { font-size: 2.2rem; margin-top: 10px;}
+    .subtitle { font-size: 1rem; }
+    
+    section { padding: 20px 15px; }
+    section h3 { font-size: 1.6rem; }
+    
+    /* Сітка знаків: 2 колонки */
+    .zodiac-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .card { padding: 15px 5px; }
+    .card .icon { font-size: 2.5rem; }
+    .card h3 { font-size: 1.1rem; }
+    
+    /* Таро: Вертикальний стек */
+    .tarot-grid { flex-direction: column; align-items: center; gap: 15px;}
+    .tarot-card { width: 100%; max-width: 250px; height: 120px; } /* Горизонтальні плашки для економії місця */
+    
+    /* Форми на 100% ширини */
+    .two-col-grid { grid-template-columns: 1fr; gap: 20px;}
+    .ask-input-group, .selector-group { flex-direction: column; width: 100%; }
+    .ask-input-group input, .selector-group select { width: 100%; box-sizing: border-box; }
+    .glow-btn { width: 100%; box-sizing: border-box;}
+    
+    /* Модальне вікно */
+    .modal-content { width: 95%; margin: 15% auto; padding: 25px 15px; }
+    .glow-text { font-size: 2rem; }
+    .modal-tabs { flex-wrap: wrap; }
+    .tab-btn { flex: 1 1 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px;}
+    .lucky-attributes { flex-direction: column; align-items: flex-start; }
+    .modal-actions { flex-direction: column; }
+}
+
+/* ==========================================
+   FOOTER (Підвал сайту)
+   ========================================== */
+.site-footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    margin-top: 50px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2); /* Тонка золота лінія */
+    color: var(--text-muted);
+    font-family: sans-serif;
+    font-size: 0.95rem;
+}
+.site-footer p {
+    margin: 0 0 15px 0;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.footer-links a {
+    color: var(--glow-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-links a:hover {
+    color: var(--text-main);
+    text-shadow: 0 0 8px var(--glow-color);
+}
+.footer-links .divider {
+    color: rgba(255, 255, 255, 0.2);
+}
