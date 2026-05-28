@@ -18,7 +18,7 @@
             <a href="#core">Readings</a>
             <a href="#sync">Compatibility</a>
             <a href="#tarot">Arcana</a>
-            <a href="#about">About</a>
+            <a href="about.html">About</a>
             <button class="reset-btn" onclick="resetAura()" title="Reset to Celestial Gold">
                 System Reset ⟲
             </button>
@@ -34,7 +34,7 @@
         <a href="#core" onclick="toggleMobileMenu()">Readings</a>
         <a href="#sync" onclick="toggleMobileMenu()">Compatibility</a>
         <a href="#tarot" onclick="toggleMobileMenu()">Arcana</a>
-        <a href="#about" onclick="toggleMobileMenu()">About</a>
+        <a href="about.html">About</a>
         <button class="reset-btn" onclick="resetAura(); toggleMobileMenu()" style="margin-top: 20px; font-size: 1.2rem; padding: 10px 20px;">
             System Reset ⟲
         </button>
@@ -109,37 +109,6 @@
             <div id="archiveContainer"><p class="subtitle">Your saved readings will be preserved here...</p></div>
         </section>
 
-        <section class="about-box" id="about">
-            <div class="about-intro">
-                <h3>About Astro Daily</h3>
-                <p class="hero-text" style="color: var(--text-muted); font-size: 1.15rem; line-height: 1.7; margin-bottom: 40px;">
-                    <strong>Astro Daily</strong> is one of those <em>"What I wish I had when I was starting out"</em> resources. Not everyone has the time or desire to sift through confusing, dry astrology textbooks, and overpriced private readings aren't right for everyone anyway. This project is designed to fill in the gap for people who want to explore the cosmos on their own terms but still want high-quality, modern, and easy-to-understand guidance.
-                </p>
-            </div>
-            
-            <div class="about-features">
-                <h4 style="color: var(--text-main); font-size: 1.6rem; margin-bottom: 25px; font-weight: 400;">What you can expect at Astro Daily</h4>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4>A complete roadmap</h4>
-                        <p>Our free, comprehensive forecasts and guides will help you navigate the movements of the planets, no matter if you are just starting out or already know your entire birth chart by heart.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Practical self-discovery</h4>
-                        <p>The most valuable knowledge is the kind you can actually use. We design our forecasts to give you real, everyday insights for career, love, and personal growth—instead of empty predictions.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Receive support</h4>
-                        <p>Navigating cosmic chaos is much easier together. Join us across our social platforms to chat about retrograde periods, share your experiences, and get your questions answered by the community.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Constantly evolving</h4>
-                        <p>We aren't stuck in the past. We are continuously updating our features and content to bring you the freshest, most accurate, and highly engaging digital experience right to your screen.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <div id="fortuneModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn">&times;</span>
@@ -152,8 +121,13 @@
                 </div>
 
                 <div class="lucky-attributes" id="luckyAttributes">
-                    <div class="attribute-box"><span class="attr-label">Sacred Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Planet:</span> <span class="attr-value" id="modalPlanet"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Element:</span> <span class="attr-value" id="modalElement"></span></div>
                     <div class="attribute-box"><span class="attr-label">Aura:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
+                    <div class="attribute-box"><span class="attr-label">Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
+                    <div class="attribute-box" style="flex: 1 1 100%; justify-content: center; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                        <span class="attr-label">Energy:</span> <span class="attr-value" id="modalEnergy" style="color: var(--glow-color); font-style: italic;"></span>
+                    </div>
                 </div>
 
                 <div id="tab-daily" class="tab-content active-content"><p id="fortuneTextDaily">Reading the stars...</p></div>
@@ -177,7 +151,7 @@
                 <a href="mailto:support@astrodaily.com">Contact Support</a>
             </div>
         </footer>
-    </div> <!-- Це закриваючий тег вашого .container, він там вже є -->
+    </div> 
 
     <script src="script.js"></script>
 </body>
