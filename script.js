@@ -11,66 +11,90 @@ function playSound(type) {
 }
 
 // ==========================================
-// MASTER DATABASE 
+// MASTER DATABASE (UI, Coordinates, & Astro Data)
 // ==========================================
 const zodiacData = {
     Aries: { 
-        name: 'Aries', icon: '♈', motto: 'I Am', aura: '#ef4444',
+        name: 'Aries', icon: '♈', motto: 'I Am', 
+        aura: '#ef4444', colorName: 'Crimson Red',
+        planet: 'Mars', element: 'Fire', energy: 'Dynamic, leading, spark',
         points: [[10, 80], [25, 60], [40, 35], [45, 10], [75, 50], [95, 70]],
         links: [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5]]
     },
     Taurus: { 
-        name: 'Taurus', icon: '♉', motto: 'I Have', aura: '#22c55e',
+        name: 'Taurus', icon: '♉', motto: 'I Have', 
+        aura: '#22c55e', colorName: 'Emerald Green',
+        planet: 'Venus', element: 'Earth', energy: 'Stable, sensual, confident',
         points: [[10, 25], [30, 10], [45, 30], [45, 45], [30, 50], [35, 60], [50, 55], [45, 70], [55, 80], [75, 100], [75, 45], [90, 45]],
         links: [[0, 4], [1, 2], [2, 3], [3, 4], [3, 6], [4, 5], [5, 7], [6, 7], [3, 10], [10, 11], [7, 8], [8, 9]]
     },
     Gemini: { 
-        name: 'Gemini', icon: '♊', motto: 'I Think', aura: '#eab308',
+        name: 'Gemini', icon: '♊', motto: 'I Think', 
+        aura: '#eab308', colorName: 'Golden Yellow',
+        planet: 'Mercury', element: 'Air', energy: 'Intellectual, quick, mutable',
         points: [[25, 10], [25, 28], [10, 25], [20, 45], [30, 65], [20, 85], [40, 85], [40, 30], [60, 32], [90, 35], [55, 20], [45, 8], [65, 55], [55, 75], [80, 70], [95, 90]],
         links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [4, 6], [1, 7], [7, 8], [8, 9], [8, 10], [10, 11], [8, 12], [12, 13], [12, 14], [14, 15]]
     },
     Cancer: { 
-        name: 'Cancer', icon: '♋', motto: 'I Feel', aura: '#93c5fd',
+        name: 'Cancer', icon: '♋', motto: 'I Feel', 
+        aura: '#cbd5e1', colorName: 'Silver',
+        planet: 'Moon', element: 'Water', energy: 'Intuitive, empathetic, soft',
         points: [[50, 10], [55, 35], [50, 50], [20, 70], [80, 80]],
         links: [[0, 1], [1, 2], [2, 3], [2, 4]]
     },
     Leo: { 
-        name: 'Leo', icon: '♌', motto: 'I Will', aura: '#f97316',
+        name: 'Leo', icon: '♌', motto: 'I Will', 
+        aura: '#f59e0b', colorName: 'Radiant Gold',
+        planet: 'Sun', element: 'Fire', energy: 'Majestic, creative, solar',
         points: [[10, 80], [30, 60], [40, 80], [75, 80], [80, 60], [70, 40], [60, 25], [85, 10], [95, 20]],
         links: [[0, 1], [1, 2], [0, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
     },
     Virgo: { 
-        name: 'Virgo', icon: '♍', motto: 'I Analyze', aura: '#8b5cf6',
+        name: 'Virgo', icon: '♍', motto: 'I Analyze', 
+        aura: '#d4a373', colorName: 'Earthy Brown',
+        planet: 'Mercury', element: 'Earth', energy: 'Analytical, orderly, pure',
         points: [[5, 60], [20, 50], [35, 45], [50, 35], [40, 20], [65, 40], [75, 35], [90, 25], [85, 10], [70, 15], [55, 55], [60, 75], [40, 75], [25, 65], [10, 75]],
         links: [[0, 1], [1, 2], [1, 13], [13, 14], [13, 12], [2, 3], [3, 4], [3, 5], [2, 10], [5, 10], [10, 11], [5, 6], [6, 7], [7, 8], [8, 9]]
     },
     Libra: { 
-        name: 'Libra', icon: '♎', motto: 'I Balance', aura: '#f472b6',
+        name: 'Libra', icon: '♎', motto: 'I Balance', 
+        aura: '#93c5fd', colorName: 'Pastel Blue',
+        planet: 'Venus', element: 'Air', energy: 'Harmonious, aesthetic, diplomatic',
         points: [[10, 80], [20, 65], [35, 50], [25, 30], [50, 10], [85, 30], [75, 55], [90, 70]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [3, 5], [5, 6], [6, 7]]
     },
     Scorpio: { 
-        name: 'Scorpio', icon: '♏', motto: 'I Desire', aura: '#991b1b',
+        name: 'Scorpio', icon: '♏', motto: 'I Desire', 
+        aura: '#991b1b', colorName: 'Deep Red',
+        planet: 'Pluto', element: 'Water', energy: 'Intense, transformational, mysterious',
         points: [[35, 35], [20, 45], [10, 55], [25, 70], [45, 70], [60, 60], [65, 45], [75, 35], [80, 25], [85, 20], [90, 5], [100, 15], [95, 35]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [9, 11], [9, 12]]
     },
     Sagittarius: { 
-        name: 'Sagittarius', icon: '♐', motto: 'I See', aura: '#3b82f6',
+        name: 'Sagittarius', icon: '♐', motto: 'I See', 
+        aura: '#a855f7', colorName: 'Deep Purple',
+        planet: 'Jupiter', element: 'Fire', energy: 'Optimistic, expansive, philosophical',
         points: [[50, 70], [0, 40], [40, 35], [10, 10], [10, -10], [20, -40], [40, -50], [60, -30], [70, -55], [68, -80], [80, -35], [90, -25], [70, -17], [110, -30], [135, -35], [117, -10], [140, -10], [105, 15], [125, 35]],
         links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11], [11, 12], [11, 13], [13, 14], [13, 15], [15, 16], [15, 17], [17, 18]]
     },
     Capricorn: { 
-        name: 'Capricorn', icon: '♑', motto: 'I Use', aura: '#475569',
+        name: 'Capricorn', icon: '♑', motto: 'I Use', 
+        aura: '#475569', colorName: 'Dark Grey',
+        planet: 'Saturn', element: 'Earth', energy: 'Disciplined, ambitious, grounded',
         points: [[90, 15], [85, 25], [80, 35], [50, 40], [40, 38], [20, 35], [10, 35], [35, 65], [55, 75], [65, 65]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 2]]
     },
     Aquarius: { 
-        name: 'Aquarius', icon: '♒', motto: 'I Know', aura: '#06b6d4',
+        name: 'Aquarius', icon: '♒', motto: 'I Know', 
+        aura: '#06b6d4', colorName: 'Electric Blue',
+        planet: 'Uranus', element: 'Air', energy: 'Visionary, eccentric, independent',
         points: [[5, 55], [25, 35], [35, 25], [10, -5], [40, -40], [65,-40], [70,-10], [90, -20], [65, 15], [75, 55], [102, 10], [125, 35]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11]]
     },
     Pisces: { 
-        name: 'Pisces', icon: '♓', motto: 'I Believe', aura: '#14b8a6',
+        name: 'Pisces', icon: '♓', motto: 'I Believe', 
+        aura: '#14b8a6', colorName: 'Sea Green',
+        planet: 'Neptune', element: 'Water', energy: 'Dreamy, compassionate, mystic',
         points: [[80, 40], [90, 35], [95, 25], [85, 20], [75, 30], [65, 33], [55, 40], [45, 43], [35, 48], [25, 52], [15, 65], [22, 40], [18, 25], [8, 20], [13, 10]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 12]]
     }
@@ -104,8 +128,9 @@ let currentAuraColor = '#d4af37';
 const mouse = { x: null, y: null };
 
 function initCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    // Pixel Snapping: округлюємо розміри полотна до цілих чисел
+    width = canvas.width = Math.floor(window.innerWidth);
+    height = canvas.height = Math.floor(window.innerHeight);
     stars = [];
 
     // ОПТИМІЗАЦІЯ ДЛЯ СМАРТФОНІВ (Зменшуємо кількість зірок для батареї)
@@ -240,21 +265,27 @@ const coreGrid = document.getElementById('zodiacGrid');
 const sel1 = document.getElementById('sign1');
 const sel2 = document.getElementById('sign2');
 
-Object.values(zodiacData).forEach(s => {
-    let coreCard = document.createElement('div'); coreCard.className = 'card';
-    coreCard.innerHTML = `<div class="icon" style="color:${s.aura}">${s.icon}</div><h3>${s.name}</h3><span class="sign-motto">"${s.motto}"</span>`;
-    
-    coreCard.onclick = () => { 
-        setAura(s.aura); 
-        playSound('mystic'); 
-        openModal(s.name); 
-    };
-    coreGrid.appendChild(coreCard);
-    sel1.add(new Option(s.name, s.name));
-    sel2.add(new Option(s.name, s.name));
-});
+// ЗАПОБІЖНИК: Генеруємо сітку знаків тільки якщо вона є на сторінці (на index.html)
+if (coreGrid && sel1 && sel2) {
+    Object.values(zodiacData).forEach(s => {
+        let coreCard = document.createElement('div'); coreCard.className = 'card';
+        coreCard.innerHTML = `<div class="icon" style="color:${s.aura}">${s.icon}</div><h3>${s.name}</h3><span class="sign-motto">"${s.motto}"</span>`;
+        
+        coreCard.onclick = () => { 
+            setAura(s.aura); 
+            playSound('mystic'); 
+            openModal(s.name); 
+        };
+        coreGrid.appendChild(coreCard);
+        sel1.add(new Option(s.name, s.name));
+        sel2.add(new Option(s.name, s.name));
+    });
+}
 
-document.getElementById('omenText').innerText = "The position of Venus suggests harmony in upcoming endeavors.";
+const omenTextEl = document.getElementById('omenText');
+if (omenTextEl) {
+    omenTextEl.innerText = "The position of Venus suggests harmony in upcoming endeavors.";
+}
 
 function setAura(hexColor) {
     document.documentElement.style.setProperty('--glow-color', hexColor);
@@ -266,7 +297,6 @@ function resetAura() {
     playSound('mystic');
 }
 
-// Функція для мобільного меню
 function toggleMobileMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
 }
@@ -275,19 +305,28 @@ function toggleMobileMenu() {
 // JSON MODAL LOGIC (З FailSafe)
 // ==========================================
 async function openModal(sign) {
+    // Отримуємо всі фіксовані дані для обраного знака
+    const zData = zodiacData[sign];
+
     document.getElementById('signTitle').innerText = sign;
+    document.getElementById('saveBtn').style.display = 'inline-block';
     document.getElementById('saveBtn').innerText = "Inscribe to Grimoire";
     document.getElementById('fortuneModal').style.display = "block";
     
-    const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6'];
-    const names = ['Ruby', 'Topaz', 'Citrine', 'Emerald', 'Sapphire', 'Lapis Lazuli'];
-    const rIdx = Math.floor(Math.random() * colors.length);
-    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
-    document.getElementById('luckyColorBox').style.backgroundColor = colors[rIdx];
-    document.getElementById('luckyColorBox').style.color = colors[rIdx];
-    document.getElementById('luckyColorName').innerText = names[rIdx];
+    // Заповнюємо нові астрологічні поля
+    document.getElementById('modalPlanet').innerText = zData.planet;
+    document.getElementById('modalElement').innerText = zData.element;
+    document.getElementById('modalEnergy').innerText = `"${zData.energy}"`;
 
-    try { switchTab(null, 'daily'); } catch(e) {} // Безпечний виклик
+    // Статичний колір аури з бази
+    document.getElementById('luckyColorBox').style.backgroundColor = zData.aura;
+    document.getElementById('luckyColorBox').style.color = zData.aura;
+    document.getElementById('luckyColorName').innerText = zData.colorName;
+
+    // Щасливі числа залишаємо випадковими (магія моменту)
+    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
+
+    try { switchTab(null, 'daily'); } catch(e) {} 
     
     document.getElementById('fortuneTextDaily').innerText = "Consulting the celestial charts...";
     document.getElementById('fortuneTextWeekly').innerText = "Calculating planetary transits...";
@@ -309,12 +348,10 @@ async function openModal(sign) {
     }
 }
 
-// Оновлена функція з підтримкою Event для кнопок
 function switchTab(event, tabName) {
     playSound('mystic');
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     
-    // Якщо клік був ручний, беремо event.target, інакше знаходимо кнопку за tabName
     const targetBtn = event ? event.target : document.querySelector(`.tab-btn[onclick*="${tabName}"]`);
     if (targetBtn) targetBtn.classList.add('active');
     
@@ -333,6 +370,10 @@ function checkCompatibility() {
 }
 
 function drawTarot() {
+    const tarotContainer = document.getElementById('tarotResult');
+    // ЗАПОБІЖНИК: Малюємо Таро тільки якщо на сторінці є блок для них
+    if (!tarotContainer) return;
+
     playSound('mystic');
     const cards = ["The Magician", "The High Priestess", "The Empress", "Wheel of Fortune", "The Star", "The Moon", "The Sun"];
     const shuffled = cards.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -341,7 +382,7 @@ function drawTarot() {
     for(let i=0; i<3; i++) {
         html += `<div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')"><div class="tarot-inner"><div class="tarot-front">✧</div><div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div></div></div>`;
     }
-    document.getElementById('tarotResult').innerHTML = html;
+    tarotContainer.innerHTML = html;
 }
 drawTarot();
 
@@ -374,12 +415,30 @@ function getMagicAnswer() {
 }
 */
 
-// Archive
+// ==========================================
+// ARCHIVE SYSTEM (PERSONAL GRIMOIRE)
+// ==========================================
+
 function saveToArchive() { 
     document.getElementById('saveBtn').innerText = "Inscribed ✓"; 
     playSound('success');
+    
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
-    archive.unshift({ sign: document.getElementById('signTitle').innerText, date: new Date().toLocaleDateString() });
+    
+    // Створюємо "капсулу часу" з усіма даними на момент збереження
+    let newRecord = {
+        sign: document.getElementById('signTitle').innerText,
+        date: new Date().toLocaleString(), // Зберігаємо точний час
+        color: currentAuraColor,
+        luckyNumbers: document.getElementById('luckyNumbers').innerText,
+        luckyColorHex: document.getElementById('luckyColorBox').style.backgroundColor,
+        luckyColorName: document.getElementById('luckyColorName').innerText,
+        daily: document.getElementById('fortuneTextDaily').innerText,
+        weekly: document.getElementById('fortuneTextWeekly').innerText,
+        monthly: document.getElementById('fortuneTextMonthly').innerText
+    };
+
+    archive.unshift(newRecord); // Додаємо на початок списку
     localStorage.setItem('astroArchive', JSON.stringify(archive));
     renderArchive();
 }
@@ -387,11 +446,67 @@ function saveToArchive() {
 function renderArchive() {
     const container = document.getElementById('archiveContainer');
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
-    if (archive.length === 0) return;
-    container.innerHTML = ''; 
-    archive.forEach(item => { container.innerHTML += `<div class="archive-item"><div class="archive-date">${item.date}</div><strong>${item.sign} Reading Inscribed</strong></div>`; });
+    
+    if (archive.length === 0) {
+        container.innerHTML = '<p class="subtitle">Your saved readings will be preserved here...</p>';
+        return;
+    }
+    
+    let html = ''; 
+    archive.forEach((item, index) => { 
+        html += `
+        <div class="archive-item" style="border-left-color: ${item.color}" onclick="openSavedModal(${index})">
+            <div class="archive-info">
+                <div class="archive-date">${item.date}</div>
+                <strong>${item.sign} Reading</strong>
+            </div>
+            <button class="delete-btn" onclick="deleteArchiveItem(${index}, event)" title="Erase from Grimoire">&times;</button>
+        </div>`; 
+    });
+    container.innerHTML = html;
 }
 
+// НОВА ФУНКЦІЯ: Відкриття збереженого прогнозу
+function openSavedModal(index) {
+    let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
+    let item = archive[index];
+    if (!item) return;
+
+    playSound('mystic');
+    setAura(item.color); // Відновлюємо ауру того знака
+
+    // Заповнюємо модальне вікно збереженими даними
+    document.getElementById('signTitle').innerText = item.sign + " (Archived)";
+    document.getElementById('fortuneModal').style.display = "block";
+    
+    // Ховаємо кнопку збереження, бо це вже в архіві
+    document.getElementById('saveBtn').style.display = 'none';
+
+    document.getElementById('luckyNumbers').innerText = item.luckyNumbers;
+    document.getElementById('luckyColorBox').style.backgroundColor = item.luckyColorHex;
+    document.getElementById('luckyColorBox').style.color = item.luckyColorHex;
+    document.getElementById('luckyColorName').innerText = item.luckyColorName;
+
+    document.getElementById('fortuneTextDaily').innerText = item.daily;
+    document.getElementById('fortuneTextWeekly').innerText = item.weekly;
+    document.getElementById('fortuneTextMonthly').innerText = item.monthly;
+
+    try { switchTab(null, 'daily'); } catch(e) {}
+}
+
+// НОВА ФУНКЦІЯ: Видалення прогнозу
+function deleteArchiveItem(index, event) {
+    event.stopPropagation(); // Запобігає випадковому відкриттю вікна при кліку на хрестик
+    let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
+    archive.splice(index, 1); // Видаляємо 1 елемент за індексом
+    localStorage.setItem('astroArchive', JSON.stringify(archive));
+    renderArchive();
+    playSound('cyber'); // Звук видалення
+}
+
+// Базові обробники подій
 document.querySelector('.close-btn').onclick = () => document.getElementById('fortuneModal').style.display = "none";
 window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
+
+// Запуск рендеру при завантаженні сторінки
 renderArchive();
