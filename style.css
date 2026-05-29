@@ -315,3 +315,90 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .footer-links .divider {
     color: rgba(255, 255, 255, 0.2);
 }
+/* ==========================================
+   STATIC PAGES BACKGROUND (Для сторінок без Canvas)
+   ========================================== */
+body.static-page {
+    background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%) !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+}
+
+/* ==========================================
+   HELP CENTER & FAQ
+   ========================================== */
+.faq-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
+.faq-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 35px; text-align: center; }
+.faq-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
+.faq-header p { font-size: 1.1rem; color: var(--text-muted); margin: 0; font-family: sans-serif; }
+.faq-category-title { font-size: 1.3rem; color: var(--text-main); margin: 30px 0 15px 0; font-weight: 400; letter-spacing: 1px; display: flex; align-items: center; }
+.faq-category-title::after { content: ''; flex-grow: 1; margin-left: 15px; height: 1px; background: rgba(255, 255, 255, 0.05); }
+details { background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 6px; margin-bottom: 12px; padding: 16px 20px; transition: all 0.3s ease; }
+details[open] { border-color: rgba(212, 175, 55, 0.4); background: rgba(255, 255, 255, 0.03); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+summary { font-size: 1.1rem; color: var(--text-main); font-family: sans-serif; cursor: pointer; list-style: none; position: relative; padding-right: 30px; font-weight: 400; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '→'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--text-muted); transition: transform 0.3s ease, color 0.3s ease; }
+details[open] summary::after { transform: translateY(-50%) rotate(90deg) !important; color: var(--glow-color); }
+details p, details ul { margin-top: 15px; margin-bottom: 0; font-family: sans-serif; color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+details li { margin-bottom: 8px; }
+.faq-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+.faq-footer h3 { color: var(--text-main); font-size: 1.4rem; font-weight: 400; margin: 0 0 10px 0; }
+.faq-footer p { color: var(--text-muted); font-family: sans-serif; }
+.faq-footer a { color: var(--glow-color); text-decoration: none; }
+.faq-footer a:hover { text-decoration: underline; }
+
+/* ==========================================
+   PRIVACY POLICY
+   ========================================== */
+.privacy-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
+.privacy-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+.privacy-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
+.privacy-intro-summary { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--glow-color); padding: 20px; margin-bottom: 40px; border-radius: 0 4px 4px 0; }
+.privacy-section { margin-bottom: 35px; }
+.privacy-section h2 { font-size: 1.4rem; color: var(--text-main); margin-bottom: 15px; font-weight: 400; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+.privacy-section p, .privacy-section li { font-size: 1.05rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; font-family: sans-serif; }
+.privacy-section ul { padding-left: 20px; margin-bottom: 15px; }
+.privacy-section strong { color: var(--glow-color); font-weight: normal; }
+.hr-divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.2), transparent); margin: 30px 0; }
+
+/* ==========================================
+   CONTACT SUPPORT
+   ========================================== */
+.contact-container { max-width: 900px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+.contact-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 40px; text-align: center; }
+.contact-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
+.contact-header p { font-size: 1.1rem; color: var(--text-muted); margin: 0; font-family: sans-serif; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; text-align: left; }
+.contact-info h2 { font-size: 1.5rem; color: var(--text-main); margin-top: 0; margin-bottom: 15px; font-weight: 400; }
+.contact-info p { font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); font-family: sans-serif; margin-bottom: 25px; }
+.info-details { list-style: none; padding: 0; margin: 0 0 30px 0; }
+.info-details li { font-family: sans-serif; color: var(--text-muted); margin-bottom: 15px; display: flex; align-items: center; font-size: 1rem; }
+.info-details strong { color: var(--glow-color); font-weight: normal; margin-right: 8px; }
+.social-links { display: flex; gap: 15px; }
+.social-links a { color: var(--text-muted); font-family: sans-serif; text-decoration: none; font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 15px; border-radius: 4px; transition: all 0.3s ease; }
+.social-links a:hover { border-color: var(--glow-color); color: var(--glow-color); }
+.contact-form { background: rgba(0,0,0,0.3); padding: 30px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-family: sans-serif; font-size: 0.95rem; }
+.form-group input, .form-group textarea { width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 12px 15px; border-radius: 4px; font-family: sans-serif; font-size: 1rem; transition: border-color 0.3s; }
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--glow-color); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+.submit-btn { width: 100%; padding: 14px; background: var(--glow-color); color: #05070a; border: none; border-radius: 4px; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; }
+.submit-btn:hover { background: var(--text-main); box-shadow: 0 0 15px var(--glow-color); }
+
+/* ==========================================
+   GLOBAL SITE FOOTER
+   ========================================== */
+.site-footer { text-align: center; padding: 40px 20px 20px; margin-top: 50px; border-top: 1px solid rgba(212, 175, 55, 0.2); color: var(--text-muted); font-family: sans-serif; font-size: 0.95rem; }
+.site-footer p { margin: 0 0 15px 0; }
+.footer-links { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+.footer-links a { color: var(--glow-color); text-decoration: none; transition: color 0.3s ease; }
+.footer-links a:hover { color: var(--text-main); text-shadow: 0 0 8px var(--glow-color); }
+.footer-links .divider { color: rgba(255, 255, 255, 0.2); }
+
+@media (max-width: 768px) {
+    .privacy-container, .faq-container, .contact-container { margin: 100px 15px 40px; padding: 25px 15px; }
+    .privacy-header h1, .faq-header h1, .contact-header h1 { font-size: 1.8rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+}
