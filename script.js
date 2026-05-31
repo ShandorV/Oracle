@@ -425,25 +425,34 @@ function saveToArchive() {
     
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     
-    // Створюємо "капсулу часу" з усіма даними на момент збереження
+    // Створюємо "капсулу часу", тепер з Планетою, Стихією та Енергією
+    let pureSign = document.getElementById('signTitle').innerText.replace(" (Archived)", "").trim();
+    
     let newRecord = {
-        sign: document.getElementById('signTitle').innerText,
-        date: new Date().toLocaleString(), // Зберігаємо точний час
+        sign: pureSign,
+        date: new Date().toLocaleString(),
         color: currentAuraColor,
         luckyNumbers: document.getElementById('luckyNumbers').innerText,
         luckyColorHex: document.getElementById('luckyColorBox').style.backgroundColor,
         luckyColorName: document.getElementById('luckyColorName').innerText,
+        
+        // НОВІ ПОЛЯ:
+        planet: document.getElementById('modalPlanet').innerText,
+        element: document.getElementById('modalElement').innerText,
+        energy: document.getElementById('modalEnergy').innerText,
+        
         daily: document.getElementById('fortuneTextDaily').innerText,
         weekly: document.getElementById('fortuneTextWeekly').innerText,
         monthly: document.getElementById('fortuneTextMonthly').innerText
     };
 
-    archive.unshift(newRecord); // Додаємо на початок списку
+    archive.unshift(newRecord); // Додаємо на початок
     localStorage.setItem('astroArchive', JSON.stringify(archive));
     renderArchive();
 }
 
 function renderArchive() {
+    // ... Ця функція залишається без змін, не чіпай її, якщо вона є
     const container = document.getElementById('archiveContainer');
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     
@@ -466,22 +475,28 @@ function renderArchive() {
     container.innerHTML = html;
 }
 
-// НОВА ФУНКЦІЯ: Відкриття збереженого прогнозу
 function openSavedModal(index) {
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     let item = archive[index];
     if (!item) return;
 
     playSound('mystic');
-    setAura(item.color); // Відновлюємо ауру того знака
+    setAura(item.color); 
 
-    // Заповнюємо модальне вікно збереженими даними
-    document.getElementById('signTitle').innerText = item.sign + " (Archived)";
+    // Беремо чисту назву знака і шукаємо його в базі (на випадок старих записів)
+    let pureSign = item.sign.replace(" (Archived)", "").trim();
+    let fallbackData = zodiacData[pureSign] || {};
+
+    document.getElementById('signTitle').innerText = pureSign + " (Archived)";
     document.getElementById('fortuneModal').style.display = "block";
-    
-    // Ховаємо кнопку збереження, бо це вже в архіві
     document.getElementById('saveBtn').style.display = 'none';
 
+    // ВІДНОВЛЮЄМО АСТРО-ПАСПОРТ (Якщо в пам'яті порожньо - беремо з бази zodiacData)
+    document.getElementById('modalPlanet').innerText = item.planet || fallbackData.planet || "Unknown";
+    document.getElementById('modalElement').innerText = item.element || fallbackData.element || "Unknown";
+    document.getElementById('modalEnergy').innerText = item.energy || `"${fallbackData.energy}"` || "";
+
+    // Відновлюємо старі параметри
     document.getElementById('luckyNumbers').innerText = item.luckyNumbers;
     document.getElementById('luckyColorBox').style.backgroundColor = item.luckyColorHex;
     document.getElementById('luckyColorBox').style.color = item.luckyColorHex;
