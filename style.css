@@ -140,6 +140,28 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .modal-actions button { flex: 1; }
 
 /* ==========================================
+   LOGO STYLES
+   ========================================== */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Відстань між логотипом і текстом */
+}
+
+.logo-img {
+    height: 35px; /* Висота логотипу, ідеально підходить для нашого меню */
+    width: auto;
+    border-radius: 50%; /* Робить логотип круглим, щоб приховати квадратні кути JPG-фону */
+    border: 1px solid var(--glow-color); /* Додає тонку золоту рамку для елегантності */
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3); /* Легке світіння */
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1); /* Легке збільшення при наведенні мишкою */
+}
+
+/* ==========================================
    PERSONAL GRIMOIRE (Archive)
    ========================================== */
 .archive-item { 
