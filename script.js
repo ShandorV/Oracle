@@ -208,6 +208,12 @@ function drawLines() {
     stars.forEach(s1 => {
         if (s1.isZodiac && s1.connections.length > 0) {
             s1.connections.forEach(s2 => {
+                
+                // --- ДОДАНИЙ ЗАПОБІЖНИК (ВІДСІКАННЯ ПОЗА ЕКРАНОМ) ---
+                if (s1.x < -50 || s1.x > width + 50 || s1.y < -50 || s1.y > height + 50) return;
+                if (s2.x < -50 || s2.x > width + 50 || s2.y < -50 || s2.y > height + 50) return;
+                // ---------------------------------------------------
+
                 let mdist = 1000;
                 if (mouse.x != null) {
                     let dx = s1.x - mouse.x, dy = s1.y - mouse.y;
