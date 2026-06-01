@@ -1,9 +1,15 @@
 :root {
-    --bg-dark: #0f172a; /* Темна синя основа */
+    --bg-dark: #0f172a;              /* Темна синя основа */
+    --bg-body: #05070a;              /* Найтемніший фон body */
     --bg-panel: rgba(15, 23, 42, 0.85);
-    --glow-color: #d4af37; /* Базовий ЗОЛОТИЙ колір Astro Daily */
+    --glow-color: #d4af37;           /* Базовий ЗОЛОТИЙ колір Astro Daily */
+    --glow-color-dim: rgba(212, 175, 55, 0.2); /* Прозорий золотий для рамок */
+    --glow-color-mid: rgba(212, 175, 55, 0.4); /* Середній золотий */
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
+    --color-success: #22c55e;        /* Зелений для success-кнопок */
+    --color-success-hover: #16a34a;
+    --color-danger: #ef4444;         /* Червоний для delete */
 }
 
 html { scroll-behavior: smooth; }
@@ -12,7 +18,7 @@ body {
     margin: 0; padding: 0; 
     font-family: 'Playfair Display', serif; /* Класичний шрифт */
     color: var(--text-main);
-    background-color: #05070a;
+    background-color: var(--bg-body);
 }
 
 /* ФІКСОВАНИЙ CANVAS ДЛЯ ЗІРОК */
@@ -21,7 +27,7 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%);
+    background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%);
     background-size: cover;       /* Розтягує фон на весь екран без пробілів */
     background-repeat: no-repeat; /* Категорично забороняє дублювання фону */
     background-attachment: fixed; /* Прив'язує фон до екрана, а не до скролу */
@@ -49,7 +55,7 @@ body {
     font-size: 0.9rem; cursor: pointer; transition: 0.3s; margin-left: 10px;
     font-family: 'Playfair Display', serif;
 }
-.reset-btn:hover { border-color: #d4af37; color: #d4af37; }
+.reset-btn:hover { border-color: var(--glow-color); color: var(--glow-color); }
 
 .container {
     position: relative; z-index: 1; width: 95%; max-width: 1000px;
@@ -62,7 +68,7 @@ header h1 { font-size: 3.5rem; color: var(--glow-color); margin-bottom: 5px; tex
 section {
     background: var(--bg-panel); backdrop-filter: blur(5px);
     padding: 30px; border-radius: 8px; margin-bottom: 30px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid var(--glow-color-dim);
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     transition: border-color 0.8s ease, box-shadow 0.8s ease;
 }
@@ -83,13 +89,13 @@ select:focus, input:focus { border-color: var(--glow-color); }
 
 .glow-btn {
     padding: 12px 25px; background: var(--glow-color); border: none; border-radius: 4px;
-    color: #05070a; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-family: 'Playfair Display', serif; font-size: 1rem;
+    color: var(--bg-body); font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-family: 'Playfair Display', serif; font-size: 1rem;
 }
 .glow-btn:hover { background: var(--text-main); box-shadow: 0 0 15px var(--glow-color); }
 .glow-btn.outline { background: transparent; border: 1px solid var(--glow-color); color: var(--glow-color); }
-.glow-btn.outline:hover { background: var(--glow-color); color: #000; }
-.glow-btn.success-btn { background: #22c55e; color: #000;} 
-.glow-btn.success-btn:hover { background: #16a34a; box-shadow: 0 0 15px #22c55e;}
+.glow-btn.outline:hover { background: var(--glow-color); color: var(--bg-body); }
+.glow-btn.success-btn { background: var(--color-success); color: var(--bg-body); }
+.glow-btn.success-btn:hover { background: var(--color-success-hover); box-shadow: 0 0 15px var(--color-success); }
 
 .result-text { margin-top: 15px; font-style: italic; color: var(--glow-color); font-size: 1.2rem; min-height: 25px;}
 
@@ -207,7 +213,7 @@ select:focus, input:focus { border-color: var(--glow-color); }
     line-height: 1;
 }
 .delete-btn:hover {
-    color: #ef4444; /* Червоний колір при наведенні */
+    color: var(--color-danger); /* Червоний колір при наведенні */
 }
 
 
@@ -310,43 +316,10 @@ select:focus, input:focus { border-color: var(--glow-color); }
 }
 
 /* ==========================================
-   FOOTER (Підвал сайту)
-   ========================================== */
-.site-footer {
-    text-align: center;
-    padding: 40px 20px 20px;
-    margin-top: 50px;
-    border-top: 1px solid rgba(212, 175, 55, 0.2); /* Тонка золота лінія */
-    color: var(--text-muted);
-    font-family: sans-serif;
-    font-size: 0.95rem;
-}
-.site-footer p {
-    margin: 0 0 15px 0;
-}
-.footer-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-.footer-links a {
-    color: var(--glow-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.footer-links a:hover {
-    color: var(--text-main);
-    text-shadow: 0 0 8px var(--glow-color);
-}
-.footer-links .divider {
-    color: rgba(255, 255, 255, 0.2);
-}
-/* ==========================================
    STATIC PAGES BACKGROUND (Для сторінок без Canvas)
    ========================================== */
 body.static-page {
-    background: radial-gradient(circle at center, #0f172a 0%, #05070a 100%) !important;
+    background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%) !important;
     background-size: cover !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
@@ -355,14 +328,14 @@ body.static-page {
 /* ==========================================
    HELP CENTER & FAQ
    ========================================== */
-.faq-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
+.faq-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--glow-color-dim); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
 .faq-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 35px; text-align: center; }
 .faq-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
 .faq-header p { font-size: 1.1rem; color: var(--text-muted); margin: 0; font-family: sans-serif; }
 .faq-category-title { font-size: 1.3rem; color: var(--text-main); margin: 30px 0 15px 0; font-weight: 400; letter-spacing: 1px; display: flex; align-items: center; }
 .faq-category-title::after { content: ''; flex-grow: 1; margin-left: 15px; height: 1px; background: rgba(255, 255, 255, 0.05); }
 details { background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 6px; margin-bottom: 12px; padding: 16px 20px; transition: all 0.3s ease; }
-details[open] { border-color: rgba(212, 175, 55, 0.4); background: rgba(255, 255, 255, 0.03); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+details[open] { border-color: var(--glow-color-mid); background: rgba(255, 255, 255, 0.03); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
 summary { font-size: 1.1rem; color: var(--text-main); font-family: sans-serif; cursor: pointer; list-style: none; position: relative; padding-right: 30px; font-weight: 400; }
 summary::-webkit-details-marker { display: none; }
 summary::after { content: '→'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--text-muted); transition: transform 0.3s ease, color 0.3s ease; }
@@ -378,7 +351,7 @@ details li { margin-bottom: 8px; }
 /* ==========================================
    PRIVACY POLICY
    ========================================== */
-.privacy-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
+.privacy-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--glow-color-dim); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
 .privacy-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
 .privacy-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
 .privacy-intro-summary { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--glow-color); padding: 20px; margin-bottom: 40px; border-radius: 0 4px 4px 0; }
@@ -387,12 +360,12 @@ details li { margin-bottom: 8px; }
 .privacy-section p, .privacy-section li { font-size: 1.05rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; font-family: sans-serif; }
 .privacy-section ul { padding-left: 20px; margin-bottom: 15px; }
 .privacy-section strong { color: var(--glow-color); font-weight: normal; }
-.hr-divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.2), transparent); margin: 30px 0; }
+.hr-divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, var(--glow-color-dim), transparent); margin: 30px 0; }
 
 /* ==========================================
    CONTACT SUPPORT
    ========================================== */
-.contact-container { max-width: 900px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+.contact-container { max-width: 900px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--glow-color-dim); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
 .contact-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 40px; text-align: center; }
 .contact-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
 .contact-header p { font-size: 1.1rem; color: var(--text-muted); margin: 0; font-family: sans-serif; }
@@ -411,13 +384,13 @@ details li { margin-bottom: 8px; }
 .form-group input, .form-group textarea { width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 12px 15px; border-radius: 4px; font-family: sans-serif; font-size: 1rem; transition: border-color 0.3s; }
 .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--glow-color); }
 .form-group textarea { resize: vertical; min-height: 120px; }
-.submit-btn { width: 100%; padding: 14px; background: var(--glow-color); color: #05070a; border: none; border-radius: 4px; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; }
+.submit-btn { width: 100%; padding: 14px; background: var(--glow-color); color: var(--bg-body); border: none; border-radius: 4px; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; }
 .submit-btn:hover { background: var(--text-main); box-shadow: 0 0 15px var(--glow-color); }
 
 /* ==========================================
    GLOBAL SITE FOOTER
    ========================================== */
-.site-footer { text-align: center; padding: 40px 20px 20px; margin-top: 50px; border-top: 1px solid rgba(212, 175, 55, 0.2); color: var(--text-muted); font-family: sans-serif; font-size: 0.95rem; }
+.site-footer { text-align: center; padding: 40px 20px 20px; margin-top: 50px; border-top: 1px solid var(--glow-color-dim); color: var(--text-muted); font-family: sans-serif; font-size: 0.95rem; }
 .site-footer p { margin: 0 0 15px 0; }
 .footer-links { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
 .footer-links a { color: var(--glow-color); text-decoration: none; transition: color 0.3s ease; }
@@ -435,4 +408,17 @@ details li { margin-bottom: 8px; }
     color: inherit;
     display: flex;
     align-items: center;
+}
+
+/* МАЛІ СМАРТФОНИ (до 480px) */
+@media (max-width: 480px) {
+    header h1 { font-size: 1.8rem; }
+    .subtitle { font-size: 0.9rem; }
+    .tarot-card { max-width: 100%; height: 100px; }
+    .modal-content { margin: 5% auto; padding: 20px 12px; }
+    .glow-text { font-size: 1.6rem; }
+    .zodiac-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .card { padding: 12px 5px; }
+    .card .icon { font-size: 2rem; }
+    .card h3 { font-size: 1rem; }
 }
