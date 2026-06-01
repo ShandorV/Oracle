@@ -6,8 +6,7 @@ const sfxMystic = new Audio('https://actions.google.com/sounds/v1/cartoon/magic_
 const sfxSuccess = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_cowbell.ogg');
 
 function playSound(type) {
-    let sound = type === 'cyber' ? sfxCyber : type === 'mystic' ? sfxMystic : sfxSuccess;
-    sound.volume = 0.2; sound.currentTime = 0; sound.play().catch(()=>{});
+    // Звуки вимкнено за рішенням команди
 }
 
 // ==========================================
