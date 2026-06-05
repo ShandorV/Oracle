@@ -400,10 +400,42 @@ function analyzeUsername() {
     document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
 }
 
-function getMagicAnswer() {
-    playSound('mystic');
-    const a = ["The stars say YES.", "The cosmic answer is clouded.", "It is foretold.", "The signs point to no.", "Trust your inner light."];
-    document.getElementById('magicAnswer').innerText = a[Math.floor(Math.random() * a.length)];
+async function getMagicAnswer() {
+    
+    const inputField = document.getElementById("questionInput");
+    const resultDisplay = document.getElementById("magicAnswer");
+    const question = inputField.value.trim();
+    if (!question) {
+        resultDisplay.textContent = "You must peer into the sphere and type a question first...";
+        return;
+    }
+
+    resultDisplay.textContent = "Consulting the cosmic alignment... 🌌";
+    inputField.value = ""; 
+
+    const webhookUrl = "https://hook.eu1.make.com/i2tz7oqk8m8qjbhqqu6ue25smktyy21x";
+
+    try {
+        
+        const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+           
+            body: JSON.stringify({ message: question })
+        });
+        if (!response.ok) {
+            throw new Error("The connection to the spiritual realm timed out.");
+        }
+
+        const aiResponseText = await response.text();
+        resultDisplay.textContent = aiResponseText;
+
+    } catch (error) {
+        console.error("Error connecting to the Oracle:", error);
+        resultDisplay.textContent = "The ether is disrupted. Try asking again when the stars align.";
+    }
 }
 
 /*function submitLead() {
