@@ -401,10 +401,13 @@ function analyzeUsername() {
 }
 
 async function getMagicAnswer() {
-    
     const inputField = document.getElementById("questionInput");
     const resultDisplay = document.getElementById("magicAnswer");
     const question = inputField.value.trim();
+
+    // CHECKPOINT 1: Did the button click actually trigger this function?
+    console.log("Button clicked! Input value is:", question);
+
     if (!question) {
         resultDisplay.textContent = "You must peer into the sphere and type a question first...";
         return;
@@ -416,15 +419,20 @@ async function getMagicAnswer() {
     const webhookUrl = "https://hook.eu1.make.com/i2tz7oqk8m8qjbhqqu6ue25smktyy21x";
 
     try {
-        
+        // CHECKPOINT 2: Are we about to shoot the data into cyberspace?
+        console.log("Sending fetch request to Make.com...");
+
         const response = await fetch(webhookUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-           
             body: JSON.stringify({ message: question })
         });
+
+        // CHECKPOINT 3: Did Make reply with anything at all?
+        console.log("Response status received from Make:", response.status);
+
         if (!response.ok) {
             throw new Error("The connection to the spiritual realm timed out.");
         }
@@ -433,8 +441,8 @@ async function getMagicAnswer() {
         resultDisplay.textContent = aiResponseText;
 
     } catch (error) {
-        console.error("Error connecting to the Oracle:", error);
-        resultDisplay.textContent = "The ether is disrupted. Try asking again when the stars align.";
+        console.error("Caught an error in the fetch cycle:", error);
+        resultDisplay.textContent = "The ether is disrupted. Try asking again.";
     }
 }
 
