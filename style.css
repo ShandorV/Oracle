@@ -2,7 +2,7 @@
     --bg-dark: #0f172a;              /* Темна синя основа */
     --bg-body: #05070a;              /* Найтемніший фон body */
     --bg-panel: rgba(15, 23, 42, 0.85);
-    --glow-color: #d4af37;           /* Базовий ЗОЛОТИЙ колір Astro Daily */
+    --glow-color: #d4af37;           /* Базовий ЗОЛОТИЙ колір Astro Insight */
     --glow-color-dim: rgba(212, 175, 55, 0.2); /* Прозорий золотий для рамок */
     --glow-color-mid: rgba(212, 175, 55, 0.4); /* Середній золотий */
     --text-main: #f8fafc;
