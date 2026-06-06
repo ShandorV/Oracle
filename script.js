@@ -400,28 +400,23 @@ function analyzeUsername() {
     document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
 }
 
+const CLOUDFLARE_WORKER_URL = "https://oracle-bot.soma-maczko74.workers.dev/"; 
+
 async function getMagicAnswer() {
     const inputField = document.getElementById("questionInput");
-    const resultDisplay = document.getElementById("magicAnswer");
+    const answerField = document.getElementById("magicAnswer");
     const question = inputField.value.trim();
 
-    console.log("Button clicked! Input value is:", question);
-
     if (!question) {
-        resultDisplay.textContent = "You must peer into the sphere and type a question first...";
+        answerField.innerText = "The sphere remains dark. Please whisper a question...";
         return;
     }
 
-    resultDisplay.textContent = "Consulting the cosmic alignment... 🌌";
-    inputField.value = ""; 
-
-    const webhookUrl = "https://hook.eu1.make.com/i2tz7oqk8m8qjbhqqu6ue25smktyy21x";
+    answerField.innerText = "Gazing into the cosmos...";
+    inputField.disabled = true;
 
     try {
-        
-        console.log("Sending fetch request to Make.com...");
-
-        const response = await fetch(webhookUrl, {
+        const response = await fetch(CLOUDFLARE_WORKER_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -429,21 +424,26 @@ async function getMagicAnswer() {
             body: JSON.stringify({ message: question })
         });
 
+        const data = await response.json();
         
-        console.log("Response status received from Make:", response.status);
-
-        if (!response.ok) {
-            throw new Error("The connection to the spiritual realm timed out.");
-        }
-
-        const aiResponseText = await response.text();
-        resultDisplay.textContent = aiResponseText;
+        // Megjelenítjük a Cloudflare-ből érkező AI választ
+        answerField.innerText = data.response;
 
     } catch (error) {
-        console.error("Caught an error in the fetch cycle:", error);
-        resultDisplay.textContent = "The ether is disrupted. Try asking again.";
+        console.error("Hiba:", error);
+        answerField.innerText = "The stars are misaligned. Try asking again later.";
+    } finally {
+        inputField.disabled = false;
+        inputField.value = ""; 
     }
 }
+
+// Enter leütésre is induljon el a küldés
+document.getElementById("questionInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        getMagicAnswer();
+    }
+});
 
 /*function submitLead() {
     const email = document.getElementById('emailInput').value;
