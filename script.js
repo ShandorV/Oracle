@@ -400,7 +400,7 @@ function analyzeUsername() {
     document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
 }
 
-const CLOUDFLARE_WORKER_URL = "https://oracle-bot.soma-maczko74.workers.dev";
+const CLOUDFLARE_WORKER_URL = "https://oracle-bot.astroinsight.workers.dev";
 
 async function getMagicAnswer() {
     const inputField = document.getElementById("questionInput");
