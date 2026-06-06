@@ -391,13 +391,13 @@ function drawTarot() {
 }
 drawTarot();
 
-<script>
-// 1. Definiáljuk az URL-t
+// ==========================================
+// NUMEROLOGY FUNCTION START
+// ==========================================
 const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev/";
 
-// 2. Az egyetlen, valódi AI-os függvény
 async function analyzeUsername() {
-    console.log("AI Numerology start..."); // Ezt látnod kell a konzolban!
+    console.log("AI Numerology start...");
     
     if (typeof playSound === 'function') playSound('mystic');
     
@@ -407,7 +407,7 @@ async function analyzeUsername() {
     
     if (!name) return;
     
-    // Betöltési fázis
+    // Átmeneti állapot animálása
     resultElement.innerText = "🔮 Calculating cosmic frequencies...";
     resultElement.style.opacity = "0.5";
     
@@ -434,7 +434,9 @@ async function analyzeUsername() {
         resultElement.innerText = "The stars are busy. Please try again later.";
     }
 }
-</script>
+// ==========================================
+// NUMEROLOGY FUNCTION END
+// ==========================================
 
 const CLOUDFLARE_WORKER_URL = "https://oracle-bot.astroinsight.workers.dev";
 
