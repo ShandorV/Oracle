@@ -391,9 +391,14 @@ function drawTarot() {
 }
 drawTarot();
 
-const CLOUDFLARE_WORKER_URL = "https://numerology.astroinsight.workers.dev/";
+<script>
+// 1. Definiáljuk az URL-t
+const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev/";
 
+// 2. Az egyetlen, valódi AI-os függvény
 async function analyzeUsername() {
+    console.log("AI Numerology start..."); // Ezt látnod kell a konzolban!
+    
     if (typeof playSound === 'function') playSound('mystic');
     
     const nameInput = document.getElementById('usernameInput');
@@ -402,31 +407,34 @@ async function analyzeUsername() {
     
     if (!name) return;
     
-    // Betöltési állapot vizuális visszajelzéssel
+    // Betöltési fázis
     resultElement.innerText = "🔮 Calculating cosmic frequencies...";
     resultElement.style.opacity = "0.5";
     
     try {
-        // Cseréld ki az URL-t a MÁSODIK Cloudflare Workered URL-jére, ha kész!
-        const response = await fetch('https://numerology.astroinsight.workers.dev/', {
+        console.log("Fetching from:", NUMEROLOGY_WORKER_URL);
+        
+        const response = await fetch(NUMEROLOGY_WORKER_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: name })
         });
         
+        if (!response.ok) throw new Error("Worker error: " + response.status);
+        
         const data = await response.json();
+        console.log("AI Response received:", data);
         
         resultElement.style.opacity = "1";
         resultElement.innerText = data.response;
         
     } catch (error) {
-        console.error("Numerology error:", error);
+        console.error("Fetch hiba:", error);
         resultElement.style.opacity = "1";
-        resultElement.innerText = "The cosmic numbers are shifting. Please try again later.";
+        resultElement.innerText = "The stars are busy. Please try again later.";
     }
 }
+</script>
 
 const CLOUDFLARE_WORKER_URL = "https://oracle-bot.astroinsight.workers.dev";
 
