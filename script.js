@@ -342,7 +342,7 @@ async function openModal(sign) {
         if (!response.ok) throw new Error('File not found');
         const data = await response.json();
         
-        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].Insight;
+        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].daily || data.zodiacs[sign].Insight;
         document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly;
         document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly;
     } catch (error) {
@@ -546,7 +546,7 @@ function openSavedModal(index) {
     document.getElementById('luckyColorBox').style.color = item.luckyColorHex;
     document.getElementById('luckyColorName').innerText = item.luckyColorName;
 
-    document.getElementById('fortuneTextInsight').innerText = item.Insight;
+    document.getElementById('fortuneTextInsight').innerText = item.Insight || item.daily || "Reading lost in time...";
     document.getElementById('fortuneTextWeekly').innerText = item.weekly;
     document.getElementById('fortuneTextMonthly').innerText = item.monthly;
 
