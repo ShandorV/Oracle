@@ -400,11 +400,14 @@ function analyzeUsername() {
     document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
 }
 
-const CLOUDFLARE_WORKER_URL = "https://oracle-bot.soma-maczko74.workers.dev/"; 
+const CLOUDFLARE_WORKER_URL = "https://oracle-bot.soma-maczko74.workers.dev"; 
 
 async function getMagicAnswer() {
     const inputField = document.getElementById("questionInput");
     const answerField = document.getElementById("magicAnswer");
+    
+    if (!inputField || !answerField) return; // Biztonsági ellenőrzés éles környezetben
+
     const question = inputField.value.trim();
 
     if (!question) {
@@ -425,12 +428,10 @@ async function getMagicAnswer() {
         });
 
         const data = await response.json();
-        
-        // Megjelenítjük a Cloudflare-ből érkező AI választ
         answerField.innerText = data.response;
 
     } catch (error) {
-        console.error("Hiba:", error);
+        console.error("Hiba az éles rendszerben:", error);
         answerField.innerText = "The stars are misaligned. Try asking again later.";
     } finally {
         inputField.disabled = false;
@@ -438,10 +439,15 @@ async function getMagicAnswer() {
     }
 }
 
-// Enter leütésre is induljon el a küldés
-document.getElementById("questionInput").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        getMagicAnswer();
+// Megvárjuk, amíg az éles oldal struktúrája teljesen felépül a böngészőben
+document.addEventListener("DOMContentLoaded", function() {
+    const inputField = document.getElementById("questionInput");
+    if (inputField) {
+        inputField.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                getMagicAnswer();
+            }
+        });
     }
 });
 
