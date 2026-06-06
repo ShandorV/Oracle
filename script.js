@@ -392,6 +392,7 @@ function drawTarot() {
 drawTarot();
 
 const CLOUDFLARE_WORKER_URL = "https://numerology.astroinsight.workers.dev/";
+
 async function analyzeUsername() {
     if (typeof playSound === 'function') playSound('mystic');
     
