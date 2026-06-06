@@ -100,7 +100,7 @@ const zodiacData = {
 };
 
 const localDb = {
-    daily: [
+    Insight: [
         "The stars align to grant you clarity today. Trust your intuition over pure logic.",
         "A celestial shift might bring a minor miscommunication. Speak with intention and grace.",
         "Your planetary ruler is well-aspected. A perfect day to plant the seeds for future success."
@@ -331,9 +331,9 @@ async function openModal(sign) {
     // Щасливі числа залишаємо випадковими (магія моменту)
     document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
 
-    try { switchTab(null, 'daily'); } catch(e) {} 
+    try { switchTab(null, 'Insight'); } catch(e) {} 
     
-    document.getElementById('fortuneTextDaily').innerText = "Consulting the celestial charts...";
+    document.getElementById('fortuneTextInsight').innerText = "Consulting the celestial charts...";
     document.getElementById('fortuneTextWeekly').innerText = "Calculating planetary transits...";
     document.getElementById('fortuneTextMonthly').innerText = "Reading the lunar cycles...";
 
@@ -342,12 +342,12 @@ async function openModal(sign) {
         if (!response.ok) throw new Error('File not found');
         const data = await response.json();
         
-        document.getElementById('fortuneTextDaily').innerText = data.zodiacs[sign].daily;
+        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].Insight;
         document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly;
         document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly;
     } catch (error) {
         console.log("JSON offline, reverting to local mystical database...");
-        document.getElementById('fortuneTextDaily').innerText = localDb.daily[Math.floor(Math.random() * localDb.daily.length)] + "\n\n(Drawn from local grimoire)";
+        document.getElementById('fortuneTextInsight').innerText = localDb.Insight[Math.floor(Math.random() * localDb.Insight.length)] + "\n\n(Drawn from local grimoire)";
         document.getElementById('fortuneTextWeekly').innerText = localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)];
         document.getElementById('fortuneTextMonthly').innerText = localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)];
     }
@@ -485,7 +485,7 @@ function saveToArchive() {
         element: document.getElementById('modalElement').innerText,
         energy: document.getElementById('modalEnergy').innerText,
         
-        daily: document.getElementById('fortuneTextDaily').innerText,
+        Insight: document.getElementById('fortuneTextInsight').innerText,
         weekly: document.getElementById('fortuneTextWeekly').innerText,
         monthly: document.getElementById('fortuneTextMonthly').innerText
     };
@@ -546,11 +546,11 @@ function openSavedModal(index) {
     document.getElementById('luckyColorBox').style.color = item.luckyColorHex;
     document.getElementById('luckyColorName').innerText = item.luckyColorName;
 
-    document.getElementById('fortuneTextDaily').innerText = item.daily;
+    document.getElementById('fortuneTextInsight').innerText = item.Insight;
     document.getElementById('fortuneTextWeekly').innerText = item.weekly;
     document.getElementById('fortuneTextMonthly').innerText = item.monthly;
 
-    try { switchTab(null, 'daily'); } catch(e) {}
+    try { switchTab(null, 'Insight'); } catch(e) {}
 }
 
 // НОВА ФУНКЦІЯ: Видалення прогнозу
