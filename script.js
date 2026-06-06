@@ -391,13 +391,39 @@ function drawTarot() {
 }
 drawTarot();
 
-function analyzeUsername() {
-    playSound('mystic');
-    const name = document.getElementById('usernameInput').value.trim();
+async function analyzeUsername() {
+    if (typeof playSound === 'function') playSound('mystic');
+    
+    const nameInput = document.getElementById('usernameInput');
+    const resultElement = document.getElementById('analyzerResult');
+    const name = nameInput.value.trim();
+    
     if (!name) return;
-    const powers = ["Aura Healer", "Truth Seeker", "Dream Weaver", "Star Walker", "Spirit Guide"];
-    let hash = 0; for (let i = 0; i < name.length; i++) hash += name.charCodeAt(i);
-    document.getElementById('analyzerResult').innerText = `Your Hidden Arcana: [ ${powers[hash % powers.length]} ]`;
+    
+    // Betöltési állapot vizuális visszajelzéssel
+    resultElement.innerText = "🔮 Calculating cosmic frequencies...";
+    resultElement.style.opacity = "0.5";
+    
+    try {
+        // Cseréld ki az URL-t a MÁSODIK Cloudflare Workered URL-jére, ha kész!
+        const response = await fetch('https://numerology.astroinsight.workers.dev/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: name })
+        });
+        
+        const data = await response.json();
+        
+        resultElement.style.opacity = "1";
+        resultElement.innerText = data.response;
+        
+    } catch (error) {
+        console.error("Numerology error:", error);
+        resultElement.style.opacity = "1";
+        resultElement.innerText = "The cosmic numbers are shifting. Please try again later.";
+    }
 }
 
 const CLOUDFLARE_WORKER_URL = "https://oracle-bot.astroinsight.workers.dev";
