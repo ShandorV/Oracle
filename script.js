@@ -394,46 +394,65 @@ drawTarot();
 // ==========================================
 // NUMEROLOGY FUNCTION START
 // ==========================================
-const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev/";
+// ==========================================
+// NUMEROLOGY COMPONENT
+// ==========================================
+const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev";
 
 async function analyzeUsername() {
-    console.log("AI Numerology start...");
+    const inputField = document.getElementById("usernameInput");
+    const answerField = document.getElementById("analyzerResult");
     
-    if (typeof playSound === 'function') playSound('mystic');
-    
-    const nameInput = document.getElementById('usernameInput');
-    const resultElement = document.getElementById('analyzerResult');
-    const name = nameInput.value.trim();
-    
-    if (!name) return;
-    
-    // Átmeneti állapot animálása
-    resultElement.innerText = "🔮 Calculating cosmic frequencies...";
-    resultElement.style.opacity = "0.5";
-    
+    if (!inputField || !answerField) return;
+
+    const name = inputField.value.trim();
+
+    if (!name) {
+        answerField.innerText = "The numbers are silent. Please provide a name...";
+        return;
+    }
+
+    // Átmeneti állapot és input letiltása (pont mint a gömbnél)
+    answerField.innerText = "🔮 Calculating cosmic frequencies...";
+    inputField.disabled = true;
+
     try {
-        console.log("Fetching from:", NUMEROLOGY_WORKER_URL);
-        
         const response = await fetch(NUMEROLOGY_WORKER_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ message: name })
         });
-        
-        if (!response.ok) throw new Error("Worker error: " + response.status);
-        
+
+        if (!response.ok) {
+            throw new Error("Server returned status: " + response.status);
+        }
+
         const data = await response.json();
-        console.log("AI Response received:", data);
-        
-        resultElement.style.opacity = "1";
-        resultElement.innerText = data.response;
-        
+        answerField.innerText = data.response;
+
     } catch (error) {
-        console.error("Fetch hiba:", error);
-        resultElement.style.opacity = "1";
-        resultElement.innerText = "The stars are busy. Please try again later.";
+        console.error("Numerology hiba:", error);
+        answerField.innerText = "The cosmic numbers are shifting. Please try again later.";
+    } finally {
+        // Input visszakapcsolása és ürítése
+        inputField.disabled = false;
+        inputField.value = "";
     }
 }
+
+// Enter billentyű figyelése a névbeíró mezőhöz
+document.addEventListener("DOMContentLoaded", function() {
+    const nameInputField = document.getElementById("usernameInput");
+    if (nameInputField) {
+        nameInputField.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                analyzeUsername();
+            }
+        });
+    }
+});
 // ==========================================
 // NUMEROLOGY FUNCTION END
 // ==========================================
