@@ -392,11 +392,7 @@ function drawTarot() {
 drawTarot();
 
 // ==========================================
-// NUMEROLOGY FUNCTION START
-// ==========================================
-// ==========================================
-// NUMEROLOGY COMPONENT
-// ==========================================
+
 const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev";
 
 async function analyzeUsername() {
@@ -442,7 +438,6 @@ async function analyzeUsername() {
     }
 }
 
-// Enter billentyű figyelése a névbeíró mezőhöz
 document.addEventListener("DOMContentLoaded", function() {
     const nameInputField = document.getElementById("usernameInput");
     if (nameInputField) {
@@ -453,8 +448,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
-// ==========================================
-// NUMEROLOGY FUNCTION END
 // ==========================================
 
 const CLOUDFLARE_WORKER_URL = "https://oracle-bot.astroinsight.workers.dev";
