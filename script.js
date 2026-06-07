@@ -307,7 +307,7 @@ function toggleMobileMenu() {
 }
 
 // ==========================================
-// JSON MODAL LOGIC (З FailSafe)
+// JSON MODAL LOGIC (З Анти-Кешем та Повним FailSafe)
 // ==========================================
 async function openModal(sign) {
     // Отримуємо всі фіксовані дані для обраного знака
@@ -318,7 +318,7 @@ async function openModal(sign) {
     document.getElementById('saveBtn').innerText = "Inscribe to Grimoire";
     document.getElementById('fortuneModal').style.display = "block";
     
-    // Заповнюємо нові астрологічні поля
+    // Заповнюємо астрологічні поля
     document.getElementById('modalPlanet').innerText = zData.planet;
     document.getElementById('modalElement').innerText = zData.element;
     document.getElementById('modalEnergy').innerText = `"${zData.energy}"`;
@@ -338,15 +338,19 @@ async function openModal(sign) {
     document.getElementById('fortuneTextMonthly').innerText = "Reading the lunar cycles...";
 
     try {
-        const response = await fetch('horoszkop.json');
+        // ДОДАНО АНТИ-КЕШ: Браузер гарантовано завантажить найсвіжіші дані від Make.com
+        const response = await fetch('horoszkop.json?nocache=' + new Date().getTime());
         if (!response.ok) throw new Error('File not found');
         const data = await response.json();
         
-        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].daily || data.zodiacs[sign].Insight;
-        document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly;
-        document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly;
+        // Безпечний вивід з перевіркою обох ключів (daily та Insight)
+        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].daily || data.zodiacs[sign].Insight || "No transit data available.";
+        document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly || "No weekly data available.";
+        document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly || "No monthly data available.";
     } catch (error) {
-        console.log("JSON offline, reverting to local mystical database...");
+        console.log("JSON offline or cached, reverting to local mystical database...");
+        
+        // Рятувальний круг: якщо мережа впала, підтягуємо випадкові дані з localDb без помилок undefined
         document.getElementById('fortuneTextInsight').innerText = localDb.Insight[Math.floor(Math.random() * localDb.Insight.length)] + "\n\n(Drawn from local grimoire)";
         document.getElementById('fortuneTextWeekly').innerText = localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)];
         document.getElementById('fortuneTextMonthly').innerText = localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)];
@@ -644,3 +648,98 @@ async function displayDailyOmen() {
     }
 }
 document.addEventListener("DOMContentLoaded", displayDailyOmen);
+
+// ==========================================
+// ASTRO-COMPATIBILITY SYSTEM
+// ==========================================
+
+// 1. Автоматичне заповнення випадаючих списків знаками зодіаку
+function populateSignSelects() {
+    const sign1Select = document.getElementById('sign1');
+    const sign2Select = document.getElementById('sign2');
+    
+    // Якщо ми на іншій сторінці (де немає віджета), просто ігноруємо
+    if (!sign1Select || !sign2Select) return;
+    
+    // Дефолтна пуста опція
+    let optionsHtml = '<option value="" disabled selected>Select sign...</option>';
+    
+    // Перебираємо базу даних зодіаку (зберігаємо іконки та назви)
+    for (const [key, data] of Object.entries(zodiacData)) {
+        optionsHtml += `<option value="${key}">${data.icon} ${data.name}</option>`;
+    }
+    
+    sign1Select.innerHTML = optionsHtml;
+    sign2Select.innerHTML = optionsHtml;
+}
+
+// Викликаємо функцію при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', populateSignSelects);
+
+// 2. Логіка перевірки сумісності
+function checkCompatibility() {
+    const sign1 = document.getElementById('sign1').value;
+    const sign2 = document.getElementById('sign2').value;
+    const resultBox = document.getElementById('compResult');
+    // Знаходимо текст кнопки (span), щоб зробити ефект завантаження
+    const btnText = document.querySelector('.compat-btn span') || document.querySelector('.compat-btn'); 
+    
+    // Перевірка, чи обрав користувач обидва знаки
+    if (!sign1 || !sign2) {
+        resultBox.style.display = "block";
+        resultBox.style.borderLeftColor = "#ef4444"; // Червоний колір помилки
+        resultBox.innerHTML = "Please select both cosmic signs to reveal their connection.";
+        return;
+    }
+    
+    // Магічний ефект завантаження
+    const originalText = btnText.innerText;
+    btnText.innerText = "Aligning the Stars... ⟡";
+    resultBox.style.display = "none";
+    
+    setTimeout(() => {
+        const data1 = zodiacData[sign1];
+        const data2 = zodiacData[sign2];
+        
+        let score = 0;
+        let connectionText = "";
+        
+        // СИСТЕМА СУМІСНОСТІ ЗА СТИХІЯМИ
+        if (data1.element === data2.element) {
+            // Однакова стихія = ідеальна сумісність
+            score = Math.floor(Math.random() * 11) + 90; // 90-100%
+            connectionText = `A profound elemental bond. Both share the <strong>${data1.element}</strong> nature, bringing natural understanding and deep synchronicity.`;
+        } else if (
+            (data1.element === 'Fire' && data2.element === 'Air') ||
+            (data1.element === 'Air' && data2.element === 'Fire') ||
+            (data1.element === 'Earth' && data2.element === 'Water') ||
+            (data1.element === 'Water' && data2.element === 'Earth')
+        ) {
+            // Комплементарні стихії (Вогонь+Повітря, Земля+Вода)
+            score = Math.floor(Math.random() * 16) + 75; // 75-90%
+            connectionText = `A highly complementary dynamic! <strong>${data1.element}</strong> and <strong>${data2.element}</strong> balance each other perfectly, fueling growth and harmony.`;
+        } else {
+            // Конфліктуючі стихії
+            score = Math.floor(Math.random() * 21) + 50; // 50-70%
+            connectionText = `A challenging but transformative connection. <strong>${data1.element}</strong> and <strong>${data2.element}</strong> require patience, but can teach each other valuable cosmic lessons.`;
+        }
+        
+        // Якщо обрали один і той самий знак
+        if (sign1 === sign2) {
+            connectionText = `Like looking into a cosmic mirror. Two <strong>${sign1}s</strong> amplify each other's strengths and weaknesses exponentially.`;
+        }
+        
+        // Виведення результату
+        resultBox.style.borderLeftColor = "var(--glow-color)"; // Повертаємо золоту лінію
+        resultBox.innerHTML = `
+            <strong>Resonance Score: <span style="color: var(--glow-color);">${score}%</span></strong><br><br>
+            The union of ${data1.icon} ${sign1} and ${data2.icon} ${sign2}:<br>
+            <span style="color: var(--text-muted);">${connectionText}</span>
+        `;
+        resultBox.style.display = "block";
+        
+        // Повертаємо текст кнопки
+        btnText.innerText = originalText;
+        
+    }, 800); // 800 мілісекунд затримки для ефекту "обчислення"
+}
