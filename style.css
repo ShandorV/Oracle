@@ -422,3 +422,191 @@ details li { margin-bottom: 8px; }
     .card .icon { font-size: 2rem; }
     .card h3 { font-size: 1rem; }
 }
+
+/* ==========================================
+   ASTRO-COMPATIBILITY PREMIUM WIDGET
+   ========================================== */
+.compatibility-section {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.compatibility-container {
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glow-color-dim);
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.05);
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.compatibility-container:hover {
+    border-color: var(--glow-color-mid);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+.compatibility-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--text-main);
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.compatibility-subtitle {
+    font-family: sans-serif;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 35px;
+}
+
+/* Форма та інпути */
+.compatibility-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.select-group {
+    flex: 1;
+    text-align: left;
+}
+
+.select-group label {
+    display: block;
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--glow-color);
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+/* Кастомізація випадаючого списку */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(5, 7, 10, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    -webkit-appearance: none; /* Прибираємо стандартну стрілку браузера */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.select-wrapper select:focus {
+    border-color: var(--glow-color);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    background: rgba(15, 23, 42, 0.95);
+}
+
+/* Стилізація опцій всередині випадаючого списку */
+.select-wrapper select option {
+    background: #0a0f1d;
+    color: var(--text-main);
+    padding: 10px;
+}
+
+/* Наша власна кастомна стрілочка замість дефолтної */
+.select-wrapper::after {
+    content: '▾';
+    font-size: 12px;
+    color: var(--glow-color);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Космічний конектор (блискавка) */
+.cosmic-connector {
+    font-size: 1.5rem;
+    color: var(--glow-color);
+    padding-bottom: 8px;
+    text-shadow: 0 0 10px var(--glow-color);
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* Кнопка */
+.compat-btn {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.25));
+    border: 1px solid var(--glow-color);
+    border-radius: 8px;
+    padding: 14px 35px;
+    color: var(--text-main);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.compat-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.4));
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.compat-btn:active {
+    transform: translateY(1px);
+}
+
+/* Блок відображення результату */
+.compat-result-box {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(5, 7, 10, 0.6);
+    border-left: 3px solid var(--glow-color);
+    border-radius: 4px 8px 8px 4px;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Адаптивність для мобілок */
+@media (max-width: 600px) {
+    .compatibility-form {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .select-group {
+        width: 100%;
+    }
+    .cosmic-connector {
+        transform: rotate(90deg); /* Перевертаємо блискавку вертикально на смартфонах */
+        padding-bottom: 0;
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.6; text-shadow: 0 0 5px var(--glow-color); }
+    50% { opacity: 1; text-shadow: 0 0 15px var(--glow-color), 0 0 25px var(--glow-color); }
+}
