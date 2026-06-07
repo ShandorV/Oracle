@@ -60,14 +60,37 @@
             <div class="zodiac-grid" id="zodiacGrid"></div>
         </section>
 
-        <section class="sync-box" id="sync">
-            <h3>Astro-Compatibility</h3>
-            <p class="subtitle">Discover the harmonic resonance between two celestial bodies.</p>
-            <div class="selector-group">
-                <select id="sign1"></select> <span class="plus-icon">+</span> <select id="sign2"></select>
+        <section id="sync" class="compatibility-section">
+            <div class="compatibility-container">
+                <h2>Astro Compatibility</h2>
+                <p class="compatibility-subtitle">Discover how your cosmic energies align with another soul</p>
+                
+                <div class="compatibility-form">
+                    <div class="select-group">
+                        <label for="sign1">Your Sign</label>
+                        <div class="select-wrapper">
+                            <select id="sign1"></select>
+                        </div>
+                    </div>
+
+                    <div class="cosmic-connector">
+                        <span>⚡</span>
+                    </div>
+
+                    <div class="select-group">
+                        <label for="sign2">Partner's Sign</label>
+                        <div class="select-wrapper">
+                            <select id="sign2"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="compat-btn" onclick="checkCompatibility()">
+                    <span>Reveal Connection ⟡</span>
+                </button>
+
+                <p id="compResult" class="result-text compat-result-box" style="display: none;"></p>
             </div>
-            <button class="glow-btn" onclick="checkCompatibility()">Reveal Connection</button>
-            <p id="compResult" class="result-text"></p>
         </section>
 
         <section class="tarot-box" id="tarot">
@@ -158,10 +181,6 @@
         <span class="divider">|</span>
         <a href="support.html">Contact Support</a>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
 
     <script src="script.js"></script>
 </body>
