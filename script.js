@@ -629,3 +629,31 @@ window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal'
 
 // Запуск рендеру при завантаженні сторінки
 renderArchive();
+
+async function displayDailyOmen() {
+    const omenElement = document.getElementById("omenText");
+    
+    if (omenElement) {
+        try {
+            // A te egyedi Cloudflare Worker linked
+            const workerUrl = "https://astro-omen.astroinsight.workers.dev/";
+            
+            // Lekérjük az adatot a szervertől
+            const response = await fetch(workerUrl);
+            if (!response.ok) throw new Error("Cosmic connection error");
+            
+            const data = await response.json();
+            
+            // Behelyezzük a kapott üzenetet a HTML-be
+            omenElement.textContent = data.omen;
+            
+        } catch (error) {
+            console.error("Cosmic connection failed:", error);
+            // Biztonsági tartalék szöveg, ha a hálózat megszakadna
+            omenElement.textContent = "The universe is whispering secrets. Listen closely.";
+        }
+    }
+}
+
+// Biztosítjuk, hogy az oldal betöltődésekor azonnal lefusson
+document.addEventListener("DOMContentLoaded", displayDailyOmen);
