@@ -731,31 +731,20 @@ async function displayDailyOmen() {
     
     if (omenElement) {
         try {
-            // 1. Legeneráljuk a mai dátumot YYYYMMDD formátumban (pl. "20260608")
             const today = new Date();
             const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0'); // A hónapok 0-tól indulnak
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
             const dateString = `${yyyy}${mm}${dd}`;
-
-            // 2. A dátumot hozzácsapjuk a Worker URL végére query paraméterként (?v=20260608)
-            // Ez minden nap éjfélkor automatikusan kényszeríti a Cloudflare-t a frissítésre
             const workerUrl = `https://astro-omen.astroinsight.workers.dev/?v=${dateString}`;
-            
             const response = await fetch(workerUrl);
             if (!response.ok) throw new Error("Cosmic connection error");
-            
             const data = await response.json();
-            
-            // Behelyezzük a kapott üzenetet a HTML-be
             omenElement.textContent = data.omen;
-            
         } catch (error) {
             console.error("Cosmic connection failed:", error);
             omenElement.textContent = "The universe is whispering secrets. Listen closely.";
         }
     }
 }
-
-// Biztosítjuk, hogy az oldal betöltődésekor azonnal lefusson
 document.addEventListener("DOMContentLoaded", displayDailyOmen);
