@@ -434,21 +434,20 @@ details li { margin-bottom: 8px; }
 }
 
 .compatibility-container {
-    background: var(--bg-panel);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glow-color-dim);
-    border-radius: 16px;
+    background: transparent; /* Прибираємо дублюючий фон, щоб злитися з великою рамкою */
+    border: none; /* ВИДАЛЯЄМО ВНУТРІШНЮ РАМКУ */
     padding: 40px 30px;
     max-width: 650px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.05);
-    transition: border-color 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: none; /* Прибираємо внутрішню тінь */
 }
 
 .compatibility-container:hover {
-    border-color: var(--glow-color-mid);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+    /* Оскільки внутрішньої рамки більше немає, ми відключаємо зміну її кольору. 
+       Велика зовнішня рамка секції вже має власний hover-ефект! */
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .compatibility-container h2 {
