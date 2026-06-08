@@ -632,23 +632,6 @@ document.querySelector('.close-btn').onclick = () => document.getElementById('fo
 window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
 renderArchive();
 
-async function displayDailyOmen() {
-    const omenElement = document.getElementById("omenText"); 
-    if (omenElement) {
-        try {
-            const workerUrl = "https://astro-omen.astroinsight.workers.dev/";
-            const response = await fetch(workerUrl);
-            if (!response.ok) throw new Error("Cosmic connection error");
-            const data = await response.json();
-            omenElement.textContent = data.omen;
-        } catch (error) {
-            console.error("Cosmic connection failed:", error);
-            omenElement.textContent = "The universe is whispering secrets. Listen closely.";
-        }
-    }
-}
-document.addEventListener("DOMContentLoaded", displayDailyOmen);
-
 // ==========================================
 // ASTRO-COMPATIBILITY SYSTEM
 // ==========================================
