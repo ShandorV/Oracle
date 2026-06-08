@@ -99,24 +99,6 @@ const zodiacData = {
     }
 };
 
-const localDb = {
-    Insight: [
-        "The stars align to grant you clarity today. Trust your intuition over pure logic.",
-        "A celestial shift might bring a minor miscommunication. Speak with intention and grace.",
-        "Your planetary ruler is well-aspected. A perfect day to plant the seeds for future success."
-    ],
-    weekly: [
-        "This week's lunar phase emphasizes emotional growth. Seek harmony in your relationships.",
-        "A dynamic transit brings rapid changes. Keep your mind open and adapt to the currents.",
-        "The cosmos advises patience. Focus on foundational work rather than immediate results."
-    ],
-    monthly: [
-        "This lunar cycle heralds a period of deep transformation. Shed what no longer serves your spirit.",
-        "Your solar return brings radiant energy. Step into the spotlight and claim your power.",
-        "A major planetary alignment suggests it is time to realign your physical space with your spiritual goals."
-    ]
-};
-
 // ==========================================
 // BACKGROUND CANVAS (CONSTELLATIONS & TOUCH)
 // ==========================================
@@ -307,8 +289,30 @@ function toggleMobileMenu() {
 }
 
 // ==========================================
-// JSON MODAL LOGIC (З Анти-Кешем та Повним FailSafe)
+// CLOUDFLARE WORKER MODAL LOGIC (AI Celestial Readings)
 // ==========================================
+const READINGS_WORKER_URL = "https://celestialreadings.astroinsight.workers.dev/";
+
+async function fetchCelestialReading(sign, type) {
+    try {
+        const response = await fetch(`${READINGS_WORKER_URL}?sign=${sign}&type=${type}`);
+        if (!response.ok) throw new Error("Stars are obscured today");
+        const data = await response.json();
+        return data.reading;
+    } catch (error) {
+        console.error("Worker fetch failed for " + type + ":", error);
+        
+        // БЕЗПЕЧНИЙ FALLBACK: Перевіряємо, чи існує localDb взагалі, щоб не було крашу
+        if (typeof localDb !== 'undefined' && localDb) {
+            const dbRef = type === 'daily' ? localDb.Insight : localDb[type];
+            if (dbRef) return dbRef[Math.floor(Math.random() * dbRef.length)] + "\n\n(Drawn from local grimoire)";
+        }
+        
+        // Якщо localDb немає (а зараз його в коді немає), повертаємо цю фразу:
+        return "The cosmic currents are shifting. The Oracle needs a moment to align with your stars.";
+    }
+}
+
 async function openModal(sign) {
     // Отримуємо всі фіксовані дані для обраного знака
     const zData = zodiacData[sign];
@@ -328,33 +332,28 @@ async function openModal(sign) {
     document.getElementById('luckyColorBox').style.color = zData.aura;
     document.getElementById('luckyColorName').innerText = zData.colorName;
 
-    // Щасливі числа залишаємо випадковими (магія моменту)
+    // Щасливі числа
     document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
 
     try { switchTab(null, 'Insight'); } catch(e) {} 
     
-    document.getElementById('fortuneTextInsight').innerText = "Consulting the celestial charts...";
-    document.getElementById('fortuneTextWeekly').innerText = "Calculating planetary transits...";
-    document.getElementById('fortuneTextMonthly').innerText = "Reading the lunar cycles...";
+    // Ефект завантаження
+    document.getElementById('fortuneTextInsight').innerText = "Aligning cosmic frequencies... ⟡";
+    document.getElementById('fortuneTextWeekly').innerText = "Consulting planetary spheres... ⟡";
+    document.getElementById('fortuneTextMonthly').innerText = "Reading celestial charts... ⟡";
 
-    try {
-        // ДОДАНО АНТИ-КЕШ: Браузер гарантовано завантажить найсвіжіші дані від Make.com
-        const response = await fetch('horoszkop.json?nocache=' + new Date().getTime());
-        if (!response.ok) throw new Error('File not found');
-        const data = await response.json();
-        
-        // Безпечний вивід з перевіркою обох ключів (daily та Insight)
-        document.getElementById('fortuneTextInsight').innerText = data.zodiacs[sign].daily || data.zodiacs[sign].Insight || "No transit data available.";
-        document.getElementById('fortuneTextWeekly').innerText = data.zodiacs[sign].weekly || "No weekly data available.";
-        document.getElementById('fortuneTextMonthly').innerText = data.zodiacs[sign].monthly || "No monthly data available.";
-    } catch (error) {
-        console.log("JSON offline or cached, reverting to local mystical database...");
-        
-        // Рятувальний круг: якщо мережа впала, підтягуємо випадкові дані з localDb без помилок undefined
-        document.getElementById('fortuneTextInsight').innerText = localDb.Insight[Math.floor(Math.random() * localDb.Insight.length)] + "\n\n(Drawn from local grimoire)";
-        document.getElementById('fortuneTextWeekly').innerText = localDb.weekly[Math.floor(Math.random() * localDb.weekly.length)];
-        document.getElementById('fortuneTextMonthly').innerText = localDb.monthly[Math.floor(Math.random() * localDb.monthly.length)];
-    }
+    // НОВИЙ БЛОК: Запит до Cloudflare Worker замість horoszkop.json
+    // Promise.all дозволяє завантажити всі 3 прогнози одночасно, що значно прискорює роботу сайту
+    const [dailyReading, weeklyReading, monthlyReading] = await Promise.all([
+        fetchCelestialReading(sign, "daily"),
+        fetchCelestialReading(sign, "weekly"),
+        fetchCelestialReading(sign, "monthly")
+    ]);
+
+    // Виведення результатів від штучного інтелекту у вікно
+    document.getElementById('fortuneTextInsight').innerText = dailyReading;
+    document.getElementById('fortuneTextWeekly').innerText = weeklyReading;
+    document.getElementById('fortuneTextMonthly').innerText = monthlyReading;
 }
 
 function switchTab(event, tabName) {
@@ -528,6 +527,21 @@ document.addEventListener("DOMContentLoaded", function() {
 // ==========================================
 
 function saveToArchive() { 
+    // ЗАПОБІЖНИК: Перевіряємо, чи не вантажиться ще текст
+    const insightText = document.getElementById('fortuneTextInsight').innerText;
+    if (insightText.includes("Aligning cosmic frequencies...") || insightText.includes("cosmic currents are shifting")) {
+        // Якщо прогноз ще не готовий, не даємо його зберегти
+        const btn = document.getElementById('saveBtn');
+        const originalText = btn.innerText;
+        btn.innerText = "Wait for Oracle...";
+        btn.style.backgroundColor = "#ef4444"; // Червоний колір попередження
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.backgroundColor = "";
+        }, 1500);
+        return;
+    }
+
     document.getElementById('saveBtn').innerText = "Inscribed ✓"; 
     playSound('success');
     
