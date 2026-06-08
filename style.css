@@ -550,24 +550,26 @@ details li { margin-bottom: 8px; }
 
 /* Кнопка */
 .compat-btn {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.25));
-    border: 1px solid var(--glow-color);
+    background: var(--glow-color); /* Суцільний золотий колір */
+    border: none; /* Рамка більше не потрібна */
     border-radius: 8px;
     padding: 14px 35px;
-    color: var(--text-main);
+    color: var(--bg-body); /* Темний текст для ідеального контрасту на золотому фоні */
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: bold; /* Жирний шрифт, як на інших золотих кнопках */
+    text-transform: uppercase; /* Робимо всі літери великими для стилю */
     cursor: pointer;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); /* Базове світіння */
 }
 
 .compat-btn:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.4));
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    background: var(--text-main); /* Змінюється на білий при наведенні, як .glow-btn */
+    color: var(--bg-body);
+    box-shadow: 0 0 20px var(--glow-color); /* Посилене магічне світіння */
 }
 
 .compat-btn:active {
@@ -589,19 +591,30 @@ details li { margin-bottom: 8px; }
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Адаптивність для мобілок */
-@media (max-width: 600px) {
+/* Адаптивність для мобілок (Astro Compatibility) */
+@media (max-width: 768px) {
+    .compatibility-section {
+        padding: 40px 15px; /* Зменшуємо зовнішні відступи */
+    }
+    .compatibility-container {
+        padding: 25px 15px; /* Робимо контейнер компактнішим */
+    }
     .compatibility-form {
         flex-direction: column;
-        align-items: center;
-        gap: 20px;
+        align-items: stretch; /* Щоб списки розтягнулися на всю ширину */
+        gap: 15px;
+        margin-bottom: 25px;
     }
     .select-group {
         width: 100%;
     }
     .cosmic-connector {
-        transform: rotate(90deg); /* Перевертаємо блискавку вертикально на смартфонах */
+        transform: rotate(90deg); /* Перевертаємо блискавку */
+        margin: 5px 0;
         padding-bottom: 0;
+    }
+    .compat-btn {
+        width: 100%; /* Розтягуємо кнопку для зручного натискання пальцем */
     }
 }
 
