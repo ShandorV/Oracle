@@ -761,10 +761,21 @@ function handleFormSubmit(e) {
     e.preventDefault();
     const form = document.querySelector('.contact-form');
     const btn = document.querySelector('.submit-btn');
-    
+
+    const data = {
+        name: document.getElementById('user-name').value,
+        email: document.getElementById('user-email').value,
+        subject: document.getElementById('msg-subject').value,
+        message: document.getElementById('user-message').value
+    };
+
     fetch(form.action, {
         method: 'POST',
-        body: new FormData(form),
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     }).then(r => {
         if (r.ok) {
             btn.innerText = "Message Sent ✓";
