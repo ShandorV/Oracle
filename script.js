@@ -370,12 +370,6 @@ function switchTab(event, tabName) {
 // ==========================================
 // WIDGETS
 // ==========================================
-function checkCompatibility() {
-    playSound('mystic');
-    const score = Math.floor(Math.random() * 40) + 60; 
-    let message = score > 85 ? "A celestial match written in the stars." : score > 70 ? "Strong alignment, with room for growth." : "Challenging aspects. Patience is required.";
-    document.getElementById('compResult').innerHTML = `Harmonic Resonance: <strong>${score}%</strong> <br><br> <span style="font-size:0.9em; color:var(--text-muted)">${message}</span>`;
-}
 
 function drawTarot() {
     const tarotContainer = document.getElementById('tarotResult');
