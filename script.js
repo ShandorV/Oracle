@@ -756,3 +756,24 @@ async function displayDailyOmen() {
     }
 }
 document.addEventListener("DOMContentLoaded", displayDailyOmen);
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const form = document.querySelector('.contact-form');
+    const btn = document.querySelector('.submit-btn');
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+    }).then(r => {
+        if (r.ok) {
+            btn.innerText = "Message Sent ✓";
+            btn.style.background = "#22c55e";
+            form.reset();
+        } else {
+            btn.innerText = "Something went wrong. Try again.";
+            btn.style.background = "#ef4444";
+        }
+    });
+}
