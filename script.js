@@ -765,7 +765,6 @@ function handleFormSubmit(e) {
     fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
     }).then(r => {
         if (r.ok) {
             btn.innerText = "Message Sent ✓";
