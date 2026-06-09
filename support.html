@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <form class="contact-form" onsubmit="event.preventDefault();">
+            <form class="contact-form" action="https://formspree.io/f/mqeobjed" method="POST">
                 <div class="form-group">
                     <label for="user-name">Your Name</label>
                     <input type="text" id="user-name" placeholder="Seeker Name" required autocomplete="name">
@@ -70,7 +70,7 @@
                     <textarea id="user-message" placeholder="Describe your cosmic block or inquiry in detail..." required></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn">Send Message</button>
+                <button type="submit" class="submit-btn" onclick="handleFormSubmit(event)">Send Message</button>
             </form>
         </div>
     </div>
