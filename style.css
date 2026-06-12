@@ -30,7 +30,7 @@ body {
     background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%);
     background-size: cover;       
     background-repeat: no-repeat; 
-    background-attachment: fixed; 
+    /* background-attachment: fixed; -> Eltávolítva a mobil lag miatt */
     z-index: -1;
     pointer-events: none;
 }
@@ -308,6 +308,11 @@ select:focus, input:focus { border-color: var(--glow-color); }
 
 /* СМАРТФОНИ (до 768px) */
 @media (max-width: 768px) {
+    /* Mobil teljesítmény-optimalizálás: nehéz effektek kikapcsolása */
+    *, *::before, *::after {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
     #desktopNav { display: none; } 
     .hamburger { display: flex; } 
     
@@ -338,8 +343,8 @@ select:focus, input:focus { border-color: var(--glow-color); }
     .modal-actions { flex-direction: column; }
     
     /* Додано мобільні стилі для нових сторінок */
-.privacy-container, .faq-container, .contact-container, .about-container, .terms-container { margin: 100px 15px 40px; padding: 25px 15px; }
-.privacy-header h1, .faq-header h1, .contact-header h1, .terms-header h1 { font-size: 1.8rem; }
+    .privacy-container, .faq-container, .contact-container, .about-container, .terms-container { margin: 100px 15px 40px; padding: 25px 15px; }
+    .privacy-header h1, .faq-header h1, .contact-header h1, .terms-header h1 { font-size: 1.8rem; }
     .contact-grid { grid-template-columns: 1fr; gap: 30px; }
     .about-intro h1 { font-size: 2rem; }
 }
@@ -350,7 +355,7 @@ select:focus, input:focus { border-color: var(--glow-color); }
 body.static-page {
     background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%) !important;
     background-size: cover !important;
-    background-attachment: fixed !important;
+    /* background-attachment: fixed !important; -> Eltávolítva a mobil lag miatt */
     background-repeat: no-repeat !important;
 }
 
