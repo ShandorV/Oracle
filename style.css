@@ -28,9 +28,9 @@ body {
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%);
-    background-size: cover;       /* Розтягує фон на весь екран без пробілів */
-    background-repeat: no-repeat; /* Категорично забороняє дублювання фону */
-    background-attachment: fixed; /* Прив'язує фон до екрана, а не до скролу */
+    background-size: cover;       
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
     z-index: -1;
     pointer-events: none;
 }
@@ -151,7 +151,7 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 12px; /* Відстань між логотипом і текстом */
+    gap: 12px;
 }
 
 .logo-img {
@@ -160,16 +160,13 @@ select:focus, input:focus { border-color: var(--glow-color); }
     border-radius: 50%;
     border: 1px solid var(--glow-color);
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
-    /* Гнучкий перехід для всіх ефектів (розмір, світіння) */
     transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
-    cursor: pointer; /* Змінює курсор на вказівний палець, натякаючи на клік */
+    cursor: pointer; 
 }
 
-/* Ефект при наведенні курсору */
 .logo-img:hover {
-    transform: scale(1.3); /* Збільшуємо на 30%, щоб розгледіти деталі */
-    box-shadow: 0 0 15px var(--glow-color); /* Посилюємо магічне світіння */
-
+    transform: scale(1.3); 
+    box-shadow: 0 0 15px var(--glow-color); 
 }
 
 /* ==========================================
@@ -213,15 +210,12 @@ select:focus, input:focus { border-color: var(--glow-color); }
     line-height: 1;
 }
 .delete-btn:hover {
-    color: var(--color-danger); /* Червоний колір при наведенні */
+    color: var(--color-danger); 
 }
-
 
 /* ==========================================
    MOBILE & TABLET ADAPTATION (RESPONSIVE)
    ========================================== */
-
-/* Гамбургер і Мобільне меню (Сховані на ПК) */
 .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 2001; }
 .hamburger span { width: 30px; height: 3px; background: var(--glow-color); transition: 0.3s; border-radius: 2px;}
 
@@ -240,6 +234,39 @@ select:focus, input:focus { border-color: var(--glow-color); }
 /* ==========================================
    ABOUT SECTION (Somex Integration)
    ========================================== */
+.about-container { 
+    max-width: 1000px; 
+    margin: 120px auto 60px; 
+    padding: 40px; 
+    background: var(--bg-panel); 
+    border-radius: 8px; 
+    border: 1px solid var(--glow-color-dim); 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5); 
+    text-align: center; 
+}
+.about-intro h1 { 
+    font-size: 2.8rem; 
+    color: var(--glow-color); 
+    margin-bottom: 20px; 
+    font-family: 'Playfair Display', serif; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+}
+.hero-text { 
+    font-size: 1.15rem; 
+    line-height: 1.7; 
+    color: var(--text-muted); 
+    max-width: 800px; 
+    margin: 0 auto 50px; 
+    font-family: sans-serif;
+}
+.about-features h2 { 
+    font-size: 1.8rem; 
+    color: var(--text-main); 
+    margin-bottom: 30px; 
+    font-weight: 400;
+}
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -281,8 +308,8 @@ select:focus, input:focus { border-color: var(--glow-color); }
 
 /* СМАРТФОНИ (до 768px) */
 @media (max-width: 768px) {
-    #desktopNav { display: none; } /* Ховаємо звичайне меню */
-    .hamburger { display: flex; } /* Показуємо гамбургер */
+    #desktopNav { display: none; } 
+    .hamburger { display: flex; } 
     
     header h1 { font-size: 2.2rem; margin-top: 10px;}
     .subtitle { font-size: 1rem; }
@@ -290,29 +317,31 @@ select:focus, input:focus { border-color: var(--glow-color); }
     section { padding: 20px 15px; }
     section h3 { font-size: 1.6rem; }
     
-    /* Сітка знаків: 2 колонки */
     .zodiac-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .card { padding: 15px 5px; }
     .card .icon { font-size: 2.5rem; }
     .card h3 { font-size: 1.1rem; }
     
-    /* Таро: Вертикальний стек */
     .tarot-grid { flex-direction: column; align-items: center; gap: 15px;}
-    .tarot-card { width: 100%; max-width: 250px; height: 120px; } /* Горизонтальні плашки для економії місця */
+    .tarot-card { width: 100%; max-width: 250px; height: 120px; } 
     
-    /* Форми на 100% ширини */
     .two-col-grid { grid-template-columns: 1fr; gap: 20px;}
     .ask-input-group, .selector-group { flex-direction: column; width: 100%; }
     .ask-input-group input, .selector-group select { width: 100%; box-sizing: border-box; }
     .glow-btn { width: 100%; box-sizing: border-box;}
     
-    /* Модальне вікно */
     .modal-content { width: 95%; margin: 15% auto; padding: 25px 15px; }
     .glow-text { font-size: 2rem; }
     .modal-tabs { flex-wrap: wrap; }
     .tab-btn { flex: 1 1 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px;}
     .lucky-attributes { flex-direction: column; align-items: flex-start; }
     .modal-actions { flex-direction: column; }
+    
+    /* Додано мобільні стилі для нових сторінок */
+.privacy-container, .faq-container, .contact-container, .about-container, .terms-container { margin: 100px 15px 40px; padding: 25px 15px; }
+.privacy-header h1, .faq-header h1, .contact-header h1, .terms-header h1 { font-size: 1.8rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+    .about-intro h1 { font-size: 2rem; }
 }
 
 /* ==========================================
@@ -361,6 +390,18 @@ details li { margin-bottom: 8px; }
 .privacy-section ul { padding-left: 20px; margin-bottom: 15px; }
 .privacy-section strong { color: var(--glow-color); font-weight: normal; }
 .hr-divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, var(--glow-color-dim), transparent); margin: 30px 0; }
+/* ==========================================
+   TERMS AND CONDITIONS
+   ========================================== */
+.terms-container { max-width: 800px; margin: 120px auto 60px; padding: 40px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--glow-color-dim); box-shadow: 0 8px 32px rgba(0,0,0,0.5); text-align: left; }
+.terms-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+.terms-header h1 { font-size: 2.5rem; color: var(--glow-color); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;}
+.last-updated { font-size: 1rem; color: var(--text-muted); font-style: italic; margin: 0; }
+.terms-section { margin-bottom: 30px; }
+.terms-section h2 { font-size: 1.4rem; color: var(--text-main); margin-bottom: 15px; font-weight: 400;}
+.terms-section p, .terms-section li { font-size: 1.1rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; font-family: sans-serif; }
+.terms-section ul { padding-left: 20px; }
+.terms-section strong { color: var(--glow-color); font-weight: normal; }
 
 /* ==========================================
    CONTACT SUPPORT
@@ -397,12 +438,6 @@ details li { margin-bottom: 8px; }
 .footer-links a:hover { color: var(--text-main); text-shadow: 0 0 8px var(--glow-color); }
 .footer-links .divider { color: rgba(255, 255, 255, 0.2); }
 
-@media (max-width: 768px) {
-    .privacy-container, .faq-container, .contact-container { margin: 100px 15px 40px; padding: 25px 15px; }
-    .privacy-header h1, .faq-header h1, .contact-header h1 { font-size: 1.8rem; }
-    .contact-grid { grid-template-columns: 1fr; gap: 30px; }
-}
-
 .nav-logo-link {
     text-decoration: none; 
     color: inherit;
@@ -434,18 +469,16 @@ details li { margin-bottom: 8px; }
 }
 
 .compatibility-container {
-    background: transparent; /* Прибираємо дублюючий фон, щоб злитися з великою рамкою */
-    border: none; /* ВИДАЛЯЄМО ВНУТРІШНЮ РАМКУ */
+    background: transparent; 
+    border: none; 
     padding: 40px 30px;
     max-width: 650px;
     width: 100%;
     text-align: center;
-    box-shadow: none; /* Прибираємо внутрішню тінь */
+    box-shadow: none; 
 }
 
 .compatibility-container:hover {
-    /* Оскільки внутрішньої рамки більше немає, ми відключаємо зміну її кольору. 
-       Велика зовнішня рамка секції вже має власний hover-ефект! */
     border-color: transparent;
     box-shadow: none;
 }
@@ -466,7 +499,6 @@ details li { margin-bottom: 8px; }
     margin-bottom: 35px;
 }
 
-/* Форма та інпути */
 .compatibility-form {
     display: flex;
     justify-content: space-between;
@@ -491,7 +523,6 @@ details li { margin-bottom: 8px; }
     padding-left: 5px;
 }
 
-/* Кастомізація випадаючого списку */
 .select-wrapper {
     position: relative;
     width: 100%;
@@ -509,7 +540,7 @@ details li { margin-bottom: 8px; }
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
-    -webkit-appearance: none; /* Прибираємо стандартну стрілку браузера */
+    -webkit-appearance: none; 
     -moz-appearance: none;
     appearance: none;
 }
@@ -520,14 +551,12 @@ details li { margin-bottom: 8px; }
     background: rgba(15, 23, 42, 0.95);
 }
 
-/* Стилізація опцій всередині випадаючого списку */
 .select-wrapper select option {
     background: #0a0f1d;
     color: var(--text-main);
     padding: 10px;
 }
 
-/* Наша власна кастомна стрілочка замість дефолтної */
 .select-wrapper::after {
     content: '▾';
     font-size: 12px;
@@ -539,7 +568,6 @@ details li { margin-bottom: 8px; }
     pointer-events: none;
 }
 
-/* Космічний конектор (блискавка) */
 .cosmic-connector {
     font-size: 1.5rem;
     color: var(--glow-color);
@@ -548,35 +576,33 @@ details li { margin-bottom: 8px; }
     animation: pulseGlow 2s infinite ease-in-out;
 }
 
-/* Кнопка */
 .compat-btn {
-    background: var(--glow-color); /* Суцільний золотий колір */
-    border: none; /* Рамка більше не потрібна */
+    background: var(--glow-color); 
+    border: none; 
     border-radius: 8px;
     padding: 14px 35px;
-    color: var(--bg-body); /* Темний текст для ідеального контрасту на золотому фоні */
+    color: var(--bg-body); 
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
-    font-weight: bold; /* Жирний шрифт, як на інших золотих кнопках */
-    text-transform: uppercase; /* Робимо всі літери великими для стилю */
+    font-weight: bold; 
+    text-transform: uppercase; 
     cursor: pointer;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); /* Базове світіння */
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); 
 }
 
 .compat-btn:hover {
     transform: translateY(-2px);
-    background: var(--text-main); /* Змінюється на білий при наведенні, як .glow-btn */
+    background: var(--text-main); 
     color: var(--bg-body);
-    box-shadow: 0 0 20px var(--glow-color); /* Посилене магічне світіння */
+    box-shadow: 0 0 20px var(--glow-color); 
 }
 
 .compat-btn:active {
     transform: translateY(1px);
 }
 
-/* Блок відображення результату */
 .compat-result-box {
     margin-top: 30px;
     padding: 20px;
@@ -591,17 +617,16 @@ details li { margin-bottom: 8px; }
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Адаптивність для мобілок (Astro Compatibility) */
 @media (max-width: 768px) {
     .compatibility-section {
-        padding: 40px 15px; /* Зменшуємо зовнішні відступи */
+        padding: 40px 15px; 
     }
     .compatibility-container {
-        padding: 25px 15px; /* Робимо контейнер компактнішим */
+        padding: 25px 15px; 
     }
     .compatibility-form {
         flex-direction: column;
-        align-items: stretch; /* Щоб списки розтягнулися на всю ширину */
+        align-items: stretch; 
         gap: 15px;
         margin-bottom: 25px;
     }
@@ -609,12 +634,12 @@ details li { margin-bottom: 8px; }
         width: 100%;
     }
     .cosmic-connector {
-        transform: rotate(90deg); /* Перевертаємо блискавку */
+        transform: rotate(90deg); 
         margin: 5px 0;
         padding-bottom: 0;
     }
     .compat-btn {
-        width: 100%; /* Розтягуємо кнопку для зручного натискання пальцем */
+        width: 100%; 
     }
 }
 
