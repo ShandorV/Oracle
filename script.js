@@ -603,6 +603,8 @@ function saveToArchive() {
 function renderArchive() {
     // ... Ця функція залишається без змін, не чіпай її, якщо вона є
     const container = document.getElementById('archiveContainer');
+    if (!container) return;
+
     let archive = JSON.parse(localStorage.getItem('astroArchive')) || [];
     
     if (archive.length === 0) {
@@ -669,8 +671,12 @@ function deleteArchiveItem(index, event) {
 }
 
 // Базові обробники подій
-document.querySelector('.close-btn').onclick = () => document.getElementById('fortuneModal').style.display = "none";
-window.onclick = (e) => { if (e.target == document.getElementById('fortuneModal')) document.getElementById('fortuneModal').style.display = "none"; };
+const closeBtn = document.querySelector('.close-btn');
+const fortuneModal = document.getElementById('fortuneModal');
+if (closeBtn && fortuneModal) {
+    closeBtn.onclick = () => fortuneModal.style.display = "none";
+    window.onclick = (e) => { if (e.target == fortuneModal) fortuneModal.style.display = "none"; };
+}
 renderArchive();
 
 // ==========================================
