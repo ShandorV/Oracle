@@ -104,52 +104,67 @@ const zodiacData = {
 // ==========================================
 const canvas = document.getElementById('starlight-canvas');
 const ctx = canvas.getContext('2d');
-let width, height, stars = [];
+let width, height, stars = [], zodiacGroups = [];
 let currentAuraColor = '#d4af37'; 
 const mouse = { x: null, y: null };
+const STAR_DRIFT_SPEED = 0.05;
+const WRAP_PADDING = 180;
+const ZODIAC_REPEATS = 2;
 
 function initCanvas() {
     // Pixel Snapping: округлюємо розміри полотна до цілих чисел
     width = canvas.width = Math.floor(window.innerWidth);
     height = canvas.height = Math.floor(window.innerHeight);
     stars = [];
+    zodiacGroups = [];
 
     // ОПТИМІЗАЦІЯ ДЛЯ СМАРТФОНІВ (Зменшуємо кількість зірок для батареї)
     const divisor = width < 768 ? 25000 : 10000;
-    const starCount = (width * height) / divisor;
+    const starFieldWidth = width + WRAP_PADDING * 2;
+    const starCount = (starFieldWidth * height) / divisor;
     
     for (let i = 0; i < starCount; i++) {
-        stars.push(new Star(Math.random() * width, Math.random() * height, false));
+        const x = Math.random() * starFieldWidth - WRAP_PADDING;
+        stars.push(new Star(x, Math.random() * height, false));
     }
 
     const signs = Object.keys(zodiacData);
     const cols = width < 768 ? 2 : 4; // 2 колонки сузір'їв на телефонах, 4 на ПК
     
-    signs.forEach((name, idx) => {
-        const col = idx % cols;
-        const row = Math.floor(idx / cols);
-        
-        const centerX = (width / cols) * (col + 0.5) - 50; 
-        const centerY = (height / Math.ceil(signs.length / cols)) * (row + 0.5) - 50;
-        
-        // Масштабування для різних екранів
-        const baseScale = width < 768 ? 1200 : 800;
-        const scale = Math.min(width, height) / baseScale; 
+    for (let repeat = 0; repeat < ZODIAC_REPEATS; repeat++) {
+        const repeatOffsetX = repeat * width;
 
-        const pattern = zodiacData[name];
-        const zodiacStars = pattern.points.map(p => {
-            const s = new Star(centerX + p[0] * scale, centerY + p[1] * scale, true, name);
-            stars.push(s);
-            return s;
+        signs.forEach((name, idx) => {
+            const col = idx % cols;
+            const row = Math.floor(idx / cols);
+            
+            const centerX = (width / cols) * (col + 0.5) - 50 + repeatOffsetX; 
+            const centerY = (height / Math.ceil(signs.length / cols)) * (row + 0.5) - 50;
+            
+            // Масштабування для різних екранів
+            const baseScale = width < 768 ? 1200 : 800;
+            const scale = Math.min(width, height) / baseScale; 
+
+            const pattern = zodiacData[name];
+            const zodiacStars = pattern.points.map(p => {
+                const s = new Star(centerX + p[0] * scale, centerY + p[1] * scale, true, name);
+                stars.push(s);
+                return s;
+            });
+            
+            pattern.links.forEach(link => {
+                const s1 = zodiacStars[link[0]];
+                const s2 = zodiacStars[link[1]];
+                if (!s1.connections) s1.connections = [];
+                s1.connections.push(s2);
+            });
+
+            zodiacGroups.push({
+                stars: zodiacStars,
+                wrapDistance: width * ZODIAC_REPEATS
+            });
         });
-        
-        pattern.links.forEach(link => {
-            const s1 = zodiacStars[link[0]];
-            const s2 = zodiacStars[link[1]];
-            if (!s1.connections) s1.connections = [];
-            s1.connections.push(s2);
-        });
-    });
+    }
 }
 
 class Star {
@@ -179,10 +194,27 @@ class Star {
     }
 
     update() {
-        this.x -= 0.05; 
-        if (this.x < -150) this.x = width + 150;
+        if (!this.isZodiac) {
+            this.x -= STAR_DRIFT_SPEED; 
+            if (this.x < -WRAP_PADDING) this.x = width + WRAP_PADDING;
+        }
         this.draw();
     }
+}
+
+function updateZodiacGroups() {
+    zodiacGroups.forEach(group => {
+        group.stars.forEach(star => {
+            star.x -= STAR_DRIFT_SPEED;
+        });
+
+        const rightEdge = Math.max(...group.stars.map(star => star.x));
+        if (rightEdge < -WRAP_PADDING) {
+            group.stars.forEach(star => {
+                star.x += group.wrapDistance;
+            });
+        }
+    });
 }
 
 function drawLines() {
@@ -227,6 +259,7 @@ function drawLines() {
 
 function animate() {
     ctx.clearRect(0, 0, width, height);
+    updateZodiacGroups();
     stars.forEach(s => s.update());
     drawLines();
     requestAnimationFrame(animate);
