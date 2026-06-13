@@ -328,20 +328,17 @@ const READINGS_WORKER_URL = "https://celestialreadings.astroinsight.workers.dev/
 
 async function fetchCelestialReading(sign, type) {
     try {
+        // КРИТИЧНО ВАЖЛИВО: в кінці посилання обов'язково має бути ?sign=${sign}&type=${type}
         const response = await fetch(`${READINGS_WORKER_URL}?sign=${sign}&type=${type}`);
         if (!response.ok) throw new Error("Stars are obscured today");
         const data = await response.json();
         return data.reading;
     } catch (error) {
         console.error("Worker fetch failed for " + type + ":", error);
-        
-        // БЕЗПЕЧНИЙ FALLBACK: Перевіряємо, чи існує localDb взагалі, щоб не було крашу
         if (typeof localDb !== 'undefined' && localDb) {
             const dbRef = type === 'daily' ? localDb.Insight : localDb[type];
             if (dbRef) return dbRef[Math.floor(Math.random() * dbRef.length)] + "\n\n(Drawn from local grimoire)";
         }
-        
-        // Якщо localDb немає (а зараз його в коді немає), повертаємо цю фразу:
         return "The cosmic currents are shifting. The Oracle needs a moment to align with your stars.";
     }
 }
@@ -356,7 +353,7 @@ async function openModal(sign) {
     document.getElementById('fortuneModal').style.display = "block";
     
     // Заповнюємо астрологічні поля
-    document.getElementById('modalPlanet').innerText = zData.planet;
+    document.getElementById('modalPlanet').innerHTML = `<a href="planet.html?name=${zData.planet}" style="color: var(--glow-color); text-decoration: underline; cursor: pointer;">${zData.planet}</a>`;
     document.getElementById('modalElement').innerText = zData.element;
     document.getElementById('modalEnergy').innerText = `"${zData.energy}"`;
 
