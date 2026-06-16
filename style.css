@@ -154,30 +154,30 @@ body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var
 
 
 /* ==========================================
-           MODAL, TABS & ATTRIBUTES 
+   MODAL, TABS & ATTRIBUTES (RESPONSIVE MASTER)
    ========================================== */
 .modal { 
-    display: none; /* Alapértelmezett állapot: rejtve */
+    display: none; 
     position: fixed; 
     z-index: 2000; 
     left: 0; top: 0; 
     width: 100%; height: 100%; 
     background-color: rgba(0,0,0,0.85); 
-    overflow-y: auto; /* Biztonsági görgetősáv, ha nagyon kicsi lenne a kijelző */
+    overflow-y: auto;
 }
 
 .modal-content { 
     background-color: var(--bg-panel); 
     border: 2px solid var(--glow-color); 
-    width: 90%; 
-    max-width: 750px; /* JAVÍTÁS GÉPRE: 500px-ről felemelve, így újra szépen széthúzódik monitoron */
+    width: 85%; 
+    max-width: 750px; /* Gépen szép széles elrendezést biztosít */
     max-height: 85vh; 
     border-radius: 12px; 
     position: relative; 
     box-shadow: 0 0 40px rgba(0,0,0,0.8);
     display: flex; 
     flex-direction: column; 
-    margin: 100px auto 40px; /* JAVÍTÁS GÉPRE: Fix távolság a navbar alatt, pontosan igazodva a containerhez */
+    margin: 100px auto 40px; /* Fix távolság a felső navbar alatt */
 }
 
 .modal-header { 
@@ -198,7 +198,7 @@ body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var
 .close-btn:hover { color: white; }
 
 .modal-body { 
-    padding: 20px; 
+    padding: 25px; 
     overflow-y: auto; 
     flex: 1; 
 }
@@ -213,34 +213,64 @@ body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var
 
 /* Tabs */
 .modal-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-.tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 10px; cursor: pointer; border-bottom: 3px solid transparent; font-family: 'Playfair Display', serif; font-size: 1rem; }
+.tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 12px; cursor: pointer; border-bottom: 3px solid transparent; font-family: 'Playfair Display', serif; font-size: 1.05rem; }
 .tab-btn.active { color: var(--glow-color); border-bottom-color: var(--glow-color); font-weight: bold; }
-.tab-content { display: none; line-height: 1.6; text-align: left; font-size: 1.05rem; }
+.tab-content { display: none; line-height: 1.6; text-align: left; font-size: 1.1rem; }
 .tab-content.active-content { display: block; animation: fadeIn 0.4s; }
 
-/* Attributes & Actions */
-.lucky-attributes { display: flex; flex-wrap: wrap; gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-.modal-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
-.modal-actions button { width: 100%; padding: 12px; }
+/* Lucky Attributes - Gépen szépen elosztott sor */
+.lucky-attributes { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    gap: 15px; 
+    background: rgba(0,0,0,0.4); 
+    padding: 15px; 
+    border-radius: 6px; 
+    margin-bottom: 20px; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    flex-wrap: wrap;
+}
+.attribute-box { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.attr-label { color: var(--text-muted); font-style: italic; }
+.attr-value { font-weight: bold; color: var(--text-main); }
 
-/* EGYÉB ELEMEK */
-.container { position: relative; z-index: 1; width: 95%; max-width: 1000px; margin: 100px auto 40px; text-align: center; }
-section { background: var(--bg-panel); padding: 30px; border-radius: 8px; margin-bottom: 30px; border: 1px solid var(--glow-color-dim); }
-.zodiac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
-.glow-btn { padding: 12px 25px; background: var(--glow-color); border: none; border-radius: 4px; color: var(--bg-body); font-weight: bold; cursor: pointer; text-transform: uppercase; font-family: 'Playfair Display', serif; }
+/* Actions - GÉPEN EGYMÁS MELLETT */
+.modal-actions { 
+    display: flex; 
+    flex-direction: row; 
+    gap: 15px; 
+    margin-top: 25px; 
+}
+.modal-actions button { flex: 1; padding: 12px; }
 
-/* MOBIL */
+/* ==========================================
+   DINAMIKUS MOBIL MÓDOSÍTÁSOK
+   ========================================== */
 @media (max-width: 768px) {
     #desktopNav { display: none; }
     .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
     .modal-body { padding: 15px; }
     .glow-text { font-size: 1.4rem !important; }
+    
     .modal-content { 
         width: 92% !important;
-        /* JAVÍTÁS MOBILRA: A vh alapú csúszkálás helyett fix 100px-re toljuk le a tetejétől, 
-           így elegánsan elválik a felső navbartól, és az X gomb nem lóg bele a menübe */
         margin: 100px auto 20px !important; 
-    } 
+    }
+    
+    /* MOBILON VISSZAVÁLTUNK OSZLOPRA, HOGY ELFÉRJEN */
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .lucky-attributes {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .attribute-box.energy-box {
+        justify-content: flex-start !important;
+    }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
