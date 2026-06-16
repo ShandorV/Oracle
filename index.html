@@ -139,7 +139,7 @@
 <div id="fortuneModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span class="close-btn" onclick="document.getElementById('fortuneModal').style.display='none'">&times;</span>
         </div>
         
         <div class="modal-body">
@@ -156,7 +156,7 @@
                 <div class="attribute-box"><span class="attr-label">Element:</span> <span class="attr-value" id="modalElement"></span></div>
                 <div class="attribute-box"><span class="attr-label">Aura:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
                 <div class="attribute-box"><span class="attr-label">Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
-                <div class="attribute-box" style="flex: 1 1 100%; justify-content: center; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                <div class="attribute-box energy-box" style="flex: 1 1 100%; justify-content: center; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
                     <span class="attr-label">Energy:</span> <span class="attr-value" id="modalEnergy" style="color: var(--glow-color); font-style: italic;"></span>
                 </div>
             </div>
@@ -169,8 +169,7 @@
                 <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Inscribe to Grimoire</button>
                 <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share Fate</button>
             </div>
-        </div> 
-        </div>
+        </div> </div>
 </div>
 
 <footer class="site-footer">
