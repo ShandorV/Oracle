@@ -152,12 +152,12 @@ body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var
 .nav-links { display: flex; align-items: center; gap: 15px; }
 .nav-links a { color: var(--text-main); text-decoration: none; font-size: 1.1rem; }
 
-/* MODAL & TABS - A JAVÍTOTT RÉSZ */
+
 /* ==========================================
-   MODAL, TABS & ATTRIBUTES (BULLETPROOF FIX)
+           MODAL, TABS & ATTRIBUTES 
    ========================================== */
 .modal { 
-    display: none; /* FIX: Nincs többé display: flex, így frissítéskor szigorúan rejtve marad */
+    display: none; /* Alapértelmezett állapot: rejtve */
     position: fixed; 
     z-index: 2000; 
     left: 0; top: 0; 
@@ -170,14 +170,14 @@ body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var
     background-color: var(--bg-panel); 
     border: 2px solid var(--glow-color); 
     width: 90%; 
-    max-width: 500px; 
+    max-width: 750px; /* JAVÍTÁS GÉPRE: 500px-ről felemelve, így újra szépen széthúzódik monitoron */
     max-height: 85vh; 
     border-radius: 12px; 
     position: relative; 
     box-shadow: 0 0 40px rgba(0,0,0,0.8);
     display: flex; 
     flex-direction: column; 
-    margin: 6vh auto; /* FIX: margin: 0 helyett ez lövi be tökéletesen középre asztali gépen és mobilon is */
+    margin: 100px auto 40px; /* JAVÍTÁS GÉPRE: Fix távolság a navbar alatt, pontosan igazodva a containerhez */
 }
 
 .modal-header { 
@@ -235,7 +235,12 @@ section { background: var(--bg-panel); padding: 30px; border-radius: 8px; margin
     .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
     .modal-body { padding: 15px; }
     .glow-text { font-size: 1.4rem !important; }
-    .modal-content { margin: 8vh auto; } /* Kicsit több hely a mobil felső navbar alatt */
+    .modal-content { 
+        width: 92% !important;
+        /* JAVÍTÁS MOBILRA: A vh alapú csúszkálás helyett fix 100px-re toljuk le a tetejétől, 
+           így elegánsan elválik a felső navbartól, és az X gomb nem lóg bele a menübe */
+        margin: 100px auto 20px !important; 
+    } 
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
