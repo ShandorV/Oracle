@@ -136,8 +136,7 @@
             <h3>Personal Grimoire</h3>
             <div id="archiveContainer"><p class="subtitle">Your saved readings will be preserved here...</p></div>
         </section>
-
-        <div id="fortuneModal" class="modal">
+<div id="fortuneModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -145,35 +144,34 @@
         
         <div class="modal-body">
             <h2 id="signTitle" class="glow-text"></h2>
+            
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab(event, 'Insight')">Insight Transit</button>
+                <button class="tab-btn" onclick="switchTab(event, 'weekly')">Weekly Aspects</button>
+                <button class="tab-btn" onclick="switchTab(event, 'monthly')">Lunar Cycle</button>
             </div>
-                
-                <div class="modal-tabs">
-                    <button class="tab-btn active" onclick="switchTab(event, 'Insight')">Insight Transit</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'weekly')">Weekly Aspects</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'monthly')">Lunar Cycle</button>
-                </div>
 
-                <div class="lucky-attributes" id="luckyAttributes">
-                    <div class="attribute-box"><span class="attr-label">Planet:</span> <span class="attr-value" id="modalPlanet"></span></div>
-                    <div class="attribute-box"><span class="attr-label">Element:</span> <span class="attr-value" id="modalElement"></span></div>
-                    <div class="attribute-box"><span class="attr-label">Aura:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
-                    <div class="attribute-box"><span class="attr-label">Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
-                    <div class="attribute-box" style="flex: 1 1 100%; justify-content: center; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
-                        <span class="attr-label">Energy:</span> <span class="attr-value" id="modalEnergy" style="color: var(--glow-color); font-style: italic;"></span>
-                    </div>
-                </div>
-
-                <div id="tab-Insight" class="tab-content active-content"><p id="fortuneTextInsight">Reading the stars...</p></div>
-                <div id="tab-weekly" class="tab-content"><p id="fortuneTextWeekly">Loading...</p></div>
-                <div id="tab-monthly" class="tab-content"><p id="fortuneTextMonthly">Loading...</p></div>
-
-                <div class="modal-actions">
-                    <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Inscribe to Grimoire</button>
-                    <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share Fate</button>
+            <div class="lucky-attributes" id="luckyAttributes">
+                <div class="attribute-box"><span class="attr-label">Planet:</span> <span class="attr-value" id="modalPlanet"></span></div>
+                <div class="attribute-box"><span class="attr-label">Element:</span> <span class="attr-value" id="modalElement"></span></div>
+                <div class="attribute-box"><span class="attr-label">Aura:</span> <div class="color-preview" id="luckyColorBox"></div> <span class="attr-value" id="luckyColorName"></span></div>
+                <div class="attribute-box"><span class="attr-label">Numbers:</span> <span class="attr-value" id="luckyNumbers"></span></div>
+                <div class="attribute-box" style="flex: 1 1 100%; justify-content: center; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                    <span class="attr-label">Energy:</span> <span class="attr-value" id="modalEnergy" style="color: var(--glow-color); font-style: italic;"></span>
                 </div>
             </div>
+
+            <div id="tab-Insight" class="tab-content active-content"><p id="fortuneTextInsight">Reading the stars...</p></div>
+            <div id="tab-weekly" class="tab-content"><p id="fortuneTextWeekly">Loading...</p></div>
+            <div id="tab-monthly" class="tab-content"><p id="fortuneTextMonthly">Loading...</p></div>
+
+            <div class="modal-actions">
+                <button id="saveBtn" class="glow-btn" onclick="saveToArchive()">Inscribe to Grimoire</button>
+                <button id="shareBtn" class="glow-btn outline" onclick="shareDestiny()">Share Fate</button>
+            </div>
+        </div> 
         </div>
-    </div>
+</div>
 
 <footer class="site-footer">
     <p>&copy; 2026 Astro Insight. All rights reserved.</p>
