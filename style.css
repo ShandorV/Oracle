@@ -127,10 +127,10 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .tarot-name { font-weight: bold; font-size: 1.2rem; color: var(--text-main);}
 
 /* ==========================================
-   MODAL, TABS & ATTRIBUTES (FIXED HEADER)
+   MODAL, TABS & ATTRIBUTES (FIXED HEADER & SCROLL)
    ========================================== */
 .modal { 
-    display: none; 
+    display: none; /* Alapértelmezett állapot: rejtve */
     position: fixed; 
     z-index: 2000; 
     left: 0; top: 0; 
@@ -151,29 +151,29 @@ select:focus, input:focus { border-color: var(--glow-color); }
     position: relative; 
     box-shadow: 0 0 40px rgba(0,0,0,0.8);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Tartalom és gombok egymás alatt */
     margin: 0;
 }
 
-/* Fix fejléc a bezáró gombnak */
+/* Fix fejléc: a close-btn itt biztosan nem lóg ki */
 .modal-header {
+    flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
-    padding: 10px;
+    padding: 10px 15px;
     background: rgba(0,0,0,0.2);
-    border-bottom: 1px solid var(--glow-color-dim);
 }
 
 .close-btn { 
     font-size: 28px; cursor: pointer; color: var(--glow-color); 
-    line-height: 1; padding: 0 5px;
+    line-height: 1; padding: 5px;
 }
 .close-btn:hover { color: white; }
 
-/* Görgethető tartalom */
+/* A görgethető rész: a szöveg és a gombok is itt vannak */
 .modal-body {
     padding: 20px;
-    overflow-y: auto;
+    overflow-y: auto; /* Itt görgetünk */
     flex: 1;
 }
 
@@ -186,32 +186,27 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .modal-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
 .tab-btn { 
     flex: 1; background: transparent; border: none; color: var(--text-muted); 
-    padding: 12px 5px; cursor: pointer; transition: 0.3s; border-bottom: 3px solid transparent; 
+    padding: 10px; cursor: pointer; border-bottom: 3px solid transparent; 
     font-family: 'Playfair Display', serif; font-size: 1rem;
 }
-.tab-btn:hover { color: var(--text-main); }
 .tab-btn.active { color: var(--glow-color); border-bottom-color: var(--glow-color); font-weight: bold;}
-.tab-content { display: none; line-height: 1.6; text-align: left; min-height: 100px; font-size: 1.05rem;}
+.tab-content { display: none; line-height: 1.6; text-align: left; font-size: 1.05rem;}
 .tab-content.active-content { display: block; animation: fadeIn 0.4s; }
 
 /* Lucky Attributes */
 .lucky-attributes { 
-    display: flex; justify-content: flex-start; background: rgba(0,0,0,0.4); 
-    padding: 12px; border-radius: 4px; margin-bottom: 20px; 
-    border: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 15px; 
+    display: flex; flex-wrap: wrap; gap: 10px; background: rgba(0,0,0,0.4); 
+    padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1);
 }
-.attribute-box { display: flex; align-items: center; gap: 8px; font-size: 1rem;}
-.attr-label { color: var(--text-muted); font-style: italic; }
-.attr-value { font-weight: bold; color: var(--text-main); }
-.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.modal-actions button { flex: 1; padding: 10px; }
+.modal-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
+.modal-actions button { width: 100%; padding: 12px; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Mobil optimalizálás */
 @media (max-width: 768px) {
     .modal-body { padding: 15px; }
-    .glow-text { font-size: 1.5rem !important; }
+    .glow-text { font-size: 1.4rem !important; }
 }
 
 /* ==========================================
