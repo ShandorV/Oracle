@@ -126,88 +126,75 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .tarot-title { color: var(--glow-color); font-size: 0.9rem; margin-bottom: 15px; font-style: italic;}
 .tarot-name { font-weight: bold; font-size: 1.2rem; color: var(--text-main);}
 
-/* ==========================================
-   MODAL, TABS & ATTRIBUTES (FIXED HEADER & SCROLL)
-   ========================================== */
+:root {
+    --bg-dark: #0f172a;
+    --bg-body: #05070a;
+    --bg-panel: rgba(15, 23, 42, 0.85);
+    --glow-color: #d4af37;
+    --glow-color-dim: rgba(212, 175, 55, 0.2);
+    --glow-color-mid: rgba(212, 175, 55, 0.4);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --color-success: #22c55e;
+    --color-success-hover: #16a34a;
+    --color-danger: #ef4444;
+}
+
+html { scroll-behavior: smooth; background-color: var(--bg-body); }
+body { margin: 0; padding: 0; font-family: 'Playfair Display', serif; color: var(--text-main); background-color: transparent; min-height: 100vh; position: relative; }
+
+#starlight-canvas { display: block; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, var(--bg-dark) 0%, var(--bg-body) 100%); z-index: -1; pointer-events: none; }
+
+/* NAVBAR */
+.navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(5, 7, 10, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; box-sizing: border-box; z-index: 1000; border-bottom: 1px solid var(--glow-color); }
+.nav-logo { font-weight: bold; color: var(--glow-color); font-size: 1.5rem; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.logo-img { height: 35px; width: auto; border-radius: 50%; border: 1px solid var(--glow-color); }
+.nav-links { display: flex; align-items: center; gap: 15px; }
+.nav-links a { color: var(--text-main); text-decoration: none; font-size: 1.1rem; }
+
+/* MODAL & TABS - A JAVÍTOTT RÉSZ */
 .modal { 
-    display: none; /* Alapértelmezett állapot: rejtve */
-    position: fixed; 
-    z-index: 2000; 
-    left: 0; top: 0; 
-    width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.85); 
-    display: flex; 
-    align-items: center;
-    justify-content: center;
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
+    width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); 
+    display: flex; align-items: center; justify-content: center;
 }
-
 .modal-content { 
-    background-color: var(--bg-panel); 
-    border: 2px solid var(--glow-color); 
-    width: 90%; 
-    max-width: 500px; 
-    max-height: 85vh; 
-    border-radius: 12px; 
-    position: relative; 
-    box-shadow: 0 0 40px rgba(0,0,0,0.8);
-    display: flex;
-    flex-direction: column; /* Tartalom és gombok egymás alatt */
-    margin: 0;
+    background-color: var(--bg-panel); border: 2px solid var(--glow-color); 
+    width: 90%; max-width: 500px; max-height: 85vh; border-radius: 12px; 
+    position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    display: flex; flex-direction: column; margin: 0;
 }
-
-/* Fix fejléc: a close-btn itt biztosan nem lóg ki */
-.modal-header {
-    flex: 0 0 auto;
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 15px;
-    background: rgba(0,0,0,0.2);
-}
-
-.close-btn { 
-    font-size: 28px; cursor: pointer; color: var(--glow-color); 
-    line-height: 1; padding: 5px;
-}
+.modal-header { flex: 0 0 auto; display: flex; justify-content: flex-end; padding: 10px 15px; background: rgba(0,0,0,0.2); }
+.close-btn { font-size: 28px; cursor: pointer; color: var(--glow-color); line-height: 1; padding: 5px; }
 .close-btn:hover { color: white; }
+.modal-body { padding: 20px; overflow-y: auto; flex: 1; }
 
-/* A görgethető rész: a szöveg és a gombok is itt vannak */
-.modal-body {
-    padding: 20px;
-    overflow-y: auto; /* Itt görgetünk */
-    flex: 1;
-}
-
-.glow-text { 
-    color: var(--glow-color); margin-top: 0; text-transform: uppercase; 
-    letter-spacing: 2px; font-size: 2.2rem; transition: color 0.8s ease;
-}
-
-/* Tabs */
+.glow-text { color: var(--glow-color); margin-top: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 2.2rem; }
 .modal-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-.tab-btn { 
-    flex: 1; background: transparent; border: none; color: var(--text-muted); 
-    padding: 10px; cursor: pointer; border-bottom: 3px solid transparent; 
-    font-family: 'Playfair Display', serif; font-size: 1rem;
-}
-.tab-btn.active { color: var(--glow-color); border-bottom-color: var(--glow-color); font-weight: bold;}
-.tab-content { display: none; line-height: 1.6; text-align: left; font-size: 1.05rem;}
+.tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 10px; cursor: pointer; border-bottom: 3px solid transparent; font-family: 'Playfair Display', serif; font-size: 1rem; }
+.tab-btn.active { color: var(--glow-color); border-bottom-color: var(--glow-color); font-weight: bold; }
+.tab-content { display: none; line-height: 1.6; text-align: left; font-size: 1.05rem; }
 .tab-content.active-content { display: block; animation: fadeIn 0.4s; }
 
-/* Lucky Attributes */
-.lucky-attributes { 
-    display: flex; flex-wrap: wrap; gap: 10px; background: rgba(0,0,0,0.4); 
-    padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1);
-}
+.lucky-attributes { display: flex; flex-wrap: wrap; gap: 10px; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
 .modal-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
 .modal-actions button { width: 100%; padding: 12px; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+/* EGYÉB ELEMEK */
+.container { position: relative; z-index: 1; width: 95%; max-width: 1000px; margin: 100px auto 40px; text-align: center; }
+section { background: var(--bg-panel); padding: 30px; border-radius: 8px; margin-bottom: 30px; border: 1px solid var(--glow-color-dim); }
+.zodiac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
+.glow-btn { padding: 12px 25px; background: var(--glow-color); border: none; border-radius: 4px; color: var(--bg-body); font-weight: bold; cursor: pointer; text-transform: uppercase; font-family: 'Playfair Display', serif; }
 
-/* Mobil optimalizálás */
+/* MOBIL */
 @media (max-width: 768px) {
+    #desktopNav { display: none; }
+    .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
     .modal-body { padding: 15px; }
     .glow-text { font-size: 1.4rem !important; }
 }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ==========================================
    LOGO STYLES
