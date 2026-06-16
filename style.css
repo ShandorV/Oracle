@@ -127,7 +127,7 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .tarot-name { font-weight: bold; font-size: 1.2rem; color: var(--text-main);}
 
 /* ==========================================
-   MODAL, TABS & ATTRIBUTES (OPTIMALIZÁLT)
+   MODAL, TABS & ATTRIBUTES (FIXED HEADER)
    ========================================== */
 .modal { 
     display: none; 
@@ -136,30 +136,46 @@ select:focus, input:focus { border-color: var(--glow-color); }
     left: 0; top: 0; 
     width: 100%; height: 100%; 
     background-color: rgba(0,0,0,0.85); 
-    display: flex; /* Központosítás */
+    display: flex; 
     align-items: center;
     justify-content: center;
 }
 
 .modal-content { 
     background-color: var(--bg-panel); 
-    padding: 25px 20px; 
     border: 2px solid var(--glow-color); 
     width: 90%; 
-    max-width: 550px; 
-    max-height: 85vh; /* Hagyjunk helyet a modal szélein */
+    max-width: 500px; 
+    max-height: 85vh; 
     border-radius: 12px; 
     position: relative; 
     box-shadow: 0 0 40px rgba(0,0,0,0.8);
-    overflow-y: auto; /* Görgetés, ha hosszú a horoszkóp */
-    margin: 0; 
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* Fix fejléc a bezáró gombnak */
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--glow-color-dim);
 }
 
 .close-btn { 
-    position: absolute; right: 15px; top: 10px; font-size: 32px; 
-    cursor: pointer; color: var(--glow-color); z-index: 2005;
+    font-size: 28px; cursor: pointer; color: var(--glow-color); 
+    line-height: 1; padding: 0 5px;
 }
 .close-btn:hover { color: white; }
+
+/* Görgethető tartalom */
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
 
 .glow-text { 
     color: var(--glow-color); margin-top: 0; text-transform: uppercase; 
@@ -178,7 +194,7 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .tab-content { display: none; line-height: 1.6; text-align: left; min-height: 100px; font-size: 1.05rem;}
 .tab-content.active-content { display: block; animation: fadeIn 0.4s; }
 
-/* Lucky Attributes & Actions */
+/* Lucky Attributes */
 .lucky-attributes { 
     display: flex; justify-content: flex-start; background: rgba(0,0,0,0.4); 
     padding: 12px; border-radius: 4px; margin-bottom: 20px; 
@@ -187,7 +203,6 @@ select:focus, input:focus { border-color: var(--glow-color); }
 .attribute-box { display: flex; align-items: center; gap: 8px; font-size: 1rem;}
 .attr-label { color: var(--text-muted); font-style: italic; }
 .attr-value { font-weight: bold; color: var(--text-main); }
-.color-preview { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #fff; }
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .modal-actions button { flex: 1; padding: 10px; }
 
@@ -195,9 +210,8 @@ select:focus, input:focus { border-color: var(--glow-color); }
 
 /* Mobil optimalizálás */
 @media (max-width: 768px) {
-    .modal-content { padding: 15px; }
+    .modal-body { padding: 15px; }
     .glow-text { font-size: 1.5rem !important; }
-    .tab-btn { padding: 8px 2px; font-size: 0.85rem; }
 }
 
 /* ==========================================
