@@ -101,7 +101,22 @@
                     <span>Reveal Connection ⟡</span>
                 </button>
 
-                <p id="compResult" class="result-text compat-result-box" style="display: none;"></p>
+                <div id="compatibility-result" class="compat-result-box" style="display: none;">
+                    <div class="compat-score-circle">
+                        <span id="compat-total">0</span><span style="font-size: 1.5rem; margin-left: 2px;">%</span>
+                    </div>
+                    
+                    <div class="compat-analytics">
+                        <div class="insight-box strength-box">
+                            <h4 style="color: #4CAF50;">✨ Cosmic Strength</h4>
+                            <p id="compat-strength">...</p>
+                        </div>
+                        <div class="insight-box growth-box">
+                            <h4 style="color: #FF9800;">⚠️ Area of Growth</h4>
+                            <p id="compat-growth">...</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
