@@ -703,72 +703,122 @@ function populateSignSelects() {
 // Викликаємо функцію при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', populateSignSelects);
 
-// 2. Логіка перевірки сумісності
+// // 2. НОВА ДЕТЕРМІНОВАНА ЛОГІКА СУМІСНОСТІ (Phase 1)
+
+// Окремий словник, щоб не чіпати zodiacData з координатами зірок
+const compatData = {
+    "Aries": { element: "Fire", modality: "Cardinal", polarity: "Yang", planet: "Mars" },
+    "Taurus": { element: "Earth", modality: "Fixed", polarity: "Yin", planet: "Venus" },
+    "Gemini": { element: "Air", modality: "Mutable", polarity: "Yang", planet: "Mercury" },
+    "Cancer": { element: "Water", modality: "Cardinal", polarity: "Yin", planet: "Moon" },
+    "Leo": { element: "Fire", modality: "Fixed", polarity: "Yang", planet: "Sun" },
+    "Virgo": { element: "Earth", modality: "Mutable", polarity: "Yin", planet: "Mercury" },
+    "Libra": { element: "Air", modality: "Cardinal", polarity: "Yang", planet: "Venus" },
+    "Scorpio": { element: "Water", modality: "Fixed", polarity: "Yin", planet: "Pluto" },
+    "Sagittarius": { element: "Fire", modality: "Mutable", polarity: "Yang", planet: "Jupiter" },
+    "Capricorn": { element: "Earth", modality: "Cardinal", polarity: "Yin", planet: "Saturn" },
+    "Aquarius": { element: "Air", modality: "Fixed", polarity: "Yang", planet: "Uranus" },
+    "Pisces": { element: "Water", modality: "Mutable", polarity: "Yin", planet: "Neptune" }
+};
+
+const compatMatrices = {
+    element: {
+        "Fire-Fire": 80, "Earth-Earth": 80, "Air-Air": 70, "Water-Water": 85,
+        "Earth-Fire": 50, "Air-Fire": 100, "Fire-Water": 30,
+        "Air-Earth": 40, "Earth-Water": 100, "Air-Water": 30
+    },
+    modality: {
+        "Cardinal-Cardinal": 40, "Cardinal-Fixed": 90, "Cardinal-Mutable": 80,
+        "Fixed-Fixed": 30, "Fixed-Mutable": 95, "Mutable-Mutable": 60
+    },
+    polarity: {
+        "Yang-Yang": 85, "Yin-Yin": 85, "Yang-Yin": 75
+    },
+    planet: {
+        "Moon-Sun": 100, "Saturn-Sun": 40, "Mars-Venus": 90, "Jupiter-Sun": 85
+        // Додавайте інші комбінації з вашої таблиці сюди
+    }
+};
+
+const insightTexts = {
+    element: {
+        strength: "Your elemental energies blend perfectly, creating a natural and effortless connection.",
+        growth: "Your core elements clash, requiring patience to understand each other's basic needs."
+    },
+    modality: {
+        strength: "Your life rhythms and problem-solving styles complement each other beautifully.",
+        growth: "You may face power struggles or pacing issues. Compromise on how you take action is needed."
+    },
+    polarity: {
+        strength: "You share a harmonious energetic flow, balancing giving and receiving naturally.",
+        growth: "Your basic energetic expressions differ, which might lead to misunderstandings in communication."
+    },
+    planet: {
+        strength: "Your ruling planets are cosmic allies, blessing this bond with deep mutual attraction.",
+        growth: "Your ruling planets are at odds, challenging you to overcome fundamental personality differences."
+    }
+};
+
+function getMatrixScore(matrixName, val1, val2) {
+    const key1 = `${val1}-${val2}`;
+    const key2 = `${val2}-${val1}`;
+    const matrix = compatMatrices[matrixName];
+    
+    if (matrix[key1] !== undefined) return matrix[key1];
+    if (matrix[key2] !== undefined) return matrix[key2];
+    return 60; // Дефолтний бал для невідомих комбінацій
+}
+
 function checkCompatibility() {
     const sign1 = document.getElementById('sign1').value;
     const sign2 = document.getElementById('sign2').value;
-    const resultBox = document.getElementById('compResult');
-    // Знаходимо текст кнопки (span), щоб зробити ефект завантаження
+    const resultBox = document.getElementById('compatibility-result');
     const btnText = document.querySelector('.compat-btn span') || document.querySelector('.compat-btn'); 
     
-    // Перевірка, чи обрав користувач обидва знаки
     if (!sign1 || !sign2) {
-        resultBox.style.display = "block";
-        resultBox.style.borderLeftColor = "#ef4444"; // Червоний колір помилки
-        resultBox.innerHTML = "Please select both cosmic signs to reveal their connection.";
+        alert("Please select both cosmic signs to reveal their connection.");
         return;
     }
     
-    // Магічний ефект завантаження
+    // Ефект завантаження
     const originalText = btnText.innerText;
     btnText.innerText = "Aligning the Stars... ⟡";
     resultBox.style.display = "none";
     
     setTimeout(() => {
-        const data1 = zodiacData[sign1];
-        const data2 = zodiacData[sign2];
+        const data1 = compatData[sign1];
+        const data2 = compatData[sign2];
         
-        let score = 0;
-        let connectionText = "";
-        
-        // СИСТЕМА СУМІСНОСТІ ЗА СТИХІЯМИ
-        if (data1.element === data2.element) {
-            // Однакова стихія = ідеальна сумісність
-            score = Math.floor(Math.random() * 11) + 90; // 90-100%
-            connectionText = `A profound elemental bond. Both share the <strong>${data1.element}</strong> nature, bringing natural understanding and deep synchronicity.`;
-        } else if (
-            (data1.element === 'Fire' && data2.element === 'Air') ||
-            (data1.element === 'Air' && data2.element === 'Fire') ||
-            (data1.element === 'Earth' && data2.element === 'Water') ||
-            (data1.element === 'Water' && data2.element === 'Earth')
-        ) {
-            // Комплементарні стихії (Вогонь+Повітря, Земля+Вода)
-            score = Math.floor(Math.random() * 16) + 75; // 75-90%
-            connectionText = `A highly complementary dynamic! <strong>${data1.element}</strong> and <strong>${data2.element}</strong> balance each other perfectly, fueling growth and harmony.`;
-        } else {
-            // Конфліктуючі стихії
-            score = Math.floor(Math.random() * 21) + 50; // 50-70%
-            connectionText = `A challenging but transformative connection. <strong>${data1.element}</strong> and <strong>${data2.element}</strong> require patience, but can teach each other valuable cosmic lessons.`;
+        const scores = {
+            element: getMatrixScore('element', data1.element, data2.element),
+            modality: getMatrixScore('modality', data1.modality, data2.modality),
+            polarity: getMatrixScore('polarity', data1.polarity, data2.polarity),
+            planet: getMatrixScore('planet', data1.planet, data2.planet)
+        };
+
+        const totalScore = Math.round(
+            (scores.element * 0.40) + (scores.modality * 0.20) +
+            (scores.polarity * 0.10) + (scores.planet * 0.30)
+        );
+
+        let maxCategory = 'element';
+        let minCategory = 'element';
+        for (const key in scores) {
+            if (scores[key] > scores[maxCategory]) maxCategory = key;
+            if (scores[key] < scores[minCategory]) minCategory = key;
         }
+
+        if (maxCategory === minCategory) { maxCategory = 'element'; minCategory = 'modality'; }
+
+        // Оновлюємо HTML
+        document.getElementById('compat-total').textContent = totalScore;
+        document.getElementById('compat-strength').textContent = insightTexts[maxCategory].strength;
+        document.getElementById('compat-growth').textContent = insightTexts[minCategory].growth;
         
-        // Якщо обрали один і той самий знак
-        if (sign1 === sign2) {
-            connectionText = `Like looking into a cosmic mirror. Two <strong>${sign1}s</strong> amplify each other's strengths and weaknesses exponentially.`;
-        }
-        
-        // Виведення результату
-        resultBox.style.borderLeftColor = "var(--glow-color)"; // Повертаємо золоту лінію
-        resultBox.innerHTML = `
-            <strong>Resonance Score: <span style="color: var(--glow-color);">${score}%</span></strong><br><br>
-            The union of ${data1.icon} ${sign1} and ${data2.icon} ${sign2}:<br>
-            <span style="color: var(--text-muted);">${connectionText}</span>
-        `;
         resultBox.style.display = "block";
-        
-        // Повертаємо текст кнопки
         btnText.innerText = originalText;
         
-    }, 800); // 800 мілісекунд затримки для ефекту "обчислення"
+    }, 800);
 }
 async function displayDailyOmen() {
     const omenElement = document.getElementById("omenText");
