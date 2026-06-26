@@ -1171,3 +1171,62 @@ function initCustomDropdowns() {
         });
     });
 }
+// ==========================================
+// SHARE FATE (DESTINY) FUNCTIONALITY
+// ==========================================
+
+function shareDestiny() {
+    // 1. Витягуємо поточний обраний знак із пам'яті сесії, яку ми налаштували
+    const savedSign = sessionStorage.getItem('selectedSign');
+    
+    // Якщо раптом знак не знайдено (користувач не обрав його), беремо дефолтний текст
+    const signName = savedSign || "my Zodiac Sign";
+    const signData = zodiacData[savedSign];
+    
+    // Беремо дефініцію/гасло знаку (наприклад, "I Am" для Aries), якщо вона є в базі
+    const motto = signData && signData.motto ? ` (${signData.motto})` : '';
+    
+    // 2. Формуємо красивий текст для американської аудиторії
+    const shareText = `✨ I just uncovered my cosmic destiny and aura color for ${signName}${motto} on Astro Insight! Check your celestial readings here:`;
+    
+    // Автоматично беремо лінк нашого сайту (https://shandorv.github.io/Oracle)
+    const shareUrl = window.location.origin + window.location.pathname;
+
+    const shareBtn = document.getElementById('shareBtn');
+
+    // 3. Сценарій А: Нативний шеринг для смартфонів
+    if (navigator.share) {
+        navigator.share({
+            title: 'Astro Insight - Celestial Readings',
+            text: shareText,
+            url: shareUrl
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } 
+    // 4. Сценарій Б: Фолбек для десктопних ПК (Копіювання в буфер)
+    else {
+        const fullShareContent = `${shareText} ${shareUrl}`;
+        
+        navigator.clipboard.writeText(fullShareContent)
+            .then(() => {
+                // Інтерактивний UX: ефект успішного копіювання
+                const originalText = shareBtn.innerText;
+                shareBtn.innerText = 'Copied to Clipboard! 🔮';
+                
+                // Тимчасово підсвічуємо бордер кнопки кольором аури, якщо він є
+                shareBtn.style.borderColor = 'var(--glow-color, #d4af37)';
+                shareBtn.style.color = 'var(--glow-color, #d4af37)';
+
+                // Повертаємо кнопку в початковий стан через 2 секунди
+                setTimeout(() => {
+                    shareBtn.innerText = originalText;
+                    shareBtn.style.borderColor = '';
+                    shareBtn.style.color = '';
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+    }
+}
