@@ -33,19 +33,30 @@
                 <span>Astro Insight</span>
             </div>
         </a>
+        
         <div class="nav-links" id="desktopNav">
-            
             <div class="nav-dropdown">
                 <a href="#" class="dropbtn" style="color: var(--glow-color);">Articles ▾</a>
                 <div class="dropdown-content">
-                    <a href="zodiacs.html" class="active">Zodiac Signs</a>
+                    <a href="zodiacs.html">Zodiac Signs</a>
                     <a href="planet.html">Planets</a>
                 </div>
             </div>
-            
             <a href="index.html">← Back to Astro Insight</a>
         </div>
+
+        <div class="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <span class="close-menu" onclick="toggleMobileMenu()">&times;</span>
+        <a href="index.html">Home</a>
+        <a href="zodiacs.html" style="color: var(--glow-color);">Zodiac Signs</a>
+        <a href="planet.html">Planets Guide</a>
+        <a href="index.html">← Back to Oracle</a>
+    </div>
 
     <div class="container" style="margin-top: 140px;">
         
