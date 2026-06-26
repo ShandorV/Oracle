@@ -464,7 +464,15 @@ async function openModal(sign) {
     // Викликаємо функцію, яка покаже наш новий віджет з іконкою
     initGlobalAuraUI();
 
-    document.getElementById('signTitle').innerText = sign;
+    // Робимо заголовок клікабельним посиланням на статтю Роланда
+    const signTitleEl = document.getElementById('signTitle');
+    if (signTitleEl) {
+        signTitleEl.innerHTML = `
+            <a href="zodiacs.html?name=${sign}" class="modal-title-link" title="Read full article about ${sign}">
+                ${sign} <span class="link-icon">↗</span>
+            </a>
+        `;
+    }
     document.getElementById('saveBtn').style.display = 'inline-block';
     document.getElementById('saveBtn').innerText = "Inscribe to Grimoire";
     document.getElementById('fortuneModal').style.display = "block";
