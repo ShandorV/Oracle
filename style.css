@@ -1133,3 +1133,81 @@ details li { margin-bottom: 8px; }
     fill: currentColor;
     display: block;
 }
+/* ==========================================
+   ZODIAC ARTICLES PAGE STYLES
+   ========================================== */
+.articles-container {
+    padding-top: 100px; /* Відступ від шапки */
+    padding-bottom: 50px;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--glow-color, #d4af37);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #ccc;
+    margin-bottom: 50px;
+}
+
+.zodiac-article-block {
+    background: rgba(20, 20, 30, 0.7);
+    border-left: 4px solid var(--glow-color, #d4af37);
+    border-radius: 0 8px 8px 0;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.zodiac-article-block:hover {
+    transform: translateX(10px);
+}
+
+.zodiac-article-block h2 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.article-content p {
+    color: #ddd;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+/* ==========================================
+   MODAL TITLE LINK
+   ========================================== */
+.modal-title-link {
+    color: var(--glow-color, #d4af37); /* Підхоплює колір аури! */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.modal-title-link:hover {
+    text-shadow: 0 0 15px var(--glow-color, #d4af37);
+    transform: scale(1.05); /* Злегка збільшується при наведенні */
+}
+
+/* Маленька стрілочка поруч із текстом */
+.modal-title-link .link-icon {
+    font-size: 0.6em;
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+.modal-title-link:hover .link-icon {
+    transform: translate(3px, -3px); /* Стрілочка "відлітає" вгору і вправо */
+}
