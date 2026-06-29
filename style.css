@@ -595,7 +595,7 @@ details li { margin-bottom: 8px; }
 
 /* Opcionális: Ha esetleg a social linkek színét is szeretnéd fixálni */
 .social-links a {
-    color: #e5533d; /* Ez a képernyőképeden lévő narancsos színhez hasonló */
+    color: none;
     text-decoration: none;
     transition: color 0.3s ease;
 }
