@@ -579,3 +579,8 @@ details li { margin-bottom: 8px; }
         padding: 20px 10px; 
     }
 }
+@media (min-width: 769px) {
+    #planetsGrid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
