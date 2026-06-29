@@ -584,11 +584,13 @@ details li { margin-bottom: 8px; }
         grid-template-columns: repeat(5, 1fr);
     }
 }
-.social-links {
+.site-footer .social-links {
     display: flex;
-    justify-content: center; /* Középre igazítja a három linket */
-    gap: 20px; /* Szép egyenletes távolságot tart az Insta, FB és X között */
-    margin-top: 20px; /* Kicsit lejjebb tolja, hogy ne tapadjon a fenti linkekhez */
+    justify-content: center !important; /* A !important biztosítja, hogy felülírja a korábbi szabályokat */
+    align-items: center;
+    width: 100%; /* Kényszeríti, hogy a doboz kitöltse a teret, így van mihez képest középre kerülnie */
+    margin-top: 25px;
+    gap: 20px;
 }
 
 /* Opcionális: Ha esetleg a social linkek színét is szeretnéd fixálni */
