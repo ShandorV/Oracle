@@ -593,13 +593,12 @@ details li { margin-bottom: 8px; }
     gap: 20px;
 }
 
-/* Opcionális: Ha esetleg a social linkek színét is szeretnéd fixálni */
 .social-links a {
-    color: #ffffff; /* Így fehér lesz a gomb szövege */
+    color: var(--text-muted); /* Ez pontosan az "All rights reserved" színe */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-    color: #ffffff; /* Hover effektus, pl. fehéresre vált, ha ráviszik az egeret */
+    color: var(--glow-color); /* Tipp: hovernél felveszi a fenti menü arany/sárga színét, így nagyon menő lesz! */
 }
