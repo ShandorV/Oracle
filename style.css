@@ -584,3 +584,20 @@ details li { margin-bottom: 8px; }
         grid-template-columns: repeat(5, 1fr);
     }
 }
+.social-links {
+    display: flex;
+    justify-content: center; /* Középre igazítja a három linket */
+    gap: 20px; /* Szép egyenletes távolságot tart az Insta, FB és X között */
+    margin-top: 20px; /* Kicsit lejjebb tolja, hogy ne tapadjon a fenti linkekhez */
+}
+
+/* Opcionális: Ha esetleg a social linkek színét is szeretnéd fixálni */
+.social-links a {
+    color: #e5533d; /* Ez a képernyőképeden lévő narancsos színhez hasonló */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #ffffff; /* Hover effektus, pl. fehéresre vált, ha ráviszik az egeret */
+}
