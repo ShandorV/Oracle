@@ -595,7 +595,7 @@ details li { margin-bottom: 8px; }
 
 /* Opcionális: Ha esetleg a social linkek színét is szeretnéd fixálni */
 .social-links a {
-    color: none;
+    color: #ffffff; /* Így fehér lesz a gomb szövege */
     text-decoration: none;
     transition: color 0.3s ease;
 }
