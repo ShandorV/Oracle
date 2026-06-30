@@ -754,7 +754,9 @@ function openSavedModal(index) {
     if (!item) return;
 
     playSound('mystic');
-    setAura(item.color); 
+    
+    // ФІКС БАГУ: Видалено міняння аури всього сайту (setAura) при перегляді Грімуару
+    // setAura(item.color); 
 
     // Беремо чисту назву знака і шукаємо його в базі (на випадок старих записів)
     let pureSign = item.sign.replace(" (Archived)", "").trim();
