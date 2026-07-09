@@ -396,6 +396,33 @@ animate();
 // ==========================================
 const coreGrid = document.getElementById('zodiacGrid');
 
+// ==========================================
+// 1. ASTRO TICKER SYSTEM
+// ==========================================
+function initAstroTicker() {
+    const tickerContainer = document.getElementById('astro-ticker-content');
+    if (!tickerContainer) return; // Запобіжник, якщо на сторінці немає тікера
+
+    let tickerHtml = '';
+    // Проходимося по твоїй базі zodiacData і формуємо рядок
+    Object.values(zodiacData).forEach(s => {
+        tickerHtml += `
+            <span class="ticker-item" style="border-color: ${s.aura}">
+                <span class="ticker-icon" style="color: ${s.aura}">${s.icon}</span>
+                <strong>${s.name.toUpperCase()}:</strong> 
+                Ruler: <span style="color: var(--glow-color)">${s.planet}</span> | 
+                Element: ${s.element} ⟡
+            </span>
+        `;
+    });
+
+    // Дублюємо контент двічі для безперервної анімації CSS (infinite scroll)
+    tickerContainer.innerHTML = tickerHtml + tickerHtml;
+}
+
+// Запускаємо при завантаженні
+document.addEventListener('DOMContentLoaded', initAstroTicker);
+
 // ЗАПОБІЖНИК: Генеруємо сітку знаків тільки якщо вона є на сторінці (на index.html)
 if (coreGrid) {
     Object.values(zodiacData).forEach(s => {
@@ -861,9 +888,48 @@ const compatMatrices = {
     polarity: {
         "Yang-Yang": 85, "Yin-Yin": 85, "Yang-Yin": 75
     },
+    // ==========================================
+    // COMPLETE PLANETARY MATRIX (100% COVERAGE)
+    // ==========================================
     planet: {
-        "Moon-Sun": 100, "Saturn-Sun": 40, "Mars-Venus": 90, "Jupiter-Sun": 85
-        // Додавайте інші комбінації з вашої таблиці сюди
+        // Sun pairings
+        "Sun-Sun": 80, "Sun-Moon": 100, "Sun-Mercury": 75, "Sun-Venus": 90, 
+        "Sun-Mars": 85, "Sun-Jupiter": 95, "Sun-Saturn": 40, "Sun-Uranus": 70, 
+        "Sun-Neptune": 60, "Sun-Pluto": 50,
+
+        // Moon pairings
+        "Moon-Moon": 80, "Moon-Mercury": 70, "Moon-Venus": 90, "Moon-Mars": 50, 
+        "Moon-Jupiter": 90, "Moon-Saturn": 30, "Moon-Uranus": 65, "Moon-Neptune": 85, 
+        "Moon-Pluto": 45,
+
+        // Mercury pairings
+        "Mercury-Mercury": 80, "Mercury-Venus": 85, "Mercury-Mars": 65, 
+        "Mercury-Jupiter": 70, "Mercury-Saturn": 75, "Mercury-Uranus": 90, 
+        "Mercury-Neptune": 60, "Mercury-Pluto": 65,
+
+        // Venus pairings
+        "Venus-Venus": 80, "Venus-Mars": 95, "Venus-Jupiter": 100, "Venus-Saturn": 70, 
+        "Venus-Uranus": 75, "Venus-Neptune": 95, "Venus-Pluto": 60,
+
+        // Mars pairings
+        "Mars-Mars": 70, "Mars-Jupiter": 85, "Mars-Saturn": 55, "Mars-Uranus": 60, 
+        "Mars-Neptune": 45, "Mars-Pluto": 90,
+
+        // Jupiter pairings
+        "Jupiter-Jupiter": 85, "Jupiter-Saturn": 60, "Jupiter-Uranus": 80, 
+        "Jupiter-Neptune": 85, "Jupiter-Pluto": 70,
+
+        // Saturn pairings
+        "Saturn-Saturn": 65, "Saturn-Uranus": 40, "Saturn-Neptune": 50, "Saturn-Pluto": 55,
+
+        // Uranus pairings
+        "Uranus-Uranus": 75, "Uranus-Neptune": 65, "Uranus-Pluto": 70,
+
+        // Neptune pairings
+        "Neptune-Neptune": 80, "Neptune-Pluto": 75,
+
+        // Pluto pairings
+        "Pluto-Pluto": 70
     }
 };
 
@@ -897,8 +963,12 @@ function getMatrixScore(matrixName, val1, val2) {
 }
 
 function checkCompatibility() {
-    const sign1 = document.getElementById('sign1').value;
-    const sign2 = document.getElementById('sign2').value;
+    // Беремо значення з прихованих інпутів кастомних дропдаунів (або зі звичайних селектів)
+    const sign1El = document.querySelector('#custom-dropdown-1 input[type="hidden"]') || document.getElementById('sign1');
+    const sign2El = document.querySelector('#custom-dropdown-2 input[type="hidden"]') || document.getElementById('sign2');
+    
+    const sign1 = sign1El ? sign1El.value : null;
+    const sign2 = sign2El ? sign2El.value : null;
     const resultBox = document.getElementById('compatibility-result');
     const btnText = document.querySelector('.compat-btn span') || document.querySelector('.compat-btn'); 
     
@@ -946,6 +1016,80 @@ function checkCompatibility() {
         btnText.innerText = originalText;
         
     }, 800);
+}
+
+const COMPATIBILITY_WORKER_URL = "https://natal-engine.astroinsight.workers.dev/";
+
+async function calculateCompatibility() {
+    // Читаємо значення з твоїх кастомних дропдаунів (hidden inputs)
+    const sign1El = document.querySelector('#custom-dropdown-1 input[type="hidden"]') || document.getElementById('sign1');
+    const sign2El = document.querySelector('#custom-dropdown-2 input[type="hidden"]') || document.getElementById('sign2');
+    
+    const sign1 = sign1El ? sign1El.value : null;
+    const sign2 = sign2El ? sign2El.value : null;
+
+    const date1 = document.getElementById('date1').value;
+    const date2 = document.getElementById('date2').value;
+
+    const resultBox = document.getElementById('compatibilityResult');
+    const scoreSpan = document.getElementById('syncScore');
+    const titleSpan = document.getElementById('syncTitle');
+    const verdictP = document.getElementById('syncVerdict');
+    const breakdownDiv = document.getElementById('syncBreakdown');
+
+    // UI Feedback while calculating
+    resultBox.classList.remove('hidden');
+    scoreSpan.innerText = "...";
+    titleSpan.innerText = "Aligning Celestial Spheres...";
+    verdictP.innerText = "";
+    breakdownDiv.innerHTML = "Connecting to the Natal Synastry Engine...";
+
+    if (!date1 || !date2) {
+        scoreSpan.innerText = "ERR";
+        titleSpan.innerText = "Date Required";
+        breakdownDiv.innerHTML = "Please provide exact birth dates for both individuals to calculate natal positions.";
+        return;
+    }
+
+    try {
+        const response = await fetch(COMPATIBILITY_WORKER_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sign1, date1, sign2, date2 })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server returned HTTP status ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.error || "Unknown calculation error");
+        }
+
+        // Render calculated natal signs & detailed score
+        scoreSpan.innerText = `${data.score}%`;
+        titleSpan.innerText = data.title;
+        verdictP.innerText = data.verdict;
+
+        // Display calculated planets alongside elemental analysis
+        const planetsInfo = `
+            <div style="background: rgba(212, 175, 55, 0.1); padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem;">
+                <strong>Calculated Natal Placements:</strong><br>
+                ✦ Person 1: Moon in ${data.person1.moon}, Venus in ${data.person1.venus}, Mars in ${data.person1.mars}<br>
+                ✦ Person 2: Moon in ${data.person2.moon}, Venus in ${data.person2.venus}, Mars in ${data.person2.mars}
+            </div>
+        `;
+
+        breakdownDiv.innerHTML = planetsInfo + data.details;
+
+    } catch (error) {
+        console.error("Natal Engine Communication Failure:", error);
+        scoreSpan.innerText = "---";
+        titleSpan.innerText = "Cosmic Disconnection";
+        breakdownDiv.innerHTML = "Unable to reach the Cloudflare Worker. Please verify that your Worker is deployed and CORS is properly enabled.";
+    }
 }
 async function displayDailyOmen() {
     const omenElement = document.getElementById("omenText");
@@ -1240,3 +1384,50 @@ function shareDestiny() {
             });
     }
 }
+// ==========================================
+// WIDGETS: MOON PHASE & ASTRO WEATHER
+// ==========================================
+function initAstroWidgets() {
+    const moonPhaseEl = document.getElementById('moon-phase-name');
+    const moonIconEl = document.getElementById('moon-phase-icon');
+    const astroWeatherEl = document.getElementById('astro-weather-text');
+
+    if (!moonPhaseEl || !astroWeatherEl) return; // Запобіжник
+
+    // 1. Математичний розрахунок фази Місяця
+    const now = new Date();
+    // Відома дата нового місяця (базова точка відліку)
+    const baseNewMoon = new Date(2000, 0, 6, 18, 14);
+    const lunarDays = 29.53058770576; // Тривалість синодичного місяця
+    
+    const diffDays = (now - baseNewMoon) / (1000 * 60 * 60 * 24);
+    const currentCycle = (diffDays % lunarDays) / lunarDays; // Значення від 0 до 1
+
+    let phaseName = "";
+    let phaseIcon = "";
+
+    if (currentCycle < 0.03 || currentCycle > 0.97) { phaseName = "New Moon"; phaseIcon = "🌑"; }
+    else if (currentCycle < 0.22) { phaseName = "Waxing Crescent"; phaseIcon = "🌒"; }
+    else if (currentCycle < 0.28) { phaseName = "First Quarter"; phaseIcon = "🌓"; }
+    else if (currentCycle < 0.47) { phaseName = "Waxing Gibbous"; phaseIcon = "🌔"; }
+    else if (currentCycle < 0.53) { phaseName = "Full Moon"; phaseIcon = "🌕"; }
+    else if (currentCycle < 0.72) { phaseName = "Waning Gibbous"; phaseIcon = "🌖"; }
+    else if (currentCycle < 0.78) { phaseName = "Last Quarter"; phaseIcon = "🌗"; }
+    else { phaseName = "Waning Crescent"; phaseIcon = "🌘"; }
+
+    moonPhaseEl.innerText = phaseName;
+    if (moonIconEl) moonIconEl.innerText = phaseIcon;
+
+    // 2. Генерація професійної Астро-погоди (динамічно під дату)
+    const weatherList = [
+        "Solar winds are calm; excellent energy for analytical focus and structured coding.",
+        "High planetary resonance today. Intuitive decision-making is heavily favored.",
+        "Mercury aligns with Jupiter: expansive communication and clarity in negotiations.",
+        "Lunar energy shifts toward Earth signs—ground your ideas into practical projects today."
+    ];
+    // Обираємо погоду залежно від дня року, щоб вона була стабільною весь день
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    astroWeatherEl.innerText = weatherList[dayOfYear % weatherList.length];
+}
+
+document.addEventListener('DOMContentLoaded', initAstroWidgets);
