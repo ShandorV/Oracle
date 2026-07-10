@@ -1051,6 +1051,38 @@ async function calculateCompatibility() {
         return;
     }
 
+// 1. Перевірка: чи вибрані знаки зодіаку?
+    if (!sign1 || !sign2 || sign1 === "" || sign2 === "") {
+        scoreSpan.innerText = "ERR";
+        titleSpan.innerText = "Zodiac Signs Required";
+        breakdownDiv.innerHTML = "Please select the Sun signs for both individuals before calculating.";
+        return; // Зупиняє функцію, запит на сервер НЕ йде
+    }
+
+    // 2. Перевірка: чи взагалі введені дати?
+    if (!date1 || !date2) {
+        scoreSpan.innerText = "ERR";
+        titleSpan.innerText = "Birth Dates Required";
+        breakdownDiv.innerHTML = "Please provide exact birth dates for both individuals.";
+        return;
+    }
+
+    // 3. Перевірка: чи дати адекватні (не з майбутнього і не з Середньовіччя)?
+    const parsedDate1 = new Date(date1);
+    const parsedDate2 = new Date(date2);
+    const minDate = new Date("1900-01-01");
+    const today = new Date(); // Поточний час
+
+    if (isNaN(parsedDate1.getTime()) || isNaN(parsedDate2.getTime()) || 
+        parsedDate1 < minDate || parsedDate2 < minDate || 
+        parsedDate1 > today || parsedDate2 > today) {
+        
+        scoreSpan.innerText = "ERR";
+        titleSpan.innerText = "Invalid Time Line";
+        breakdownDiv.innerHTML = "Please enter valid birth dates (between 1900 and today's date). We cannot calculate synastry for time travelers.";
+        return;
+    }
+
     try {
         const response = await fetch(COMPATIBILITY_WORKER_URL, {
             method: "POST",
@@ -1068,10 +1100,12 @@ async function calculateCompatibility() {
             throw new Error(data.error || "Unknown calculation error");
         }
 
-        // Render calculated natal signs & detailed score
-        scoreSpan.innerText = `${data.score}%`;
-        titleSpan.innerText = data.title;
-        verdictP.innerText = data.verdict;
+        // ==========================================
+        // PHASE 2 RENDERING: Static Natal Synastry
+        // ==========================================
+        scoreSpan.innerText = `${data.synastry.score}`; 
+        titleSpan.innerText = data.synastry.title;
+        verdictP.innerText = data.synastry.verdict;
 
         // Display calculated planets alongside elemental analysis
         const planetsInfo = `
@@ -1081,68 +1115,27 @@ async function calculateCompatibility() {
                 ✦ Person 2: Moon in ${data.person2.moon}, Venus in ${data.person2.venus}, Mars in ${data.person2.mars}
             </div>
         `;
+        breakdownDiv.innerHTML = planetsInfo + data.synastry.details;
 
-        breakdownDiv.innerHTML = planetsInfo + data.details;
+        // ==========================================
+        // PHASE 3 RENDERING: Dynamic Astro-Weather
+        // ==========================================
+        const weatherScoreEl = document.getElementById('weatherScore');
+        const weatherVerdictEl = document.getElementById('weatherVerdict');
+        const weatherDetailsEl = document.getElementById('weatherDetails');
+
+        if (weatherScoreEl && data.weather) {
+            weatherScoreEl.innerText = `${data.weather.weatherScore}%`;
+            weatherVerdictEl.innerText = data.weather.weatherVerdict;
+            weatherDetailsEl.innerText = data.weather.transitDetails;
+        }
 
     } catch (error) {
         console.error("Natal Engine Communication Failure:", error);
         scoreSpan.innerText = "---";
         titleSpan.innerText = "Cosmic Disconnection";
-        breakdownDiv.innerHTML = "Unable to reach the Cloudflare Worker. Please verify that your Worker is deployed and CORS is properly enabled.";
+        breakdownDiv.innerHTML = `Unable to reach the Cloudflare Worker. Details: ${error.message}`;
     }
-}
-async function displayDailyOmen() {
-    const omenElement = document.getElementById("omenText");
-    
-    if (omenElement) {
-        try {
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            const dateString = `${yyyy}${mm}${dd}`;
-            const workerUrl = `https://astro-omen.astroinsight.workers.dev/?v=${dateString}`;
-            const response = await fetch(workerUrl);
-            if (!response.ok) throw new Error("Cosmic connection error");
-            const data = await response.json();
-            omenElement.textContent = data.omen;
-        } catch (error) {
-            console.error("Cosmic connection failed:", error);
-            omenElement.textContent = "The universe is whispering secrets. Listen closely.";
-        }
-    }
-}
-document.addEventListener("DOMContentLoaded", displayDailyOmen);
-
-function handleFormSubmit(e) {
-    e.preventDefault();
-    const form = document.querySelector('.contact-form');
-    const btn = document.querySelector('.submit-btn');
-
-    const data = {
-        name: document.getElementById('user-name').value,
-        email: document.getElementById('user-email').value,
-        subject: document.getElementById('msg-subject').value,
-        message: document.getElementById('user-message').value
-    };
-
-    fetch(form.action, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then(r => {
-        if (r.ok) {
-            btn.innerText = "Message Sent ✓";
-            btn.style.background = "#22c55e";
-            form.reset();
-        } else {
-            btn.innerText = "Something went wrong. Try again.";
-            btn.style.background = "#ef4444";
-        }
-    });
 }
 // ==========================================
 // AURA COLOR MEMORY SYSTEM & WIDGET
