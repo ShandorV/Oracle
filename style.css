@@ -412,9 +412,28 @@ details li { margin-bottom: 8px; }
 /* ==========================================
    SVG ICONS & WIDGET SELECTS
    ========================================== */
-.zodiac-svg-icon { width: 24px; height: 24px; display: inline-block; vertical-align: middle; margin-right: 10px; }
+
+/* 1. Гнучкий розмір (для карток та модалок Celestial Readings) */
+.zodiac-svg-icon { 
+    width: 50%; 
+    height: 50%; 
+    display: inline-block; 
+    vertical-align: middle; 
+}
+
+/* 2. Обмеження 100px ТІЛЬКИ для випадаючих списків сумісності */
+.selected-content .zodiac-svg-icon,
+.custom-option .zodiac-svg-icon {
+    width: 100px !important; 
+    height: 100px !important; 
+    margin-right: 2px;
+}
+
+/* 3. Збережені ефекти світіння та ховеру (Vector Minimalism) */
 .zodiac-svg-icon circle, .zodiac-svg-icon path { fill: var(--glow-color) !important; transition: fill 0.3s ease, filter 0.3s ease; }
 .zodiac-card:hover .zodiac-svg-icon circle, .zodiac-card:hover .zodiac-svg-icon path { fill: #ffffff !important; filter: drop-shadow(0 0 8px var(--glow-color)); }
+
+/* ========================================== */
 
 .custom-select { position: relative; width: 100%; min-width: 220px; }
 .select-trigger { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(20, 20, 30, 0.8); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; color: #fff; cursor: pointer; transition: all 0.3s ease; }
