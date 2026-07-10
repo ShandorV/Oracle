@@ -200,7 +200,7 @@
 
                         <div class="input-wrapper">
                             <label for="date1">Exact Birth Date</label>
-                            <input type="date" id="date1" class="gold-select" value="1995-05-14">
+                            <input type="date" id="date1" class="gold-select" value="1995-05-14" min="1900-01-01" max="2026-12-31">
                         </div>
                     </div>
 
@@ -223,7 +223,7 @@
 
                         <div class="input-wrapper">
                             <label for="date2">Exact Birth Date</label>
-                            <input type="date" id="date2" class="gold-select" value="1997-08-20">
+                            <input type="date" id="date2" class="gold-select" value="1997-08-20" min="1900-01-01" max="2026-12-31">
                         </div>
                     </div>
 
@@ -242,10 +242,20 @@
                     <p id="syncVerdict" class="sync-verdict" style="margin-bottom: 20px; font-style: italic;"></p>
                     
                     <div class="compat-analytics">
-                        <div class="insight-box strength-box" style="width: 100%;">
+                        <div class="insight-box strength-box" style="width: 100%; margin-bottom: 15px;">
                             <h4 style="color: #4CAF50;">✨ Planetary Analysis</h4>
-                            <div id="syncBreakdown" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; text-align: left;">
+                            <div id="syncBreakdown" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; text-align: left;"></div>
+                        </div>
+
+                        <div class="insight-box growth-box" style="width: 100%; border-left: 4px solid #00BCD4;">
+                            <h4 style="color: #00BCD4;">⚡ Real-Time Astro-Weather</h4>
+                            <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                                <div style="font-size: 2rem; font-weight: bold; color: #00BCD4;" id="weatherScore">--%</div>
+                                <div style="text-align: left;">
+                                    <strong id="weatherVerdict" style="color: #e2e8f0; display: block; margin-bottom: 5px;">Awaiting Forecast...</strong>
+                                    <span id="weatherDetails" style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; display: block;"></span>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
