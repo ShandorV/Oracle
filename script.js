@@ -553,25 +553,6 @@ function switchTab(event, tabName) {
 // WIDGETS
 // ==========================================
 
-function drawTarot() {
-    const tarotContainer = document.getElementById('tarotResult');
-    // ЗАПОБІЖНИК: Малюємо Таро тільки якщо на сторінці є блок для них
-    if (!tarotContainer) return;
-
-    playSound('mystic');
-    const cards = ["The Magician", "The High Priestess", "The Empress", "Wheel of Fortune", "The Star", "The Moon", "The Sun"];
-    const shuffled = cards.sort(() => 0.5 - Math.random()).slice(0, 3);
-    const layout = ["Past", "Present", "Future"];
-    let html = "";
-    for(let i=0; i<3; i++) {
-        html += `<div class="tarot-card" onclick="this.classList.toggle('flipped'); playSound('mystic')"><div class="tarot-inner"><div class="tarot-front">✧</div><div class="tarot-back"><div class="tarot-title">${layout[i]}</div><div class="tarot-name">${shuffled[i]}</div></div></div></div>`;
-    }
-    tarotContainer.innerHTML = html;
-}
-drawTarot();
-
-// ==========================================
-
 const NUMEROLOGY_WORKER_URL = "https://numerology.astroinsight.workers.dev";
 
 async function analyzeUsername() {
@@ -1424,3 +1405,163 @@ function initAstroWidgets() {
 }
 
 document.addEventListener('DOMContentLoaded', initAstroWidgets);
+// ==========================================
+// TAROT SYSTEM: 78-CARD AI ORACLE
+// ==========================================
+
+// 1. Initialize the Tarot Deck (Memory Optimized Generation)
+const tarotDeck = [];
+
+const majorArcanaNames = [
+    "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", 
+    "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit", 
+    "Wheel of Fortune", "Justice", "The Hanged Man", "Death", "Temperance", 
+    "The Devil", "The Tower", "The Star", "The Moon", "The Sun", 
+    "Judgement", "The World"
+];
+
+// Generate Major Arcana
+majorArcanaNames.forEach((name, index) => {
+    tarotDeck.push({
+        id: `major_${index}`,
+        name: name,
+        type: "Major Arcana",
+        imageUrl: `assets/tarot/major_${index}.webp`
+    });
+});
+
+// Generate Minor Arcana
+const suits = ["Wands", "Cups", "Swords", "Pentacles"];
+const courtCards = ["Page", "Knight", "Queen", "King"];
+
+suits.forEach(suit => {
+    for (let i = 1; i <= 14; i++) {
+        let cardName = "";
+        if (i === 1) cardName = `Ace of ${suit}`;
+        else if (i >= 2 && i <= 10) cardName = `${i} of ${suit}`;
+        else cardName = `${courtCards[i - 11]} of ${suit}`;
+
+        tarotDeck.push({
+            id: `minor_${suit.toLowerCase()}_${i}`,
+            name: cardName,
+            type: `Minor Arcana - ${suit}`,
+            imageUrl: `assets/tarot/${suit.toLowerCase()}_${i}.webp`
+        });
+    }
+});
+
+// 2. Core Shuffle Engine (Fisher-Yates Algorithm)
+function shuffleTarotDeck(deck) {
+    const shuffled = [...deck]; // Create a shallow copy to prevent mutating the master deck
+    
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        // Generate a random index ranging from 0 to i
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        // Swap elements seamlessly
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    return shuffled;
+}
+
+// 3. Draw The Arcana Spread (Past, Present, Future)
+function drawArcanaSpread() {
+    const activeDeck = shuffleTarotDeck(tarotDeck);
+    
+    // Extract top 3 mathematically randomized cards
+    const spread = {
+        past: activeDeck[0],
+        present: activeDeck[1],
+        future: activeDeck[2]
+    };
+    
+    console.log("🔮 The Arcana Spread initialized:", spread);
+    return spread;
+}
+// 4. Render the Spread into the DOM
+function drawTarot() {
+    const container = document.getElementById('tarotResult');
+    if (!container) return;
+
+    // Generate the 3 unique cards
+    const spread = drawArcanaSpread();
+    const layout = [
+        { key: 'past', label: 'Past', data: spread.past },
+        { key: 'present', label: 'Present', data: spread.present },
+        { key: 'future', label: 'Future', data: spread.future }
+    ];
+
+    let htmlOutput = "";
+
+    layout.forEach(item => {
+        htmlOutput += `
+            <div class="tarot-card" onclick="this.classList.toggle('flipped')">
+                <div class="tarot-inner">
+                    <div class="tarot-front">✧</div>
+                    <div class="tarot-back">
+                        <div class="tarot-position-label">${item.label}</div>
+                        <div class="tarot-card-title">${item.data.name}</div>
+                        <div class="tarot-card-type">${item.data.type}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = htmlOutput;
+
+    // NEW: Trigger the AI connection after dealing the cards
+    fetchTarotReading(spread);
+}
+
+// 5. Fetch AI Interpretation from Cloudflare Worker
+async function fetchTarotReading(spread) {
+    const container = document.getElementById('tarotResult');
+    
+    // Check if reading box exists, if not, create it dynamically
+    let readingBox = document.getElementById('tarot-interpretation');
+    if (!readingBox) {
+        readingBox = document.createElement('div');
+        readingBox.id = 'tarot-interpretation';
+        readingBox.className = 'oracle-reading';
+        // Insert right after the tarot grid
+        container.parentNode.insertBefore(readingBox, container.nextSibling);
+    }
+
+    // Show mystical loading state
+    readingBox.style.display = 'block';
+    readingBox.innerHTML = `
+        <div class="oracle-loader">
+            <span class="glow-text">The Oracle is consulting the ether...</span>
+        </div>
+    `;
+
+    try {
+        const response = await fetch("https://tarot-oracle-api.astroinsight.workers.dev/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(spread)
+        });
+
+        if (!response.ok) throw new Error("Network disruption");
+
+        const data = await response.json();
+        
+        if (data.error) throw new Error(data.error);
+
+        // Inject the AI reading and format it
+        readingBox.innerHTML = `<div class="reading-content">${data.reading}</div>`;
+        
+        // Smoothly scroll down to the reading
+        readingBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    } catch (error) {
+        console.error("Fetch error:", error);
+        readingBox.innerHTML = `
+            <div class="reading-error">
+                The connection to the stars was lost. Please draw the cards again.
+            </div>
+        `;
+    }
+}
