@@ -1130,6 +1130,7 @@ function applyAuraColor(color) {
     document.documentElement.style.setProperty('--glow-color-dim', `${color}33`);
     document.documentElement.style.setProperty('--glow-color-mid', `${color}66`);
     
+    
     // Оновлюємо колір для Canvas (зірок)
     if (typeof currentAuraColor !== 'undefined') {
         currentAuraColor = color; 
@@ -1565,3 +1566,23 @@ async function fetchTarotReading(spread) {
         `;
     }
 }
+// ==========================================
+// DYNAMIC SITE LOGO LOADER
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    const logoContainer = document.getElementById("site-logo-container");
+
+    if (logoContainer) {
+        fetch('logo.svg') // Завантажуємо файл, який ти створиш в корені
+            .then(response => {
+                if (!response.ok) throw new Error('Помилка завантаження logo.svg');
+                return response.text();
+            })
+            .then(svgData => {
+                logoContainer.innerHTML = svgData;
+            })
+            .catch(error => {
+                console.error('Не вдалося завантажити логотип Astro Insight:', error);
+            });
+    }
+});
