@@ -100,8 +100,8 @@ body {
 }
 
 #site-logo-container svg {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     /* Світіння підтягує колір Аури. Якщо її немає - бере золотий */
     filter: drop-shadow(0 0 5px var(--glow-color, #d4af37));
     transition: all 0.5s ease;
