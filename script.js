@@ -1567,22 +1567,137 @@ async function fetchTarotReading(spread) {
     }
 }
 // ==========================================
-// DYNAMIC SITE LOGO LOADER
+// DYNAMIC SITE LOGO & DOUBLE FLIP PRELOADER
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    const logoContainer = document.getElementById("site-logo-container");
+    const preloader = document.getElementById("astro-preloader");
+    
+    // Елементи, які летять
+    const introLogo = document.getElementById("intro-logo-container");
+    const introTitle = document.getElementById("intro-title");
+    
+    // Елементи, куди летять
+    const siteLogo = document.getElementById("site-logo-container");
+    const siteTitle = document.getElementById("site-title-container");
 
-    if (logoContainer) {
-        fetch('logo.svg') // Завантажуємо файл, який ти створиш в корені
-            .then(response => {
-                if (!response.ok) throw new Error('Помилка завантаження logo.svg');
-                return response.text();
-            })
-            .then(svgData => {
-                logoContainer.innerHTML = svgData;
-            })
-            .catch(error => {
-                console.error('Не вдалося завантажити логотип Astro Insight:', error);
-            });
+    const introPlayed = sessionStorage.getItem('introPlayed');
+
+    fetch('logo.svg')
+        .then(response => {
+            if (!response.ok) throw new Error('Помилка завантаження logo.svg');
+            return response.text();
+        })
+        .then(svgData => {
+            if (siteLogo) siteLogo.innerHTML = svgData;
+
+            // Якщо перший вхід і всі елементи на місці
+            if (!introPlayed && preloader && introLogo && siteLogo && introTitle && siteTitle) {
+                
+                document.body.classList.add('no-scroll');
+                introLogo.innerHTML = svgData;
+                
+                // Тимчасово ховаємо справжні елементи в шапці
+                siteLogo.style.opacity = '0';
+                siteTitle.style.opacity = '0'; 
+
+                setTimeout(() => {
+                // Координати для Лого
+                const introLogoRect = introLogo.getBoundingClientRect();
+                const targetLogoRect = siteLogo.getBoundingClientRect();
+                const logoDeltaX = targetLogoRect.left - introLogoRect.left;
+                const logoDeltaY = targetLogoRect.top - introLogoRect.top;
+                const logoScale = targetLogoRect.width / introLogoRect.width;
+
+                // Координати для Тексту
+                const introTitleRect = introTitle.getBoundingClientRect();
+                const targetTitleRect = siteTitle.getBoundingClientRect();
+                const titleDeltaX = targetTitleRect.left - introTitleRect.left;
+                const titleDeltaY = targetTitleRect.top - introTitleRect.top;
+                const titleScale = targetTitleRect.width / introTitleRect.width;
+
+                // МАГІЯ: Розчиняємо лише чорний фон шторки!
+                preloader.style.background = 'transparent';
+                preloader.style.pointerEvents = 'none';
+
+                // ЗАПУСК ПОЛЬОТУ
+                introLogo.style.transform = `translate(${logoDeltaX}px, ${logoDeltaY}px) scale(${logoScale})`;
+                introTitle.style.transform = `translate(${titleDeltaX}px, ${titleDeltaY}px) scale(${titleScale})`;
+
+                setTimeout(() => {
+                    // 1. Вмикаємо справжні елементи в шапці (робимо безшовну підміну)
+                    siteLogo.style.opacity = '1'; 
+                    siteTitle.style.opacity = '1'; 
+                    
+                    // 2. Даємо команду прелоадеру стати повністю прозорим
+                    preloader.style.opacity = '0'; 
+
+                    // 3. Чекаємо 400мс, поки він візуально зникне, і тоді видаляємо його з коду
+                    setTimeout(() => {
+                        preloader.remove(); // Видаляємо DOM-елемент остаточно
+                        document.body.classList.remove('no-scroll'); // Повертаємо скрол
+                        sessionStorage.setItem('introPlayed', 'true'); 
+                    }, 400);
+
+                }, 1200);
+
+            }, 1800);
+
+            } else {
+                // ПОВТОРНИЙ ВХІД (Без заставки)
+                if (siteLogo) siteLogo.style.opacity = '1';
+                if (siteTitle) siteTitle.style.opacity = '1';
+                if (preloader) preloader.remove();
+                document.body.classList.remove('no-scroll');
+            }
+        })
+        .catch(error => {
+            console.error('Помилка завантаження логотипу:', error);
+            if (siteLogo) siteLogo.style.opacity = '1';
+            if (siteTitle) siteTitle.style.opacity = '1';
+            if (preloader) preloader.remove();
+            document.body.classList.remove('no-scroll');
+        });
+});
+// --- SUPPORT FORM GOOGLE APPS SCRIPT BEKÜLDÉS ---
+document.addEventListener('DOMContentLoaded', () => {
+    const supportForm = document.getElementById('support-form');
+    const responseDiv = document.getElementById('form-response');
+
+    // Csak akkor fut le a kód, ha a support oldalon vagyunk (létezik a form)
+    if (supportForm) {
+        supportForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            // A telepített Google Apps Script URL-ed
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxcRUvUiiVmMbhS4d31enDkfHLGp9Cj0xVHzOvL6029xGlY2VojsQ0nmB7CIRGENIVOzQ/exec'; 
+            const formData = new FormData(supportForm);
+
+            const submitButton = supportForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            
+            // Gomb vizuális állapota küldés közben
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        responseDiv.innerHTML = '<p style="color: #4CAF50;">Your message has been sent successfully!</p>';
+                        supportForm.reset();
+                    } else {
+                        responseDiv.innerHTML = '<p style="color: #f44336;">There was an error sending your message.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    responseDiv.innerHTML = '<p style="color: #f44336;">Network error occurred.</p>';
+                })
+                .finally(() => {
+                    // Gomb visszaállítása az eredeti állapotba
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                });
+        });
     }
 });
