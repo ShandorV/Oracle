@@ -100,7 +100,7 @@ body {
     justify-content: center;
     
     /* НАЙГОЛОВНІШИЙ РЯДОК: відсікає все, що намагається вилізти за межі 50х50 */
-    overflow: hidden !important; 
+    overflow: visible !important; 
     
     transition: opacity 0.4s ease; 
 }
