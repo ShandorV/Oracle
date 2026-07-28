@@ -1006,8 +1006,8 @@ body.no-scroll { overflow: hidden; height: 100vh; }
 
 /* Великий логотип по центру прелоадера */
 #intro-logo-container {
-    width: 500px; 
-    height: 500px; /* Ідеальний квадрат 1:1 */
+    width: 280px; 
+    height: 280px; /* Ідеальний квадрат 1:1 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1019,6 +1019,7 @@ body.no-scroll { overflow: hidden; height: 100vh; }
 #intro-logo-container svg {
     width: 100%; height: 100%;
     filter: drop-shadow(0 0 30px var(--glow-color, #d4af37));
+    transform: scale(1.8);
 }
 
 #intro-logo-container .cls-1, 
@@ -1032,7 +1033,7 @@ body.no-scroll { overflow: hidden; height: 100vh; }
 
 /* Напис Astro Insight на прелоадері */
 .intro-title {
-    margin-top: -100px; /* Підтягуємо текст до квадрата */
+    margin-top: -20px; /* Підтягуємо текст до квадрата */
     font-size: 4rem;
     color: var(--glow-color, #d4af37);
     text-transform: uppercase;
