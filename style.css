@@ -1076,7 +1076,7 @@ body.no-scroll { overflow: hidden; height: 100vh; }
     }
     .intro-title {
         font-size: 2.2rem;
-        margin-top: -60px; /* Зменшений відступ під менший квадрат */
+        margin-top: 10px;
     }
     .nav-title {
         font-size: 1.2rem;
