@@ -23,6 +23,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#ef4444', colorName: 'Crimson Red',
         planet: 'Mars', element: 'Fire', energy: 'Dynamic, leading, spark',
+        luckyNumbers: '1 - 9 - 14',
         points: [[10, 80], [25, 60], [40, 35], [45, 10], [75, 50], [95, 70]],
         links: [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5]]
     },
@@ -38,6 +39,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#22c55e', colorName: 'Emerald Green',
         planet: 'Venus', element: 'Earth', energy: 'Stable, sensual, confident',
+        luckyNumbers: '2 - 6 - 11',
         points: [[10, 25], [30, 10], [45, 30], [45, 45], [30, 50], [35, 60], [50, 55], [45, 70], [55, 80], [75, 100], [75, 45], [90, 45]],
         links: [[0, 4], [1, 2], [2, 3], [3, 4], [3, 6], [4, 5], [5, 7], [6, 7], [3, 10], [10, 11], [7, 8], [8, 9]]
     },
@@ -53,6 +55,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#eab308', colorName: 'Golden Yellow',
         planet: 'Mercury', element: 'Air', energy: 'Intellectual, quick, mutable',
+        luckyNumbers: '3 - 5 - 14',
         points: [[25, 10], [25, 28], [10, 25], [20, 45], [30, 65], [20, 85], [40, 85], [40, 30], [60, 32], [90, 35], [55, 20], [45, 8], [65, 55], [55, 75], [80, 70], [95, 90]],
         links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [4, 6], [1, 7], [7, 8], [8, 9], [8, 10], [10, 11], [8, 12], [12, 13], [12, 14], [14, 15]]
     },
@@ -76,6 +79,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#cbd5e1', colorName: 'Silver',
         planet: 'Moon', element: 'Water', energy: 'Intuitive, empathetic, soft',
+        luckyNumbers: '2 - 7 - 16',
         points: [[50, 10], [55, 35], [50, 50], [20, 70], [80, 80]],
         links: [[0, 1], [1, 2], [2, 3], [2, 4]]
     },
@@ -95,6 +99,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#f59e0b', colorName: 'Radiant Gold',
         planet: 'Sun', element: 'Fire', energy: 'Majestic, creative, solar',
+        luckyNumbers: '1 - 4 - 10',
         points: [[10, 80], [30, 60], [40, 80], [75, 80], [80, 60], [70, 40], [60, 25], [85, 10], [95, 20]],
         links: [[0, 1], [1, 2], [0, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8]]
     },
@@ -109,6 +114,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#d4a373', colorName: 'Earthy Brown',
         planet: 'Mercury', element: 'Earth', energy: 'Analytical, orderly, pure',
+        luckyNumbers: '3 - 5 - 15',
         points: [[5, 60], [20, 50], [35, 45], [50, 35], [40, 20], [65, 40], [75, 35], [90, 25], [85, 10], [70, 15], [55, 55], [60, 75], [40, 75], [25, 65], [10, 75]],
         links: [[0, 1], [1, 2], [1, 13], [13, 14], [13, 12], [2, 3], [3, 4], [3, 5], [2, 10], [5, 10], [10, 11], [5, 6], [6, 7], [7, 8], [8, 9]]
     },
@@ -126,6 +132,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#93c5fd', colorName: 'Pastel Blue',
         planet: 'Venus', element: 'Air', energy: 'Harmonious, aesthetic, diplomatic',
+        luckyNumbers: '6 - 15 - 24',
         points: [[10, 80], [20, 65], [35, 50], [25, 30], [50, 10], [85, 30], [75, 55], [90, 70]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [3, 5], [5, 6], [6, 7]]
     },
@@ -140,6 +147,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#991b1b', colorName: 'Deep Red',
         planet: 'Pluto', element: 'Water', energy: 'Intense, transformational, mysterious',
+        luckyNumbers: '8 - 11 - 18',
         points: [[35, 35], [20, 45], [10, 55], [25, 70], [45, 70], [60, 60], [65, 45], [75, 35], [80, 25], [85, 20], [90, 5], [100, 15], [95, 35]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [9, 11], [9, 12]]
     },
@@ -154,6 +162,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#a855f7', colorName: 'Deep Purple',
         planet: 'Jupiter', element: 'Fire', energy: 'Optimistic, expansive, philosophical',
+        luckyNumbers: '3 - 9 - 12',
         points: [[50, 70], [0, 40], [40, 35], [10, 10], [10, -10], [20, -40], [40, -50], [60, -30], [70, -55], [68, -80], [80, -35], [90, -25], [70, -17], [110, -30], [135, -35], [117, -10], [140, -10], [105, 15], [125, 35]],
         links: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11], [11, 12], [11, 13], [13, 14], [13, 15], [15, 16], [15, 17], [17, 18]]
     },
@@ -176,6 +185,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#475569', colorName: 'Dark Grey',
         planet: 'Saturn', element: 'Earth', energy: 'Disciplined, ambitious, grounded',
+        luckyNumbers: '4 - 8 - 13',
         points: [[90, 15], [85, 25], [80, 35], [50, 40], [40, 38], [20, 35], [10, 35], [35, 65], [55, 75], [65, 65]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 2]]
     },
@@ -195,6 +205,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#06b6d4', colorName: 'Electric Blue',
         planet: 'Uranus', element: 'Air', energy: 'Visionary, eccentric, independent',
+        luckyNumbers: '4 - 7 - 11',
         points: [[5, 55], [25, 35], [35, 25], [10, -5], [40, -40], [65,-40], [70,-10], [90, -20], [65, 15], [75, 55], [102, 10], [125, 35]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [7, 10], [10, 11]]
     },
@@ -207,6 +218,7 @@ const zodiacData = {
                   </svg>`,
         aura: '#14b8a6', colorName: 'Sea Green',
         planet: 'Neptune', element: 'Water', energy: 'Dreamy, compassionate, mystic',
+        luckyNumbers: '3 - 9 - 16',
         points: [[80, 40], [90, 35], [95, 25], [85, 20], [75, 30], [65, 33], [55, 40], [45, 43], [35, 48], [25, 52], [15, 65], [22, 40], [18, 25], [8, 20], [13, 10]],
         links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14], [14, 12]]
     }
@@ -515,7 +527,7 @@ async function openModal(sign) {
     document.getElementById('luckyColorName').innerText = zData.colorName;
 
     // Щасливі числа
-    document.getElementById('luckyNumbers').innerText = Array.from({length: 3}, () => Math.floor(Math.random() * 9) + 1).join(' - ');
+    document.getElementById('luckyNumbers').innerText = zData.luckyNumbers;
 
     try { switchTab(null, 'Insight'); } catch(e) {} 
     
