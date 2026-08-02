@@ -1083,3 +1083,80 @@ body.no-scroll { overflow: hidden; height: 100vh; }
         margin-left: 8px;
     }
 }
+/* =========================================
+   CUSTOM COSMIC CURSOR (Astro Insight)
+   ========================================= */
+
+/* Застосовуємо ТІЛЬКИ для пристроїв із точною мишкою (ПК/Ноутбуки) */
+@media (pointer: fine) {
+    /* Жорстко ховаємо ВСІ системні курсори (стрілки, ручки, палички) на ВСІХ елементах */
+    *, *::before, *::after {
+        cursor: none !important;
+    }
+    
+    #cursor-dot, #cursor-aura {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none; /* ДУЖЕ ВАЖЛИВО: дозволяє клікати крізь курсор */
+        border-radius: 50%;
+        z-index: 99999; /* Поверх усіх інших елементів */
+        transform: translate(-50%, -50%); /* Центруємо відносно координат */
+    }
+
+    /* Центральна зірочка (рухається миттєво) */
+    #cursor-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--glow-color, #d4af37);
+        box-shadow: 0 0 10px var(--glow-color, #d4af37);
+    }
+
+    /* Орбіта/Аура (рухається із затримкою) */
+    #cursor-aura {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(212, 175, 55, 0.4);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        will-change: transform; /* Підказка для браузера: вмикає GPU-прискорення */
+    }
+
+    /* Стан "Увага": коли курсор наведено на посилання чи кнопку */
+    #cursor-aura.hovering {
+        width: 55px;
+        height: 55px;
+        background-color: rgba(212, 175, 55, 0.1);
+        border-color: var(--glow-color, #d4af37);
+    }
+}
+/* =========================================
+   КАСТОМІЗАЦІЯ ТЕКСТУ ТА ВВОДУ
+   ========================================= */
+
+/* 1. Золота блимаюча каретка для полів вводу */
+input, textarea {
+    caret-color: var(--glow-color, #d4af37);
+}
+
+/* 2. Космічне золоте виділення тексту */
+::selection {
+    background-color: rgba(212, 175, 55, 0.4); /* Напівпрозорий золотий */
+    color: #fff; /* Текст стає білим для контрасту */
+    text-shadow: 0 0 5px rgba(212, 175, 55, 0.8); /* Легке світіння виділеного тексту */
+}
+
+/* 3. Ховаємо стандартний текстовий курсор */
+p, h1, h2, h3, h4, h5, h6, span, li, input, textarea {
+    cursor: none;
+}
+
+/* 4. Новий стан Аури над текстом (Витягується в лінію) */
+#cursor-aura.text-hover {
+    width: 4px;
+    height: 28px; /* Робимо високим */
+    border-radius: 2px;
+    background-color: rgba(212, 175, 55, 0.6);
+    border: none;
+    box-shadow: 0 0 10px var(--glow-color, #d4af37);
+}
