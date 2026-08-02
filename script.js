@@ -1713,3 +1713,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// =========================================
+// СИСТЕМА КАСТОМНОГО КУРСОРА (Cosmic Satellite)
+// =========================================
+(function initCustomCursor() {
+    // 1. ПЕРЕВІРКА БЕЗПЕКИ: Чи є мишка? (Щоб не запускати на iPhone/Android)
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    // 2. СТВОРЕННЯ ЕЛЕМЕНТІВ (Динамічно ін'єктуємо в HTML)
+    const dot = document.createElement('div');
+    dot.id = 'cursor-dot';
+    const aura = document.createElement('div');
+    aura.id = 'cursor-aura';
+    
+    document.body.appendChild(dot);
+    document.body.appendChild(aura);
+
+    // 3. ЗМІННІ ДЛЯ ПОЗИЦІЇ (Координати)
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let auraX = mouseX;
+    let auraY = mouseY;
+
+    // 4. СЛУХАЄМО МИШКУ
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Крапка слідує за мишкою миттєво (використовуємо 3D для GPU оптимізації)
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+    });
+
+    // 5. АНІМАЦІЯ АУРИ (LERP - плавне слідування)
+    function animateAura() {
+        // Швидкість згладжування (0.15 = 15% наближення за кожен кадр)
+        auraX += (mouseX - auraX) * 0.15;
+        auraY += (mouseY - auraY) * 0.15;
+
+        aura.style.transform = `translate3d(${auraX}px, ${auraY}px, 0) translate(-50%, -50%)`;
+
+        // Викликаємо функцію знову і знову (60 разів на секунду)
+        requestAnimationFrame(animateAura);
+    }
+    animateAura();
+
+    // 6. ІНТЕРАКТИВ (Ефект збільшення при наведенні)
+    // Шукаємо всі кнопки, посилання та картки на сторінці
+    const interactiveElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            aura.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            aura.classList.remove('hovering');
+        });
+    });
+    // 6. ІНТЕРАКТИВ (Реакція на кнопки та текст)
+    
+    // Елементи для стану "Клік" (Аура розширюється)
+    const clickableElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger');
+    clickableElements.forEach(el => {
+        el.addEventListener('mouseenter', () => aura.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => aura.classList.remove('hovering'));
+    });
+
+    // Елементи для стану "Текст" (Аура стає лінією)
+    const textElements = document.querySelectorAll('p, h1, h2, h3, li, input, textarea');
+    textElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            // Щоб ефекти не конфліктували, якщо посилання є всередині тексту
+            if (!aura.classList.contains('hovering')) {
+                aura.classList.add('text-hover');
+            }
+        });
+        el.addEventListener('mouseleave', () => aura.classList.remove('text-hover'));
+    });
+})();
