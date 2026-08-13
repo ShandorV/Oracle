@@ -1759,7 +1759,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. ІНТЕРАКТИВ (Ефект збільшення при наведенні)
     // Шукаємо всі кнопки, посилання та картки на сторінці
-    const interactiveElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger');
+    const interactiveElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger, .info-tooltip');
     
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -1772,7 +1772,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. ІНТЕРАКТИВ (Реакція на кнопки та текст)
     
     // Елементи для стану "Клік" (Аура розширюється)
-    const clickableElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger');
+    const clickableElements = document.querySelectorAll('a, button, .card, .dropbtn, .hamburger, .info-tooltip');
     clickableElements.forEach(el => {
         el.addEventListener('mouseenter', () => aura.classList.add('hovering'));
         el.addEventListener('mouseleave', () => aura.classList.remove('hovering'));
