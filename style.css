@@ -1160,3 +1160,207 @@ p, h1, h2, h3, h4, h5, h6, span, li, input, textarea {
     border: none;
     box-shadow: 0 0 10px var(--glow-color, #d4af37);
 }
+/* ==========================================
+   INTERACTIVE TOOLTIPS (INFO ICONS)
+   ========================================== */
+.info-tooltip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--glow-color);
+    color: var(--glow-color);
+    font-size: 0.9rem;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    vertical-align: middle;
+    margin-left: 12px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 0 5px var(--glow-color-dim);
+    transition: all 0.3s ease;
+}
+
+/* Світіння при наведенні */
+.info-tooltip:hover {
+    background: var(--glow-color);
+    color: var(--bg-body);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+/* Сама плашка підказки (Glassmorphism) */
+.info-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 160%; /* Виринає зверху над іконкою */
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    width: max-content;
+    max-width: 250px; /* Щоб текст не був нескінченно довгим */
+    padding: 12px 18px;
+    background: rgba(15, 23, 42, 0.85); /* Темно-синій матовий фон */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glow-color);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: normal;
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Плавна пружинка */
+    z-index: 1000;
+}
+
+/* Маленький золотий трикутник, що вказує на іконку */
+.info-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    border-width: 7px;
+    border-style: solid;
+    border-color: var(--glow-color) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+
+/* Анімація появи при наведенні (або тапі на телефоні) */
+.info-tooltip:hover::after,
+.info-tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Мобільна адаптація: щоб текст не вилазив за екран */
+@media (max-width: 768px) {
+    .info-tooltip::after {
+        white-space: normal;
+        width: 220px;
+        font-size: 0.9rem;
+    }
+}
+/* ==========================================
+   POSITIONING FOR COSMIC INSIGHT (OMEN BOX) TOOLTIP
+   ========================================== */
+#itOmen {
+    position: relative; /* База для координат */
+}
+
+/* Ставимо іконку по центру правого краю контейнера */
+#itOmen .info-tooltip {
+    position: absolute;
+    right: 15px;           /* Прив'язка до правого краю */
+    left: auto;
+    top: 50%;              /* Опускаємо на 50% висоти */
+    transform: translateY(-50%); /* Ідеальне вертикальне центрування */
+    margin-left: 0;
+}
+
+/* Підказка відкривається зверху над іконкою і зміщується вліво */
+#itOmen .info-tooltip::after {
+    left: auto;
+    right: 0;
+    bottom: 160%;
+    top: auto;
+    transform: translateY(15px);
+}
+
+/* Золотий трикутник вказівника точно під іконку */
+#itOmen .info-tooltip::before {
+    left: auto;
+    right: 5px;
+    bottom: 120%;
+    top: auto;
+    border-color: var(--glow-color) transparent transparent transparent;
+    transform: translateY(15px);
+}
+
+/* Анімація появления при наведенні */
+#itOmen .info-tooltip:hover::after,
+#itOmen .info-tooltip:hover::before {
+    transform: translateY(0);
+}
+/* ==========================================
+   TOOLTIPS FOR TWO-COLUMN GRID WIDGETS
+   ========================================== */
+.two-col-grid .info-tooltip::after {
+    max-width: 210px; /* Зменшена ширина для комфортного читання у вузьких колонках */
+}
+
+@media (max-width: 768px) {
+    .two-col-grid .info-tooltip::after {
+        max-width: 190px;
+    }
+}
+/* ==========================================
+   MODAL ACTION BUTTONS TOOLTIPS
+   ========================================== */
+.modal-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-with-tooltip {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 8px;
+}
+
+.btn-with-tooltip .glow-btn {
+    flex: 1; /* Кнопка займає весь доступний простір */
+}
+
+/* Налаштування позиціонування підказки над кнопками */
+.btn-with-tooltip .info-tooltip::after {
+    bottom: 140%;
+    left: auto;
+    right: -10px; /* Прив'язуємо правий край підказки до іконки, текст росте вліво */
+    transform: translateY(10px); /* Прибрали translateX */
+    max-width: 240px;
+    z-index: 2050; /* Вище за модальне вікно */
+}
+
+/* Налаштовуємо золотий трикутник-вказівник */
+.btn-with-tooltip .info-tooltip::before {
+    bottom: 110%;
+    left: auto;
+    right: 5px; /* Стрілочка вказує рівно на іконку ? */
+    transform: translateY(10px);
+    z-index: 2050;
+}
+
+/* Анімація появи (плавний рух тільки вгору) */
+.btn-with-tooltip .info-tooltip:hover::after,
+.btn-with-tooltip .info-tooltip:hover::before {
+    transform: translateY(0);
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+    .modal-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-with-tooltip {
+        width: 100%;
+    }
+}
