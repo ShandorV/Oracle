@@ -1388,3 +1388,30 @@ p, h1, h2, h3, h4, h5, h6, span, li, input, textarea {
     height: 48px;
     filter: drop-shadow(0 0 15px var(--glow-color, #d4af37));
 }
+
+@media (max-width: 768px) {
+    .info-tooltip::after,
+    #itOmen .info-tooltip::after,
+    .btn-with-tooltip .info-tooltip::after {
+        position: fixed;
+        left: 5%;
+        right: 5%;
+        bottom: 30px;
+        top: auto;
+        width: auto;
+        max-width: none;
+        transform: translateY(20px);
+    }
+
+    .info-tooltip::before,
+    #itOmen .info-tooltip::before,
+    .btn-with-tooltip .info-tooltip::before {
+        display: none;
+    }
+
+    .info-tooltip:hover::after,
+    #itOmen .info-tooltip:hover::after,
+    .btn-with-tooltip .info-tooltip:hover::after {
+        transform: translateY(0);
+    }
+}
