@@ -1389,29 +1389,61 @@ p, h1, h2, h3, h4, h5, h6, span, li, input, textarea {
     filter: drop-shadow(0 0 15px var(--glow-color, #d4af37));
 }
 
+
+h2, h3, h4, .omen-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 10px;       
+}
+
+.info-tooltip {
+    flex-shrink: 0; 
+    margin-left: 0 !important; 
+}
+
+
+#itOmen .info-tooltip {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+}
+
 @media (max-width: 768px) {
+  
     .info-tooltip::after,
     #itOmen .info-tooltip::after,
     .btn-with-tooltip .info-tooltip::after {
-        position: fixed;
-        left: 5%;
-        right: 5%;
-        bottom: 30px;
-        top: auto;
-        width: auto;
-        max-width: none;
-        transform: translateY(20px);
+        position: fixed !important;
+        left: 15px !important;
+        right: 15px !important;
+        bottom: 25px !important;
+        top: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        transform: translateY(20px) !important; 
+        z-index: 999999 !important; 
+        box-sizing: border-box;
+        text-align: center;
     }
+
+  
+    .info-tooltip:hover::after,
+    .info-tooltip:active::after,
+    #itOmen .info-tooltip:hover::after,
+    .btn-with-tooltip .info-tooltip:hover::after {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
 
     .info-tooltip::before,
     #itOmen .info-tooltip::before,
     .btn-with-tooltip .info-tooltip::before {
-        display: none;
-    }
-
-    .info-tooltip:hover::after,
-    #itOmen .info-tooltip:hover::after,
-    .btn-with-tooltip .info-tooltip:hover::after {
-        transform: translateY(0);
+        display: none !important;
     }
 }
