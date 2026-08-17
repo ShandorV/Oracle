@@ -1373,7 +1373,7 @@ p, h1, h2, h3, h4, h5, h6, span, li, input, textarea {
     pointer-events: none;
     z-index: 99999;
     filter: drop-shadow(0 0 5px var(--glow-color, #d4af37));
-    transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease, filter 0.3s ease;
+    transition: transform 0.05s ease-out, width 0.2s ease, height 0.2s ease, filter 0.2s ease;
 }
 
 #custom-svg-cursor svg {
