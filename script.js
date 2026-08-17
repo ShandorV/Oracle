@@ -1768,8 +1768,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateCursor() {
         // LERP анімація для плавності
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
+        cursorX += (mouseX - cursorX) * 0.65;
+        cursorY += (mouseY - cursorY) * 0.65;
 
         customCursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
         requestAnimationFrame(animateCursor);
