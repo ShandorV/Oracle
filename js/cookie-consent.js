@@ -10,7 +10,7 @@
  * GA4 та керує UI банера.
  */
 
-const GA_ID = 'G-XXXXXXXXXX'; // TODO: Замінити на реальний GA4 Measurement ID
+const GA_ID = 'G-3JWNX7110N'; // TODO: Замінити на реальний GA4 Measurement ID
 
 const {
   COOKIE_KEY,
