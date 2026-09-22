@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        (function () {
+            var COOKIE_KEY = 'astro_cookie_consent';
+            var isGPCActivated = !!(navigator.globalPrivacyControl || window.globalPrivacyControl);
+            var savedConsent = localStorage.getItem(COOKIE_KEY);
+
+            function getConsentPayload(state) {
+                var isGranted = state === 'granted';
+                var isNecessary = state === 'necessary';
+                return {
+                    'analytics_storage': isGranted ? 'granted' : 'denied',
+                    'ad_storage': isGranted ? 'granted' : 'denied',
+                    'ad_user_data': isGranted ? 'granted' : 'denied',
+                    'ad_personalization': isGranted ? 'granted' : 'denied',
+                    'functionality_storage': (isGranted || isNecessary) ? 'granted' : 'denied',
+                    'personalization_storage': (isGranted || isNecessary) ? 'granted' : 'denied',
+                    'security_storage': 'granted',
+                    'restricted_data_processing': !isGranted
+                };
+            }
+
+            var initialState;
+            if (isGPCActivated) {
+                localStorage.setItem(COOKIE_KEY, 'denied');
+                initialState = 'denied';
+            } else if (savedConsent === 'granted' || savedConsent === 'denied' || savedConsent === 'necessary') {
+                initialState = savedConsent;
+            } else {
+                initialState = 'denied';
+            }
+            gtag('consent', 'default', getConsentPayload(initialState));
+
+            window.__astroConsent = {
+                COOKIE_KEY: COOKIE_KEY,
+                isGPCActivated: isGPCActivated,
+                savedConsent: savedConsent,
+                getConsentPayload: getConsentPayload
+            };
+        })();
+    </script>
+    <title>Terms and Conditions | Astro Insight</title>
+    <meta name="description" content="Terms and Conditions governing the use of Astro Insight website, free services, and digital products.">
+    <link rel="canonical" href="https://astroinsight.space/pages/terms.html">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=20260901">
+<!-- === ASTRO INSIGHT FAVICON & APP SET === -->
+<link rel="icon" type="image/x-icon" href="../icon/logo.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="../icon/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../icon/apple-touch-icon.png">
+<meta name="theme-color" content="#0f172a"> </head>
+<body>
+    <canvas id="starlight-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="../index.html" class="nav-logo-link" style="text-decoration: none; color: inherit; display: inline-flex;">
+            <div class="nav-logo">
+                <div class="logo-svg-container" id="site-logo-container"></div>
+                <span class="nav-title">Astro Insight</span>
+            </div>
+        </a>
+
+        <div class="nav-links" id="desktopNav">
+            <a href="../index.html">Home</a>
+            <a href="../pages/quiz.html">Astro Quizzes</a>
+            <a href="../pages/articles.html">Articles</a>
+        </div> 
+
+        <div class="hamburger" onclick="toggleMobileMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <span class="close-menu" onclick="toggleMobileMenu()">&times;</span>
+        
+        <a href="../index.html" onclick="toggleMobileMenu()">Home</a>
+        <a href="../pages/quiz.html" onclick="toggleMobileMenu()">Astro Quizzes</a>
+        <a href="../pages/articles.html" onclick="toggleMobileMenu()">Articles</a>
+    </div>
+
+    <main class="terms-container">
+        <header class="terms-header">
+            <h1>Terms and Conditions</h1>
+            <p class="last-updated">Last Updated: September 2026</p>
+        </header>
+
+        <section class="terms-section">
+            <h2>1. Introduction</h2>
+            <p>Welcome to Astro Insight ("we," "our," "us"). By accessing our website (astroinsight.space) and using our services, you agree to comply with and be bound by the following Terms and Conditions. If you do not agree with any part of these terms, please discontinue use of our services immediately.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>2. Description of Services</h2>
+            <p>Astro Insight provides free astrological content, horoscopes, and interactive celestial readings. All tools and readings are mathematically and symbolically generated based on user-provided data.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>3. Entertainment & Medical Disclaimer</h2>
+            <p>All content, readings, and quizzes provided by Astro Insight are strictly for entertainment, educational, and self-reflection purposes only.</p>
+            <ul>
+                <li>Astrology is not an exact science.</li>
+                <li>Our content does not constitute, and should not be used as a substitute for, professional medical, legal, financial, or psychological advice, diagnosis, or treatment.</li>
+                <li>Astro Insight assumes no liability for any actions, decisions, or life changes you make based on our content. Always consult a licensed professional for serious matters.</li>
+            </ul>
+        </section>
+
+        <section class="terms-section">
+            <h2>4. Intellectual Property & Acceptable Use</h2>
+            <p>All content on Astro Insight (text, logos, graphics, and algorithms) is the exclusive property of Astro Insight and is protected by international copyright laws.</p>
+            <ul>
+                <li><strong>Prohibited Use:</strong> You may not resell, redistribute, modify, or commercially exploit our content. Furthermore, you may not use bots, scrapers, or automated tools to extract data from our website.</li>
+            </ul>
+        </section>
+
+        <section class="terms-section">
+            <h2>5. Limitation of Liability</h2>
+            <p>To the fullest extent permitted by applicable law, Astro Insight, its founders, and affiliates shall not be liable for any direct, indirect, incidental, consequential, special, or punitive damages arising from your use of our website. This includes, but is not limited to, damages for emotional distress, relationship outcomes, financial losses, or business interruptions.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>6. Governing Law</h2>
+            <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of Ukraine, without regard to its conflict of law provisions. Any legal disputes arising out of or relating to these terms shall be resolved exclusively in the competent courts located in Ukraine.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>7. Changes to Terms</h2>
+            <p>We reserve the right to update or modify these Terms at any time without prior notice. Continued use of the website after any changes indicates your acceptance of the new Terms.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>8. Contact Information</h2>
+            <p>For any questions regarding these Terms, please contact us at:</p>
+            <p><strong>Email:</strong> astroinsightsupport@gmail.com</p>
+        </section>
+    </main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Astro Insight. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="about.html">About</a>
+        <span class="divider">|</span>
+        <a href="privacy.html">Privacy Policy</a>
+        <span class="divider">|</span>
+        <a href="terms.html">Terms & Conditions</a>
+        <span class="divider">|</span>
+        <a href="helpcenter.html">Help Center</a>
+        <span class="divider">|</span>
+        <a href="support.html">Contact Support</a>
+        <span class="divider">|</span>
+        <a href="#" onclick="localStorage.removeItem('astro_cookie_consent'); location.reload(); return false;">Cookie Settings</a>
+    </div>
+    
+    <div class="social-links">
+        <a href="https://www.instagram.com/_astroinsight_/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61589576716944" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://x.com/_Astro_Insight_" target="_blank" rel="noopener">X</a>
+    </div>
+</footer> <script src="../js/script.js?v=20260901"></script>
+<script src="../js/cookie-consent.js"></script>
+</body>
+</html>
