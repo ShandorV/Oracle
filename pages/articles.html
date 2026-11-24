@@ -11,7 +11,8 @@
         (function () {
             var COOKIE_KEY = 'astro_cookie_consent';
             var isGPCActivated = !!(navigator.globalPrivacyControl || window.globalPrivacyControl);
-            var savedConsent = localStorage.getItem(COOKIE_KEY);
+            var savedConsent = null;
+            try { savedConsent = localStorage.getItem(COOKIE_KEY); } catch (e) {}
 
             function getConsentPayload(state) {
                 var isGranted = state === 'granted';
@@ -30,7 +31,7 @@
 
             var initialState;
             if (isGPCActivated) {
-                localStorage.setItem(COOKIE_KEY, 'denied');
+                try { localStorage.setItem(COOKIE_KEY, 'denied'); } catch (e) {}
                 initialState = 'denied';
             } else if (savedConsent === 'granted' || savedConsent === 'denied' || savedConsent === 'necessary') {
                 initialState = savedConsent;
@@ -76,7 +77,7 @@
 
         <div class="nav-links" id="desktopNav">
             <a href="../index.html">Home</a>
-            <a href="quiz.html">Astro Quizzes</a>
+            <a href="games.html">Astro Games</a>
             <a href="articles.html">Articles</a>
         </div> 
 
@@ -89,7 +90,7 @@
         <span class="close-menu" onclick="toggleMobileMenu()">&times;</span>
         
         <a href="../index.html" onclick="toggleMobileMenu()">Home</a>
-        <a href="quiz.html" onclick="toggleMobileMenu()">Astro Quizzes</a>
+        <a href="games.html" onclick="toggleMobileMenu()">Astro Games</a>
         <a href="articles.html" onclick="toggleMobileMenu()">Articles</a>
     </div>
 
@@ -105,6 +106,8 @@
             <button class="glow-btn outline active-filter" data-filter="all">All Grimoires</button>
             <button class="glow-btn outline" data-filter="zodiac">Zodiac Signs</button>
             <button class="glow-btn outline" data-filter="planets">Planetary Forces</button>
+            <button class="glow-btn outline" data-filter="elements">Elemental Forces</button>
+            <button class="glow-btn outline" data-filter="guides">Cosmic Guides</button>
             <!-- <button class="glow-btn outline" data-filter="compatibility">Cosmic Matches</button> -->
         </div>
 
@@ -370,6 +373,118 @@
                 </a>
             </article>
 
+            <!-- 4. 4 СТАТТІ ПРО СТИХІЇ (.webp фото) -->
+            <article class="insight-card" data-category="elements">
+                <a href="../articles/elements/fire.html">
+                    <div class="insight-img-box"><img src="../image/fire.webp" alt="The Fire element representing spark, courage, and vitality in astrology" loading="lazy"><span class="insight-badge">Element</span></div>
+                    <div class="insight-body">
+                        <h3>Fire</h3>
+                        <p>Spark, courage, vitality, and the raw instinct to begin.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="elements">
+                <a href="../articles/elements/earth.html">
+                    <div class="insight-img-box"><img src="../image/earth.webp" alt="The Earth element representing patience, craft, and stability in astrology" loading="lazy"><span class="insight-badge">Element</span></div>
+                    <div class="insight-body">
+                        <h3>Earth</h3>
+                        <p>Patience, craft, stability, and the gravity of what lasts.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="elements">
+                <a href="../articles/elements/air.html">
+                    <div class="insight-img-box"><img src="../image/air.webp" alt="The Air element representing thought, curiosity, and connection in astrology" loading="lazy"><span class="insight-badge">Element</span></div>
+                    <div class="insight-body">
+                        <h3>Air</h3>
+                        <p>Thought, curiosity, perspective, and the space between things.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="elements">
+                <a href="../articles/elements/water.html">
+                    <div class="insight-img-box"><img src="../image/water.webp" alt="The Water element representing depth, intuition, and emotion in astrology" loading="lazy"><span class="insight-badge">Element</span></div>
+                    <div class="insight-body">
+                        <h3>Water</h3>
+                        <p>Depth, intuition, empathy, and the tide beneath words.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <!-- 5. COSMIC GUIDES (.webp фото) -->
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/big-three.html">
+                    <div class="insight-img-box"><img src="../image/big-three.webp" alt="Sun, Moon, and Rising signs representing the Big Three in astrology" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>Beyond Your Sun Sign: The Big Three</h3>
+                        <p>Why your Sun, Moon, and Rising signs together tell the real story of your chart.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/astrological-houses.html">
+                    <div class="insight-img-box"><img src="../image/astrological-houses.webp" alt="The 12 astrological houses representing different rooms of life in a birth chart" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>The 12 Astrological Houses</h3>
+                        <p>What each house in astrology actually means: the 12 rooms of your everyday life.</p>
+                        <div class="insight-footer"><span>8 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/retrograde-planets.html">
+                    <div class="insight-img-box"><img src="../image/retrograde-planets.webp" alt="Retrograde planets in a natal birth chart" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>Retrograde Planets in Your Natal Chart</h3>
+                        <p>What it really means if you were born during a planetary retrograde.</p>
+                        <div class="insight-footer"><span>7 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/saturn-return.html">
+                    <div class="insight-img-box"><img src="../image/saturn-return.webp" alt="Saturn Return survival guide for ages 27 to 30" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>Saturn Return Survival Guide</h3>
+                        <p>Turning late-twenties life crises and pressure tests into lasting milestones (ages 27–30).</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/lunar-nodes.html">
+                    <div class="insight-img-box"><img src="../image/lunar-nodes.webp" alt="The North and South Lunar Nodes in astrology" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>The North &amp; South Nodes</h3>
+                        <p>Your karmic past and comfort zone versus your soul’s true growth edge.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
+            <article class="insight-card" data-category="guides">
+                <a href="../articles/guides/tarot-spreads.html">
+                    <div class="insight-img-box"><img src="../image/tarot-spreads.webp" alt="Tarot spreads for beginners with three-card layouts" loading="lazy"><span class="insight-badge">Guide</span></div>
+                    <div class="insight-body">
+                        <h3>Tarot Spreads for Beginners</h3>
+                        <p>Simple 3-card layouts for daily clarity, self-reflection, and tough decisions.</p>
+                        <div class="insight-footer"><span>6 min read</span><span class="read-more">Read &rarr;</span></div>
+                    </div>
+                </a>
+            </article>
+
         </div>
     </div>
 
@@ -386,7 +501,7 @@
             <span class="divider">|</span>
             <a href="support.html">Contact Support</a>
         <span class="divider">|</span>
-        <a href="#" onclick="localStorage.removeItem('astro_cookie_consent'); location.reload(); return false;">Cookie Settings</a>
+        <a href="#" onclick="if(window.showCookieBanner) window.showCookieBanner(); return false;">Cookie Settings</a>
         </div>
         
         <div class="social-links">
@@ -396,7 +511,10 @@
         </div>
     </footer>
 
-    <script src="../js/script.js?v=20260901"></script>
+    <script src="../js/utils.js" defer></script>
+    <script src="../js/canvas.js" defer></script>
+    <script src="../js/ui.js" defer></script>
+    <script src="../js/widgets.js" defer></script>
 <script src="../js/cookie-consent.js"></script>
 </body>
 </html>

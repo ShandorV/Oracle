@@ -12,12 +12,44 @@
 
 const GA_ID = 'G-3JWNX7110N'; // TODO: Замінити на реальний GA4 Measurement ID
 
+const astroConsent = window.__astroConsent || {
+  COOKIE_KEY: 'astro_cookie_consent',
+  isGPCActivated: !!(navigator.globalPrivacyControl || window.globalPrivacyControl),
+  savedConsent: (() => { try { return localStorage.getItem('astro_cookie_consent'); } catch (e) { return null; } })(),
+  getConsentPayload: function (state) {
+    const isGranted = state === 'granted';
+    const isNecessary = state === 'necessary';
+    return {
+      'analytics_storage': isGranted ? 'granted' : 'denied',
+      'ad_storage': isGranted ? 'granted' : 'denied',
+      'ad_user_data': isGranted ? 'granted' : 'denied',
+      'ad_personalization': isGranted ? 'granted' : 'denied',
+      'functionality_storage': (isGranted || isNecessary) ? 'granted' : 'denied',
+      'personalization_storage': (isGranted || isNecessary) ? 'granted' : 'denied',
+      'security_storage': 'granted',
+      'restricted_data_processing': !isGranted
+    };
+  }
+};
+
 const {
   COOKIE_KEY,
   isGPCActivated,
   savedConsent,
   getConsentPayload
-} = window.__astroConsent;
+} = astroConsent;
+
+function safeSetConsentStorage(value) {
+  try {
+    localStorage.setItem(COOKIE_KEY, value);
+  } catch (e) {}
+}
+
+function sendConsentUpdate(state) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('consent', 'update', getConsentPayload(state));
+  }
+}
 
 // --- 1. ЗАВАНТАЖЕННЯ СКРИПТА GOOGLE ANALYTICS 4 ---
 function loadGA4() {
@@ -27,10 +59,10 @@ function loadGA4() {
     console.warn('[cookie-consent] GA_ID ще не заданий — GA4 не завантажується.');
     return;
   }
-  
+
   // Запобігаємо повторному завантаженню
   if (document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
-      return;
+    return;
   }
 
   const gaScript = document.createElement('script');
@@ -65,18 +97,18 @@ function injectBannerHTML() {
 }
 
 // --- 4. ОБРОБКА ПОДІЙ ВЗАЄМОДІЇ ---
-window.showCookieBanner = function() {
-    injectBannerHTML();
-    const banner = document.getElementById('cookie-banner');
-    if (banner) {
-        banner.classList.remove('hidden');
-        banner.focus();
-    }
+window.showCookieBanner = function () {
+  injectBannerHTML();
+  const banner = document.getElementById('cookie-banner');
+  if (banner) {
+    banner.classList.remove('hidden');
+    banner.focus();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (savedConsent === 'granted' || savedConsent === 'necessary') {
-      loadGA4();
+  if (savedConsent === 'granted') {
+    loadGA4();
   }
 
   if (savedConsent === null && !isGPCActivated) {
@@ -84,27 +116,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const banner = document.getElementById('cookie-banner');
     setTimeout(() => {
-      banner.classList.remove('hidden');
-      banner.focus(); // Доступність: переносимо фокус у модальний банер при появі
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.focus(); // Доступність: переносимо фокус у модальний банер при появі
+      }
     }, 400);
   }
 
   document.body.addEventListener('click', (e) => {
-      const banner = document.getElementById('cookie-banner');
-      if (e.target.id === 'cookie-accept-btn') {
-          localStorage.setItem(COOKIE_KEY, 'granted');
-          gtag('consent', 'update', getConsentPayload('granted'));
-          loadGA4();
-          if (banner) banner.classList.add('hidden');
-      } else if (e.target.id === 'cookie-reject-btn') {
-          localStorage.setItem(COOKIE_KEY, 'necessary');
-          gtag('consent', 'update', getConsentPayload('necessary'));
-          loadGA4();
-          if (banner) banner.classList.add('hidden');
-      } else if (e.target.id === 'cookie-reject-all-btn') {
-          localStorage.setItem(COOKIE_KEY, 'denied');
-          gtag('consent', 'update', getConsentPayload('denied'));
-          if (banner) banner.classList.add('hidden');
-      }
+    const banner = document.getElementById('cookie-banner');
+    if (e.target.id === 'cookie-accept-btn') {
+      safeSetConsentStorage('granted');
+      sendConsentUpdate('granted');
+      loadGA4();
+      if (banner) banner.classList.add('hidden');
+    } else if (e.target.id === 'cookie-reject-btn') {
+      safeSetConsentStorage('necessary');
+      sendConsentUpdate('necessary');
+      if (banner) banner.classList.add('hidden');
+    } else if (e.target.id === 'cookie-reject-all-btn') {
+      safeSetConsentStorage('denied');
+      sendConsentUpdate('denied');
+      if (banner) banner.classList.add('hidden');
+    }
   });
 });
